@@ -1,0 +1,8 @@
+WarZeub2/Release/*
+WarZeub2/Debug/*
+Release/*
+Debug/*
+Data/*
+*.ncb
+*.suo
+*.user
