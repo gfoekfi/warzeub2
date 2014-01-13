@@ -171,6 +171,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\ChangeLog.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\TODO.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\WarZeub2.cpp"
 			>
 		</File>
