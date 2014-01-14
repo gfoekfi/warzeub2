@@ -14,8 +14,12 @@
 
 bool isDone = false;
 bool keys[5] = { false, false, false, false, false }; // up, down, left, right, space
+int lastClickX = SCREEN_WIDTH / 2;
+int lastClickY = SCREEN_HEIGHT / 2;
+Uint32 lastTime = 0;
+Uint32 curTime = 0;
 
-Unit grunt = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
+Unit grunt = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -66,6 +70,15 @@ void EventHandler(const SDL_Event& parEvent)
 {
 	switch (parEvent.type)
 	{
+	case SDL_MOUSEBUTTONDOWN:
+		{
+			if (parEvent.button.button == SDL_BUTTON_RIGHT)
+			{
+				lastClickX = parEvent.button.x;
+				lastClickY = parEvent.button.y;
+			}
+		}
+		break;
 	case SDL_KEYDOWN:
 		{
 			const SDLKey& key = parEvent.key.keysym.sym;
@@ -143,6 +156,7 @@ void Render()
 {
 	BeginScene();
 	{
+		RenderRightClick(lastClickX, lastClickY);
 		Render(grunt);
 	}
 	EndScene();
@@ -159,11 +173,18 @@ void Run()
 		SDL_PollEvent(&event);
 		EventHandler(event);
 
-		Uint32 curTime = SDL_GetTicks();
-		DirectionFromKeys();
-		Update(grunt, curTime);
+		lastTime = curTime;
+		curTime = SDL_GetTicks();
+		Uint32 elapsedTime = curTime - lastTime;
+
+		//DirectionFromKeys();
+		grunt.targetPosX = lastClickX;
+		grunt.targetPosY = lastClickY;
+		Update(grunt, curTime, elapsedTime);
 
 		Render();		
+
+		SDL_Delay(1);
 	}
 }
 

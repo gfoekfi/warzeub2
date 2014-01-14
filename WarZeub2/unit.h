@@ -39,27 +39,31 @@ enum EDir
 	DIR_S,
 	DIR_SW,
 	DIR_W,
-	DIR_NW
+	DIR_NW,
+	MAX_DIRS
 };
 
 // ============================================================================
 
 struct Unit
 {
-	int x;
-	int y;
+	int posX;
+	int posY;
 	
+	int targetPosX;
+	int targetPosY;
+
 	EDir dir;
 	EUnitType type;
 	EUnitState state;
 
 	int spriteStep;
-	Uint32 lastTime;
+	Uint32 spriteLastTime;
 };
 
 // ============================================================================
 
-void Update(Unit& parUnit, Uint32 parCurTime);
+void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
