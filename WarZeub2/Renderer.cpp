@@ -76,9 +76,18 @@ void Render(const Unit& parUnit)
 	int spriteY = curStep * animDesc.height + offsetY;
 	int spriteX = parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0; // special case for dead
 	SDL_Rect srcRect = { spriteX, spriteY, animDesc.width, animDesc.height };
-	SDL_Rect dstRect = { parUnit.x, parUnit.y, 0, 0 };
+	SDL_Rect dstRect = { parUnit.posX - animDesc.width / 2, parUnit.posY - animDesc.height / 2, 0, 0 };
 
 	SDL_BlitSurface(unitTypeToImage[parUnit.type], &srcRect, screen, &dstRect);
+}
+
+// ============================================================================
+
+void RenderRightClick(int parX, int parY)
+{
+	SDL_Rect rect = {parX - 5, parY - 5, 10, 10};
+	//SDL_Color color = {0, 255, 0};
+	SDL_FillRect(screen, &rect, 0x00ff0000);	
 }
 
 // ============================================================================

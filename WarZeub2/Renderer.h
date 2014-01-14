@@ -22,6 +22,7 @@ void BeginScene();
 void EndScene();
 
 void Render(const Unit& parUnit);
+void RenderRightClick(int parX, int parY);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
