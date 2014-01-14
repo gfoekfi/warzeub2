@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Util.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util.h"
+				>
+			</File>
+			<File
 				RelativePath=".\WarZeub2.cpp"
 				>
 			</File>
