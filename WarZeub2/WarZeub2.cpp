@@ -1,64 +1,48 @@
-#include <SDL.h>
-#include <SDL_image.h>
+//#include <SDL.h>
+//#include <SDL_image.h>
+//#include <map>
+//#include <utility>
+
+#include "Unit.h"
+#include "AnimDesc.h"
+#include "Renderer.h"
 
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-
-const int SPRITE_WIDTH = 76;
-const int SPRITE_HEIGHT = 54;
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
 
 bool isDone = false;
-SDL_Surface* screen = 0;
-SDL_Surface* img = 0;
-Uint32 curTime = 0, lastTime = 0;
-int spriteStep = 0;
-bool keys[4] = { false, false, false, false }; // up, down, left, right
+bool keys[5] = { false, false, false, false, false }; // up, down, left, right, space
 
-enum EDir
-{
-	DIR_N = 0,
-	DIR_NE,
-	DIR_E,
-	DIR_SE,
-	DIR_S,
-	DIR_SW,
-	DIR_W,
-	DIR_NW
-} spriteDir;
+Unit grunt = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
 
-// XXX) Afficher une image
-// XXX) Afficher une partie de l'image
-// XXX) Animer une sequence sprite (avec timer)
-// XXX) Coordonner les fleches clavier avec la sprite
-// 5) Coder ca proprement
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
 
-
-// TODO: Error handling
 bool Init()
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_WM_SetCaption("WarZeub 2 !", 0);
-	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT,
-#ifdef _DEBUG
-		32, SDL_HWSURFACE);
-#else
-		32, SDL_HWSURFACE | SDL_FULLSCREEN);
-#endif
-
-	img = IMG_Load("../Data/grunt.png");
-	if (!img)
-		return false;
+	
+	InitRenderer();
+	InitAnimDesc();
 
 	return true;
 }
 
+// ============================================================================
+
 void Quit()
 {
-	SDL_FreeSurface(img);
-	SDL_FreeSurface(screen);
+	ReleaseAnimDesc();
+	ReleaseRenderer();
+
 	SDL_Quit();
 }
+
+// ============================================================================
 
 int KeyOffsetFromKey(SDLKey parKey)
 {
@@ -70,9 +54,13 @@ int KeyOffsetFromKey(SDLKey parKey)
 		return 2;
 	if (parKey == SDLK_RIGHT)
 		return 3;
+	if (parKey == SDLK_SPACE)
+		return 4;
 
 	return -1;
 }
+
+// ============================================================================
 
 void EventHandler(const SDL_Event& parEvent)
 {
@@ -110,68 +98,57 @@ void EventHandler(const SDL_Event& parEvent)
 	}
 }
 
+// ============================================================================
+
 void DirectionFromKeys()
 {
+	EUnitState prevState = grunt.state;
+	//grunt.state = keys[4] ? EUS_DEAD : EUS_MOVE;
+	grunt.state = keys[4] ? EUS_ATTACK : EUS_MOVE;
+
 	if (keys[0])
 	{
 		if (keys[2])
-			spriteDir = DIR_NW;
+			grunt.dir = DIR_NW;
 		else if (keys[3])
-			spriteDir = DIR_NE;
+			grunt.dir = DIR_NE;
 		else
-			spriteDir = DIR_N;
+			grunt.dir = DIR_N;
 	}
 	else if (keys[1])
 	{
 		if (keys[2])
-			spriteDir = DIR_SW;
+			grunt.dir = DIR_SW;
 		else if (keys[3])
-			spriteDir = DIR_SE;
+			grunt.dir = DIR_SE;
 		else
-			spriteDir = DIR_S;
+			grunt.dir = DIR_S;
 	}
 	else if (keys[2])
-		spriteDir = DIR_W;
+		grunt.dir = DIR_W;
 	else if (keys[3])
-		spriteDir = DIR_E;
+		grunt.dir = DIR_E;
 	else
 	{
-		spriteStep = 0; // we force the animation to stop
-	}
-}
-
-int SpriteXOffsetFromDir()
-{
-	switch (spriteDir)
-	{
-	case DIR_N:		return SPRITE_WIDTH * 0;
-	case DIR_NE:	return SPRITE_WIDTH * 1;
-	case DIR_E:		return SPRITE_WIDTH * 2;
-	case DIR_SE:	return SPRITE_WIDTH * 3;
-	case DIR_S:		return SPRITE_WIDTH * 4;
-
-	case DIR_SW:	return SPRITE_WIDTH * 1; // FIXME: symetry (Moon Walk Style !)
-	case DIR_W:		return SPRITE_WIDTH * 2;
-	case DIR_NW:	return SPRITE_WIDTH * 3;
+		grunt.state = EUS_IDLE;
 	}
 
-	return 0;
+	if (grunt.state != prevState)
+		grunt.spriteStep = 0;
 }
+
+// ============================================================================
 
 void Render()
 {
-	SDL_FillRect(screen, 0, 0);
-
-	const int spriteHeight = 54;
-	int spriteY = (spriteStep % 5) * spriteHeight; // FIXME: Bug in the animation?
-	int spriteX = SpriteXOffsetFromDir();
-	SDL_Rect srcRect = { spriteX, spriteY, 76, spriteHeight };
-	SDL_Rect dstRect = { SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, 0 };
-
-	SDL_BlitSurface(img, &srcRect, screen, &dstRect);
-
-	SDL_Flip(screen);
+	BeginScene();
+	{
+		Render(grunt);
+	}
+	EndScene();
 }
+
+// ============================================================================
 
 void Run()
 {
@@ -179,22 +156,18 @@ void Run()
 
 	while (!isDone)
 	{
-		curTime = SDL_GetTicks();
-		Uint32 deltaTime = curTime - lastTime;
-		if (deltaTime > 170)
-		{
-			spriteStep++;
-			lastTime = curTime;
-		}
-
 		SDL_PollEvent(&event);
 		EventHandler(event);
 
+		Uint32 curTime = SDL_GetTicks();
 		DirectionFromKeys();
+		Update(grunt, curTime);
 
 		Render();		
 	}
 }
+
+// ============================================================================
 
 int main(int argc, char* argv[])
 {
@@ -206,3 +179,7 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================

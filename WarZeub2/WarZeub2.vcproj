@@ -170,16 +170,44 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Source"
+			>
+			<File
+				RelativePath=".\AnimDesc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AnimDesc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Unit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Unit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WarZeub2.cpp"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ChangeLog.txt"
 			>
 		</File>
 		<File
 			RelativePath=".\TODO.txt"
-			>
-		</File>
-		<File
-			RelativePath=".\WarZeub2.cpp"
 			>
 		</File>
 	</Files>
