@@ -2,6 +2,7 @@
 #define USER_INPUT_H_
 
 
+#include "Util.h"
 #include <SDL.h>
 
 
@@ -11,14 +12,12 @@
 
 struct Mouse
 {
-	int posX;
-	int posY;
+	Vec2 pos;
+	Vec2 lastRightClickPos;
+	Vec2 lastLeftClickPos;
+
 	bool leftButtonPressed;
 	bool rightButtonPressed;
-	int lastRightClickX;
-	int lastRightClickY;
-	int lastLeftClickX;
-	int lastLeftClickY;
 };
 
 struct Keyboard

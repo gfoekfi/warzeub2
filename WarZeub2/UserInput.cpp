@@ -21,20 +21,28 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		{
 			if (parEvent.button.button == SDL_BUTTON_RIGHT)
 			{
-				mouse.lastRightClickX = parEvent.button.x;
-				mouse.lastRightClickY = parEvent.button.y;
+				if (!mouse.rightButtonPressed)
+				{
+					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
+					if (player.selectedUnit)
+						player.selectedUnit->targetPos = mouse.lastRightClickPos;
+				}
+				mouse.rightButtonPressed = true;
 			}
 			else if (parEvent.button.button == SDL_BUTTON_LEFT)
 			{
+				if (!mouse.leftButtonPressed)
+					mouse.lastLeftClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
 				mouse.leftButtonPressed = true;
-				mouse.lastLeftClickX = parEvent.button.x;
-				mouse.lastLeftClickY = parEvent.button.y;
 			}
 		}
 		break;
 
 	case SDL_MOUSEBUTTONUP:
-		if (parEvent.button.button == SDL_BUTTON_LEFT)
+		if (parEvent.button.button == SDL_BUTTON_RIGHT)
+			mouse.rightButtonPressed = false;
+		else if (parEvent.button.button == SDL_BUTTON_LEFT
+			&& mouse.leftButtonPressed) // prevents SDL send 'up' events multiple times
 		{
 			UpdateSelection(player);
 			mouse.leftButtonPressed = false;
@@ -42,8 +50,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		break;
 
 	case SDL_MOUSEMOTION:
-		mouse.posX = parEvent.motion.x;
-		mouse.posY = parEvent.motion.y;
+		mouse.pos = Vec2(parEvent.motion.x, parEvent.motion.y);
 		break;
 	}
 }
@@ -68,13 +75,15 @@ void KeyboardEventHandler(const SDL_Event& parEvent)
 
 SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse)
 {
-	int width = abs(parMouse.posX - parMouse.lastLeftClickX);
-	int height = abs(parMouse.posY - parMouse.lastLeftClickY);
+	int width = abs(parMouse.pos.x - parMouse.lastLeftClickPos.x);
+	int height = abs(parMouse.pos.y - parMouse.lastLeftClickPos.y);
 
 	SDL_Rect boundingBox =
 	{ 
-		(parMouse.posX < parMouse.lastLeftClickX) ? parMouse.posX : parMouse.lastLeftClickX,
-		(parMouse.posY < parMouse.lastLeftClickY) ? parMouse.posY : parMouse.lastLeftClickY, 
+		(parMouse.pos.x < parMouse.lastLeftClickPos.x) ? 
+			parMouse.pos.x : parMouse.lastLeftClickPos.x,
+		(parMouse.pos.y < parMouse.lastLeftClickPos.y) ?
+			parMouse.pos.y : parMouse.lastLeftClickPos.y, 
 		width, 
 		height
 	};

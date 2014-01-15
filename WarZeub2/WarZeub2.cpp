@@ -113,8 +113,8 @@ void DrawSelections()
 			unitTypeStateToAnimation[player.selectedUnit->type][player.selectedUnit->state];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->type];
 
-		SDL_Rect src = { player.selectedUnit->posX - unitDesc.width / 2,
-			player.selectedUnit->posY - unitDesc.height / 2, 0, 0 };
+		SDL_Rect src = { player.selectedUnit->pos.x - unitDesc.width / 2,
+			player.selectedUnit->pos.y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
 		RenderSelection(src, dst);
@@ -122,8 +122,8 @@ void DrawSelections()
 
 	if (mouse.leftButtonPressed)
 	{
-		SDL_Rect src = { mouse.lastLeftClickX, mouse.lastLeftClickY, 0, 0 };
-		SDL_Rect dst = { mouse.posX, mouse.posY, 0, 0 };
+		SDL_Rect src = { mouse.lastLeftClickPos.x, mouse.lastLeftClickPos.y, 0, 0 };
+		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };
 		RenderSelection(src, dst);
 	}
 }
@@ -134,7 +134,7 @@ void Render()
 {
 	BeginScene();
 	{
-		RenderRightClick(mouse.lastRightClickX, mouse.lastRightClickY);
+		RenderRightClick(mouse.lastRightClickPos);
 		Render(grunt);
 		Render(peon);
 
@@ -158,12 +158,7 @@ void Run()
 		curTime = SDL_GetTicks();
 		Uint32 elapsedTime = curTime - lastTime;
 
-		DirectionFromKeys();
-		if (player.selectedUnit)
-		{
-			player.selectedUnit->targetPosX = mouse.lastRightClickX;
-			player.selectedUnit->targetPosY = mouse.lastRightClickY;
-		}
+		//DirectionFromKeys();
 
 		Update(grunt, curTime, elapsedTime);
 		Update(peon, curTime, elapsedTime);

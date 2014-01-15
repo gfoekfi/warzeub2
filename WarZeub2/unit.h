@@ -2,6 +2,7 @@
 #define UNIT_H_
 
 
+#include "Util.h"
 #include <SDL.h>
 
 
@@ -48,11 +49,8 @@ enum EDir
 
 struct Unit
 {
-	int posX;
-	int posY;
-	
-	int targetPosX;
-	int targetPosY;
+	Vec2 pos;
+	Vec2 targetPos;
 
 	EDir dir;
 	EUnitType type;

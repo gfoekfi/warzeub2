@@ -8,28 +8,29 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-struct Dir
+Vec2 dirs[MAX_DIRS] =
 {
-	int x;
-	int y;
-} dirs[MAX_DIRS] =
-{
-	{ 0, -1 }, // N
-	{ 1, -1 },
-	{ 1, 0 },	// E
-	{ 1, 1 },
-	{ 0, 1 },	// S
-	{ -1, 1},
-	{ -1, 0},	// W
-	{ -1, -1}
+	Vec2(0, -1), // N
+	Vec2(1, -1),
+	Vec2(1, 0),	// E
+	Vec2(1, 1),
+	Vec2(0, 1),	// S
+	Vec2(-1, 1),
+	Vec2(-1, 0),	// W
+	Vec2(-1, -1)
 };
+
+#if 0
+
+};
+#endif
 
 // ============================================================================
 
 EDir DirectionToTarget(const Unit& parUnit)
 {
-	int deltaPosX = parUnit.targetPosX - parUnit.posX;
-	int deltaPosY = parUnit.targetPosY - parUnit.posY;
+	int deltaPosX = parUnit.targetPos.x - parUnit.pos.x;
+	int deltaPosY = parUnit.targetPos.y - parUnit.pos.y;
 	const int MOVE_STEP_TRESHOLD = 1;
 
 	if (deltaPosY >= MOVE_STEP_TRESHOLD)
@@ -62,14 +63,14 @@ EDir DirectionToTarget(const Unit& parUnit)
 
 void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 {
-	int deltaPosX = parUnit.targetPosX - parUnit.posX;
-	int deltaPosY = parUnit.targetPosY - parUnit.posY;
+	int deltaPosX = parUnit.targetPos.x - parUnit.pos.x;
+	int deltaPosY = parUnit.targetPos.y - parUnit.pos.y;
 
 	// Hack to force the convergence to target
 	if (abs(deltaPosX) <= 3)
-		parUnit.targetPosX = parUnit.posX;
+		parUnit.targetPos.x = parUnit.pos.x;
 	if (abs(deltaPosY) <= 3)
-		parUnit.targetPosY = parUnit.posY;
+		parUnit.targetPos.y = parUnit.pos.y;
 
 	parUnit.state = (abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE;
 
@@ -84,8 +85,8 @@ void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 		if (abs(velY) > abs(deltaPosY))
 			velY = deltaPosY;
 		
-		parUnit.posX += velX;
-		parUnit.posY += velY;
+		parUnit.pos.x += velX;
+		parUnit.pos.y += velY;
 	}
 }
 
@@ -122,8 +123,8 @@ SDL_Rect BoundingBoxFromUnit(const Unit& parUnit)
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[parUnit.type];
 
 	SDL_Rect boundingBox = { 
-		parUnit.posX - unitDesc.width / 2,
-		parUnit.posY - unitDesc.height / 2, 
+		parUnit.pos.x - unitDesc.width / 2,
+		parUnit.pos.y - unitDesc.height / 2, 
 		unitDesc.width, 
 		unitDesc.height 
 	};

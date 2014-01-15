@@ -2,6 +2,7 @@
 #define RENDERER_H_
 
 
+#include "Util.h"
 #include "Unit.h"
 
 
@@ -22,7 +23,7 @@ void BeginScene();
 void EndScene();
 
 void Render(const Unit& parUnit);
-void RenderRightClick(int parX, int parY);
+void RenderRightClick(const Vec2& parPos);
 void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst);
 
 // ============================================================================
