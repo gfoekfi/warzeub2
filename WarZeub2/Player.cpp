@@ -31,6 +31,19 @@ void UpdateSelection(Player& player)
 		return;
 	}
 
+	SDL_Rect mineBoundingBox = BoundingBoxFromUnit(mine);
+	if (DoesBBoxesCollide(&mineBoundingBox, &selectionBoundingBox))
+	{
+		player.selectedUnit = &mine;
+		return;
+	}
+
+	SDL_Rect townHallBoundingBox = BoundingBoxFromUnit(townHall);
+	if (DoesBBoxesCollide(&townHallBoundingBox, &selectionBoundingBox))
+	{
+		player.selectedUnit = &townHall;
+		return;
+	}
 	player.selectedUnit = 0;
 }
 

@@ -11,6 +11,8 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 
 const UnitDesc peonUnitDesc(35, 45);
 const UnitDesc gruntUnitDesc(45, 50);
+const UnitDesc mineUnitDesc(110, 110);
+const UnitDesc townHallUnitDesc(130, 130);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -20,6 +22,8 @@ void InitUnitDesc()
 {
 	unitTypeToUnitDesc[EUT_PEON] = peonUnitDesc;
 	unitTypeToUnitDesc[EUT_GRUNT] = gruntUnitDesc;
+	unitTypeToUnitDesc[EUT_MINE] = mineUnitDesc;
+	unitTypeToUnitDesc[EUT_TOWN_HALL] = townHallUnitDesc;
 }
 
 // ============================================================================

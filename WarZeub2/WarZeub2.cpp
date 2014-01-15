@@ -136,8 +136,11 @@ void Render()
 	BeginScene();
 	{
 		RenderRightClick(mouse.lastRightClickPos);
+
 		Render(grunt);
 		Render(peon);
+		Render(mine);
+		Render(townHall);
 
 		DrawSelections();
 	}

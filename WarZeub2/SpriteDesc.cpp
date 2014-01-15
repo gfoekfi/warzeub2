@@ -22,6 +22,9 @@ const SpriteDesc peonHarvestAnim(0, 40*5, 51, 50, 5);
 const SpriteDesc peonGatherGold(26, 40*5 + 50*7 - 20, 38, 43, 5);
 const SpriteDesc peonGatherWood(24, 40*5 + 50*7 + 5*43 - 20, 42, 46, 5);
 
+const SpriteDesc mineIdleAnim(10, 5, 100, 100, 1);
+const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
+
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
@@ -30,6 +33,8 @@ void InitSpriteDesc()
 {
 	unitTypeToImage[EUT_GRUNT] = IMG_Load("../Data/grunt.png");
 	unitTypeToImage[EUT_PEON] = IMG_Load("../Data/peon.png");
+	unitTypeToImage[EUT_MINE] = IMG_Load("../Data/misc.png");
+	unitTypeToImage[EUT_TOWN_HALL] = IMG_Load("../Data/orc_building.png");
 
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_IDLE] = gruntIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_MOVE] = gruntMoveAnim;
@@ -41,6 +46,9 @@ void InitSpriteDesc()
 	unitTypeStateToSpriteDesc[EUT_PEON][EUS_HARVEST] = peonHarvestAnim;
 	unitTypeStateToSpriteDesc[EUT_PEON][EUS_GATHER_GOLD] = peonGatherGold;
 	unitTypeStateToSpriteDesc[EUT_PEON][EUS_GATHER_WOOD] = peonGatherWood;
+
+	unitTypeStateToSpriteDesc[EUT_MINE][EUS_IDLE] = mineIdleAnim;
+	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_IDLE] = townHallIdleAnim;
 }
 
 // ============================================================================
