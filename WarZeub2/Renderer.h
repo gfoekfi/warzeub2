@@ -23,6 +23,7 @@ void EndScene();
 
 void Render(const Unit& parUnit);
 void RenderRightClick(int parX, int parY);
+void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

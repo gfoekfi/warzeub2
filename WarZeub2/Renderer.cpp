@@ -90,5 +90,24 @@ void RenderRightClick(int parX, int parY)
 }
 
 // ============================================================================
+
+void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst)
+{
+	//int width = abs(parDst.x - parSrc.x);
+	int width = parDst.x - parSrc.x;
+	int height = (parDst.y - parSrc.y);
+
+	SDL_Rect horizontal = { parSrc.x, parSrc.y, width, 1 };
+	SDL_FillRect(screen, &horizontal, 0x0000ff00);
+	horizontal.y += height;
+	SDL_FillRect(screen, &horizontal, 0x0000ff00);
+
+	SDL_Rect vertical = { parSrc.x, parSrc.y, 1, height };
+	SDL_FillRect(screen, &vertical, 0x0000ff00);
+	vertical.x += width;
+	SDL_FillRect(screen, &vertical, 0x0000ff00);
+}
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
