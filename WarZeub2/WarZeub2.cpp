@@ -5,7 +5,7 @@
 
 
 // XXX/ Animation du peon
-// 2/ Afficher le carre de selection
+// XXX/ Afficher le carre de selection
 // 3/ Selection/controle 1 unit parmit 2(+ afficher selection autour de l'unit)
 // 4/ Afficher une carte toute verte
 // 5/ Afficher mine
