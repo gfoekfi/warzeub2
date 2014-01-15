@@ -9,6 +9,42 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+struct Vec2
+{
+	Vec2(int parX, int parY) :
+		x(parX),
+		y(parY)
+	{
+	}
+
+	Vec2(const Vec2& parRhs) :
+		x(parRhs.x),
+		y(parRhs.y)
+	{
+	}
+
+	Vec2() :
+		x(0),
+		y(0)
+	{
+	}
+
+	Vec2& operator=(Vec2& parRhs)
+	{
+		x = parRhs.x;
+		y = parRhs.y;
+
+		return *this;
+	}
+
+	int x;
+	int y;
+};
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
 int Clamp(int parValue, int parMin, int parMax);
 
 bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
