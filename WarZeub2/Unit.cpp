@@ -25,50 +25,56 @@ struct Dir
 
 // ============================================================================
 
-void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
+EDir DirectionToTarget(const Unit& parUnit)
+{
+	int deltaPosX = parUnit.targetPosX - parUnit.posX;
+	int deltaPosY = parUnit.targetPosY - parUnit.posY;
+	const int MOVE_STEP_TRESHOLD = 1;
+
+	if (deltaPosY >= MOVE_STEP_TRESHOLD)
+	{
+		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+			return DIR_SW;
+		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+			return DIR_SE;
+		else
+			return DIR_S;
+	}
+	else if (deltaPosY <= -MOVE_STEP_TRESHOLD)
+	{
+		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+			return DIR_NW;
+		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+			return DIR_NE;
+		else
+			return DIR_N;
+	}
+	else if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+		return DIR_W;
+	else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+		return DIR_E;
+
+	return DIR_N;
+}
+
+// ============================================================================
+
+void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 {
 	int deltaPosX = parUnit.targetPosX - parUnit.posX;
 	int deltaPosY = parUnit.targetPosY - parUnit.posY;
 
+	// Hack to force the convergence to target
 	if (abs(deltaPosX) <= 3)
 		parUnit.targetPosX = parUnit.posX;
 	if (abs(deltaPosY) <= 3)
 		parUnit.targetPosY = parUnit.posY;
 
-	if (abs(deltaPosX) > 3 || abs(deltaPosY) > 3)
-		parUnit.state = EUS_MOVE;
-	else
-		parUnit.state = EUS_IDLE;
+	parUnit.state = (abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE;
 
-	const int MOVE_STEP_TRESHOLD = 1;
 	if (parUnit.state == EUS_MOVE)
 	{
-		if (deltaPosY >= MOVE_STEP_TRESHOLD)
-		{
-			if (deltaPosX <= -MOVE_STEP_TRESHOLD)
-				parUnit.dir = DIR_SW;
-			else if (deltaPosX >= MOVE_STEP_TRESHOLD)
-				parUnit.dir = DIR_SE;
-			else
-				parUnit.dir = DIR_S;
-		}
-		else if (deltaPosY <= -MOVE_STEP_TRESHOLD)
-		{
-			if (deltaPosX <= -MOVE_STEP_TRESHOLD)
-				parUnit.dir = DIR_NW;
-			else if (deltaPosX >= MOVE_STEP_TRESHOLD)
-				parUnit.dir = DIR_NE;
-			else
-				parUnit.dir = DIR_N;
-		}
-		else if (deltaPosX <= -MOVE_STEP_TRESHOLD)
-			parUnit.dir = DIR_W;
-		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
-			parUnit.dir = DIR_E;
-		else
-		{
-			parUnit.state = EUS_IDLE;
-		}
+		parUnit.dir = DirectionToTarget(parUnit);
 
 		int velX = dirs[parUnit.dir].x * (parElapsedTime / 3);
 		int velY = dirs[parUnit.dir].y * (parElapsedTime / 3);
@@ -80,14 +86,26 @@ void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
 		parUnit.posX += velX;
 		parUnit.posY += velY;
 	}
+}
 
-	// sprite animation
+// ============================================================================
+
+void UpdateAnimation(Unit& parUnit, Uint32 parCurTime)
+{
 	Uint32 deltaTime = parCurTime - parUnit.spriteLastTime;
-	if (deltaTime > 170) // 170
+	if (deltaTime > 170) // 170 = grunt
 	{
 		parUnit.spriteStep++;
 		parUnit.spriteLastTime = parCurTime;
 	}
+}
+
+// ============================================================================
+
+void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
+{
+	UpdatePosition(parUnit, parElapsedTime);
+	UpdateAnimation(parUnit, parCurTime);
 }
 
 // ============================================================================
