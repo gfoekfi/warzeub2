@@ -2,6 +2,7 @@
 #include "AnimDesc.h"
 #include "UnitDesc.h"
 #include "Renderer.h"
+#include "UserInput.h"
 
 
 // ============================================================================
@@ -9,15 +10,6 @@
 // ============================================================================
 
 bool keys[5] = { false, false, false, false, false }; // up, down, left, right, space
-
-int lastRightClickX = SCREEN_WIDTH / 4;
-int lastRightClickY = SCREEN_HEIGHT / 4;
-
-bool leftClick = false;
-int lastLeftClickX = 0;
-int lastLeftClickY = 0;
-int mouseX = 0;
-int mouseY = 0;
 
 bool isDone = false;
 Uint32 lastTime = 0;
@@ -79,29 +71,9 @@ void EventHandler(const SDL_Event& parEvent)
 	switch (parEvent.type)
 	{
 	case SDL_MOUSEBUTTONDOWN:
-		{
-			if (parEvent.button.button == SDL_BUTTON_RIGHT)
-			{
-				lastRightClickX = parEvent.button.x;
-				lastRightClickY = parEvent.button.y;
-			}
-			else if (parEvent.button.button == SDL_BUTTON_LEFT)
-			{
-				leftClick = true;
-				lastLeftClickX = parEvent.button.x;
-				lastLeftClickY = parEvent.button.y;
-			}
-		}
-		break;
-
 	case SDL_MOUSEBUTTONUP:
-		if (parEvent.button.button == SDL_BUTTON_LEFT)
-			leftClick = false;
-		break;
-
 	case SDL_MOUSEMOTION:
-		mouseX = parEvent.motion.x;
-		mouseY = parEvent.motion.y;
+		MouseEventHandler(parEvent);
 		break;
 
 	case SDL_KEYDOWN:
@@ -192,10 +164,10 @@ void DrawSelections()
 		RenderSelection(src, dst);
 	}
 
-	if (leftClick)
+	if (mouse.leftButtonPressed)
 	{
-		SDL_Rect src = { lastLeftClickX, lastLeftClickY, 0, 0 };
-		SDL_Rect dst = { mouseX, mouseY, 0, 0 };
+		SDL_Rect src = { mouse.lastLeftClickX, mouse.lastLeftClickY, 0, 0 };
+		SDL_Rect dst = { mouse.posX, mouse.posY, 0, 0 };
 		RenderSelection(src, dst);
 	}
 }
@@ -206,7 +178,7 @@ void Render()
 {
 	BeginScene();
 	{
-		RenderRightClick(lastRightClickX, lastRightClickY);
+		RenderRightClick(mouse.lastRightClickX, mouse.lastRightClickY);
 		Render(grunt);
 		Render(peon);
 
@@ -235,8 +207,8 @@ void Run()
 		grunt.targetPosX = lastRightClickX;
 		grunt.targetPosY = lastRightClickY;
 #else
-		peon.targetPosX = lastRightClickX;
-		peon.targetPosY = lastRightClickY;
+		peon.targetPosX = mouse.lastRightClickX;
+		peon.targetPosY = mouse.lastRightClickY;
 #endif
 
 		Update(grunt, curTime, elapsedTime);
