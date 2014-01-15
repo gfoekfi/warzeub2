@@ -26,6 +26,7 @@ bool Init()
 	InitRenderer();
 	InitSpriteDesc();
 	InitUnitDesc();
+	InitWorld();
 
 	player.selectedUnit = 0;
 
@@ -98,10 +99,8 @@ void Render()
 	{
 		RenderRightClick(mouse.lastRightClickPos);
 
-		Render(grunt);
-		Render(peon);
-		Render(mine);
-		Render(townHall);
+		for (size_t unit = 0; unit < units.size(); ++unit)
+			Render(*units[unit]);
 
 		DrawSelections();
 	}
@@ -123,8 +122,8 @@ void Run()
 		curTime = SDL_GetTicks();
 		Uint32 elapsedTime = curTime - lastTime;
 
-		Update(grunt, curTime, elapsedTime);
-		Update(peon, curTime, elapsedTime);
+		UpdateWorld(curTime, elapsedTime);
+
 		Render();		
 
 		SDL_Delay(1);

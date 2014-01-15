@@ -72,7 +72,11 @@ void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 	if (abs(deltaPosY) <= 3)
 		parUnit.targetPos.y = parUnit.pos.y;
 
-	parUnit.state = (abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE;
+	// Temporary hack that allows grunt and peon only to move
+	if (parUnit.type == EUT_PEON || parUnit.type == EUT_GRUNT)
+		parUnit.state = (abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE;
+	else
+		parUnit.state = EUS_IDLE;
 
 	if (parUnit.state == EUS_MOVE) // TODO: Add 'GatherGold', 'GatherWood'
 	{
@@ -80,7 +84,7 @@ void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 
 		int velX = dirs[parUnit.dir].x * (parElapsedTime / 3);
 		int velY = dirs[parUnit.dir].y * (parElapsedTime / 3);
-		if (abs(velX) > abs(deltaPosX))
+   		if (abs(velX) > abs(deltaPosX))
 			velX = deltaPosX;
 		if (abs(velY) > abs(deltaPosY))
 			velY = deltaPosY;
@@ -107,12 +111,6 @@ void UpdateAnimation(Unit& parUnit, Uint32 parCurTime)
 void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	UpdatePosition(parUnit, parElapsedTime);
-#if 0
-	//parUnit.state = EUS_HARVEST;
-	//parUnit.state = EUS_GATHER_WOOD;
-	//parUnit.state = EUS_MOVE;
-	//parUnit.dir = DIR_S;
-#endif
 	UpdateAnimation(parUnit, parCurTime);
 }
 
