@@ -3,7 +3,9 @@
 ===============================================================================
 - Peon animation: Idle, Move, Harvest, GatherGold, GatherWood
 - Render selection square
-- Mouse event handler + mouse structure
+- Mouse/Keyboard event handlers/structures
+- Selected unit is assigned to Player
+- Single unit selection with mouse
 ===============================================================================
 
 ===============================================================================

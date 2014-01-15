@@ -11,7 +11,7 @@
 
 int Clamp(int parValue, int parMin, int parMax);
 
-bool DoesBBoxesCollide(const SDL_Rect& parBoxA, const SDL_Rect& parBoxB);
+bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

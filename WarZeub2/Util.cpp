@@ -16,12 +16,25 @@ int Clamp(int parValue, int parMin, int parMax)
 
 // ============================================================================
 
-bool DoesBBoxesCollide(const SDL_Rect& parBoxA, const SDL_Rect& parBoxB)
+inline bool IsPointInSegment(int parValue, int parSrcValue, int parDstValue)
 {
-	return (((parBoxA.x >= parBoxB.x) && (parBoxA.x <= (parBoxB.x + parBoxB.w)) ||
-		((parBoxA.x + parBoxA.w) >= parBoxB.x) && ((parBoxA.x + parBoxA.w) <= (parBoxB.x + parBoxB.w))) /*&&
-		((parBoxA.y >= parBoxB.y) && (parBoxA.y <= (parBoxB.y + parBoxB.h)) ||
-		((parBoxA.y + parBoxA.h) >= parBoxB.y) && ((parBoxA.y + parBoxA.h) <= (parBoxB.y + parBoxB.h)))*/);
+	return (parValue >= parSrcValue) && (parValue <= parDstValue);
+}
+
+// ============================================================================
+
+bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB)
+{
+	const SDL_Rect* left = (parBoxA->x <= parBoxB->x) ? parBoxA : parBoxB;
+	const SDL_Rect* right = (left == parBoxA) ? parBoxB : parBoxA;
+	const SDL_Rect* top = (parBoxA->y <= parBoxB->y) ? parBoxA : parBoxB;
+	const SDL_Rect* bottom = (top == parBoxA) ? parBoxB : parBoxA;
+
+	return
+		(IsPointInSegment(left->x, right->x, right->x + right->w) ||
+		((left->x + left->w) >= right->x)) &&
+		(IsPointInSegment(top->y, bottom->y, bottom->y + bottom->h) ||
+		((top->y + top->h) >= bottom->y));
 }
 
 // ============================================================================
