@@ -159,13 +159,11 @@ void Run()
 		Uint32 elapsedTime = curTime - lastTime;
 
 		DirectionFromKeys();
-#if 0
-		grunt.targetPosX = mouse.lastRightClickX;
-		grunt.targetPosY = mouse.lastRightClickY;
-#else
-		peon.targetPosX = mouse.lastRightClickX;
-		peon.targetPosY = mouse.lastRightClickY;
-#endif
+		if (player.selectedUnit)
+		{
+			player.selectedUnit->targetPosX = mouse.lastRightClickX;
+			player.selectedUnit->targetPosY = mouse.lastRightClickY;
+		}
 
 		Update(grunt, curTime, elapsedTime);
 		Update(peon, curTime, elapsedTime);
