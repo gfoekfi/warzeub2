@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "SpriteDesc.h"
 #include <SDL.h>
+#include <SDL_Image.h>
+
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -78,6 +80,28 @@ void Render(const Unit& parUnit)
 	SDL_Rect dstRect = { parUnit.pos.x - spriteDesc.width / 2, parUnit.pos.y - spriteDesc.height / 2, 0, 0 };
 
 	SDL_BlitSurface(unitTypeToImage[parUnit.type], &srcRect, screen, &dstRect);
+}
+
+// ============================================================================
+
+void Render(const Map& parMap)
+{
+	static SDL_Surface* tileImg = IMG_Load("../Data/summer_tiles.png");
+	if (!tileImg)
+		return;
+
+	SDL_Rect src = { MAP_TILE_SIZE * 10, MAP_TILE_SIZE * 13, MAP_TILE_SIZE, MAP_TILE_SIZE };
+	SDL_Rect dst = { 0, 0, 0, 0 };
+
+	for (size_t x = 0; x < parMap.width; ++x)
+	{
+		for (size_t y = 0; y < parMap.height; ++y)
+		{
+			dst.x = x * (MAP_TILE_SIZE - 1);
+			dst.y = y * (MAP_TILE_SIZE - 1);
+			SDL_BlitSurface(tileImg, &src, screen, &dst);
+		}
+	}
 }
 
 // ============================================================================

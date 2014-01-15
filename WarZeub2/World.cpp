@@ -1,11 +1,13 @@
 #include "World.h"
 #include "Renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 
+
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
 
 std::vector<Unit*> units;
+Map map;
 
 Unit grunt =
 {
@@ -61,6 +63,9 @@ void InitWorld()
 	units.push_back(&grunt);
 	units.push_back(&mine);
 	units.push_back(&townHall);
+
+	map.width = 25;
+	map.height = 19;
 }
 
 // ============================================================================

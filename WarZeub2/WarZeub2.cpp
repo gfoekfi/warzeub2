@@ -97,6 +97,7 @@ void Render()
 {
 	BeginScene();
 	{
+		Render(map);
 		RenderRightClick(mouse.lastRightClickPos);
 
 		for (size_t unit = 0; unit < units.size(); ++unit)
