@@ -3,7 +3,7 @@
 #include "UnitDesc.h"
 #include "Renderer.h"
 #include "UserInput.h"
-
+#include "Player.h"
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -15,8 +15,6 @@ Uint32 curTime = 0;
 
 Unit grunt = { SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
 Unit peon = { SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/4, SCREEN_HEIGHT/4, DIR_N, EUT_PEON, EUS_IDLE, 0, 0 };
-
-Unit* selectedUnit = &peon;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -30,6 +28,8 @@ bool Init()
 	InitRenderer();
 	InitAnimDesc();
 	InitUnitDesc();
+
+	player.selectedUnit = &peon;
 
 	return true;
 }
@@ -110,14 +110,14 @@ void DirectionFromKeys()
 
 void DrawSelections()
 {
-	if (selectedUnit)
+	if (player.selectedUnit)
 	{
 		const AnimDesc& animDesc =
-			unitTypeStateToAnimation[selectedUnit->type][selectedUnit->state];
-		const UnitDesc& unitDesc = unitTypeToUnitDesc[selectedUnit->type];
+			unitTypeStateToAnimation[player.selectedUnit->type][player.selectedUnit->state];
+		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->type];
 
-		SDL_Rect src = { selectedUnit->posX - unitDesc.width / 2,
-			selectedUnit->posY - unitDesc.height / 2, 0, 0 };
+		SDL_Rect src = { player.selectedUnit->posX - unitDesc.width / 2,
+			player.selectedUnit->posY - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
 		RenderSelection(src, dst);
