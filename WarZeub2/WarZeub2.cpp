@@ -13,9 +13,6 @@ bool isDone = false;
 Uint32 lastTime = 0;
 Uint32 curTime = 0;
 
-Unit grunt = { SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
-Unit peon = { SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/4, SCREEN_HEIGHT/4, DIR_N, EUT_PEON, EUS_IDLE, 0, 0 };
-
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
