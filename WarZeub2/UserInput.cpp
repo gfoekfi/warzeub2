@@ -1,4 +1,5 @@
 #include "UserInput.h"
+#include "Player.h"
 
 
 // ============================================================================
@@ -34,7 +35,10 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 	case SDL_MOUSEBUTTONUP:
 		if (parEvent.button.button == SDL_BUTTON_LEFT)
+		{
+			UpdateSelection(player);
 			mouse.leftButtonPressed = false;
+		}
 		break;
 
 	case SDL_MOUSEMOTION:
@@ -58,6 +62,24 @@ void KeyboardEventHandler(const SDL_Event& parEvent)
 		keyboard.keysPressed[parEvent.key.keysym.sym] = false;
 		break;
 	}
+}
+
+// ============================================================================
+
+SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse)
+{
+	int width = abs(parMouse.posX - parMouse.lastLeftClickX);
+	int height = abs(parMouse.posY - parMouse.lastLeftClickY);
+
+	SDL_Rect boundingBox =
+	{ 
+		(parMouse.posX < parMouse.lastLeftClickX) ? parMouse.posX : parMouse.lastLeftClickX,
+		(parMouse.posY < parMouse.lastLeftClickY) ? parMouse.posY : parMouse.lastLeftClickY, 
+		width, 
+		height
+	};
+
+	return boundingBox;
 }
 
 // ============================================================================
