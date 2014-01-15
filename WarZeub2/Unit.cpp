@@ -1,5 +1,6 @@
 #include "Unit.h"
 #include "Util.h"
+#include "UnitDesc.h"
 #include <stdlib.h>
 
 
@@ -112,6 +113,22 @@ void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
 	//parUnit.dir = DIR_S;
 #endif
 	UpdateAnimation(parUnit, parCurTime);
+}
+
+// ============================================================================
+
+SDL_Rect BoundingBoxFromUnit(const Unit& parUnit)
+{
+	const UnitDesc& unitDesc = unitTypeToUnitDesc[parUnit.type];
+
+	SDL_Rect boundingBox = { 
+		parUnit.posX - unitDesc.width / 2,
+		parUnit.posY - unitDesc.height / 2, 
+		unitDesc.width, 
+		unitDesc.height 
+	};
+
+	return boundingBox;
 }
 
 // ============================================================================
