@@ -27,7 +27,7 @@ bool Init()
 	InitSpriteDesc();
 	InitUnitDesc();
 
-	player.selectedUnit = &peon;
+	player.selectedUnit = 0;
 
 	return true;
 }
@@ -63,45 +63,6 @@ void EventHandler(const SDL_Event& parEvent)
 		isDone = true;
 		break;
 	}
-}
-
-// ============================================================================
-
-void DirectionFromKeys()
-{
-	EUnitState prevState = grunt.state;
-	//grunt.state = keyboard.keysPressed[SDLK_SPACE] ? EUS_DEAD : EUS_MOVE;
-	grunt.state = keyboard.keysPressed[SDLK_SPACE] ? EUS_ATTACK : EUS_MOVE;
-
-	if (keyboard.keysPressed[SDLK_UP])
-	{
-		if (keyboard.keysPressed[SDLK_LEFT])
-			grunt.dir = DIR_NW;
-		else if (keyboard.keysPressed[SDLK_RIGHT])
-			grunt.dir = DIR_NE;
-		else
-			grunt.dir = DIR_N;
-	}
-	else if (keyboard.keysPressed[SDLK_DOWN])
-	{
-		if (keyboard.keysPressed[SDLK_LEFT])
-			grunt.dir = DIR_SW;
-		else if (keyboard.keysPressed[SDLK_RIGHT])
-			grunt.dir = DIR_SE;
-		else
-			grunt.dir = DIR_S;
-	}
-	else if (keyboard.keysPressed[SDLK_LEFT])
-		grunt.dir = DIR_W;
-	else if (keyboard.keysPressed[SDLK_RIGHT])
-		grunt.dir = DIR_E;
-	else
-	{
-		grunt.state = EUS_IDLE;
-	}
-
-	if (grunt.state != prevState)
-		grunt.spriteStep = 0;
 }
 
 // ============================================================================
@@ -161,8 +122,6 @@ void Run()
 		lastTime = curTime;
 		curTime = SDL_GetTicks();
 		Uint32 elapsedTime = curTime - lastTime;
-
-		//DirectionFromKeys();
 
 		Update(grunt, curTime, elapsedTime);
 		Update(peon, curTime, elapsedTime);
