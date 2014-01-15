@@ -72,7 +72,7 @@ void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 
 	parUnit.state = (abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE;
 
-	if (parUnit.state == EUS_MOVE)
+	if (parUnit.state == EUS_MOVE) // TODO: Add 'GatherGold', 'GatherWood'
 	{
 		parUnit.dir = DirectionToTarget(parUnit);
 

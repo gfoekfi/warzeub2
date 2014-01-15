@@ -1,15 +1,7 @@
-
 #include "Unit.h"
 #include "AnimDesc.h"
+#include "UnitDesc.h"
 #include "Renderer.h"
-
-
-// XXX/ Animation du peon
-// XXX/ Afficher le carre de selection
-// 3/ Selection/controle 1 unit parmit 2(+ afficher selection autour de l'unit)
-// 4/ Afficher une carte toute verte
-// 5/ Afficher mine
-// 6/ Afficher batiment principal
 
 
 // ============================================================================
@@ -26,10 +18,6 @@ int lastLeftClickX = 0;
 int lastLeftClickY = 0;
 int mouseX = 0;
 int mouseY = 0;
-#if 0
-int lastLeftReleaseX = 0;
-int lastLeftReleaseY = 0;
-#endif
 
 bool isDone = false;
 Uint32 lastTime = 0;
@@ -37,6 +25,8 @@ Uint32 curTime = 0;
 
 Unit grunt = { SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
 Unit peon = { SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/4, SCREEN_HEIGHT/4, DIR_N, EUT_PEON, EUS_IDLE, 0, 0 };
+
+Unit* selectedUnit = &peon;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -49,6 +39,7 @@ bool Init()
 	
 	InitRenderer();
 	InitAnimDesc();
+	InitUnitDesc();
 
 	return true;
 }
@@ -186,6 +177,31 @@ void DirectionFromKeys()
 
 // ============================================================================
 
+void DrawSelections()
+{
+	if (selectedUnit)
+	{
+		const AnimDesc& animDesc =
+			unitTypeStateToAnimation[selectedUnit->type][selectedUnit->state];
+		const UnitDesc& unitDesc = unitTypeToUnitDesc[selectedUnit->type];
+
+		SDL_Rect src = { selectedUnit->posX - unitDesc.width / 2,
+			selectedUnit->posY - unitDesc.height / 2, 0, 0 };
+		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
+
+		RenderSelection(src, dst);
+	}
+
+	if (leftClick)
+	{
+		SDL_Rect src = { lastLeftClickX, lastLeftClickY, 0, 0 };
+		SDL_Rect dst = { mouseX, mouseY, 0, 0 };
+		RenderSelection(src, dst);
+	}
+}
+
+// ============================================================================
+
 void Render()
 {
 	BeginScene();
@@ -194,12 +210,7 @@ void Render()
 		Render(grunt);
 		Render(peon);
 
-		if (leftClick)
-		{
-			SDL_Rect src = { lastLeftClickX, lastLeftClickY, 10, 10 };
-			SDL_Rect dst = { mouseX, mouseY, 10, 10 };
-			RenderSelection(src, dst);
-		}
+		DrawSelections();
 	}
 	EndScene();
 }
@@ -228,7 +239,7 @@ void Run()
 		peon.targetPosY = lastRightClickY;
 #endif
 
-		//Update(grunt, curTime, elapsedTime);
+		Update(grunt, curTime, elapsedTime);
 		Update(peon, curTime, elapsedTime);
 
 		Render();		

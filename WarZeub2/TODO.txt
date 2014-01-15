@@ -1,0 +1,8 @@
+XXX/ Animation du peon
+XXX/ Afficher le carre de selection
+3/ Selection/controle 1 unit parmit 2(+ afficher selection autour de l'unit)
+	XXX - Afficher la selection d'une unit
+	b - Selection avec la souris
+4/ Afficher une carte toute verte
+5/ Afficher mine
+6/ Afficher batiment principal

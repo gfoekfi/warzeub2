@@ -57,7 +57,7 @@ int SpriteXOffsetFromDir(const Unit& parUnit)
 	case DIR_SE:	return animDesc.width * 3;
 	case DIR_S:		return animDesc.width * 4;
 
-	case DIR_SW:	return animDesc.width * 1; // FIXME: symetry (Moon Walk Style ATM!)
+	case DIR_SW:	return animDesc.width * 1; // FIXME: symetry from sprite (Moon Walk Style ATM!)
 	case DIR_W:		return animDesc.width * 2;
 	case DIR_NW:	return animDesc.width * 3;
 	}
@@ -85,7 +85,6 @@ void Render(const Unit& parUnit)
 void RenderRightClick(int parX, int parY)
 {
 	SDL_Rect rect = {parX - 5, parY - 5, 10, 10};
-	//SDL_Color color = {0, 255, 0};
 	SDL_FillRect(screen, &rect, 0x00ff0000);	
 }
 
