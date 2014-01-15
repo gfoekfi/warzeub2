@@ -1,3 +1,3 @@
-4/ Afficher une carte toute verte
-5/ Afficher mine
-6/ Afficher batiment principal
+1/ Afficher mine
+2/ Afficher batiment principal
+3/ Afficher une carte toute verte

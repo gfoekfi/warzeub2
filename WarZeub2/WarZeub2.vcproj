@@ -233,6 +233,14 @@
 				RelativePath=".\WarZeub2.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\World.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\World.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ChangeLog.txt"
