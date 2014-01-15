@@ -21,13 +21,20 @@ struct Mouse
 	int lastLeftClickY;
 };
 
+struct Keyboard
+{
+	bool keysPressed[SDLK_LAST];
+};
+
 // ============================================================================
 
 extern Mouse mouse;
+extern Keyboard keyboard;
 
 // ============================================================================
 
 void MouseEventHandler(const SDL_Event& parEvent);
+void KeyboardEventHandler(const SDL_Event& parEvent);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

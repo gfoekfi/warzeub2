@@ -6,6 +6,7 @@
 // ============================================================================
 
 Mouse mouse;
+Keyboard keyboard;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -39,6 +40,22 @@ void MouseEventHandler(const SDL_Event& parEvent)
 	case SDL_MOUSEMOTION:
 		mouse.posX = parEvent.motion.x;
 		mouse.posY = parEvent.motion.y;
+		break;
+	}
+}
+
+// ============================================================================
+
+void KeyboardEventHandler(const SDL_Event& parEvent)
+{
+	switch (parEvent.type)
+	{
+	case SDL_KEYDOWN:
+		keyboard.keysPressed[parEvent.key.keysym.sym] = true;
+		break;
+
+	case SDL_KEYUP:
+		keyboard.keysPressed[parEvent.key.keysym.sym] = false;
 		break;
 	}
 }
