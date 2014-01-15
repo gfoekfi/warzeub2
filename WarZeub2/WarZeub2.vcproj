@@ -198,6 +198,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UnitDesc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UnitDesc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Util.cpp"
 				>
 			</File>
