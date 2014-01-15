@@ -1,11 +1,15 @@
-//#include <SDL.h>
-//#include <SDL_image.h>
-//#include <map>
-//#include <utility>
 
 #include "Unit.h"
 #include "AnimDesc.h"
 #include "Renderer.h"
+
+
+// XXX/ Animation du peon
+// 2/ Afficher le carre de selection
+// 3/ Selection/controle 1 unit parmit 2(+ afficher selection autour de l'unit)
+// 4/ Afficher une carte toute verte
+// 5/ Afficher mine
+// 6/ Afficher batiment principal
 
 
 // ============================================================================
@@ -14,12 +18,13 @@
 
 bool isDone = false;
 bool keys[5] = { false, false, false, false, false }; // up, down, left, right, space
-int lastClickX = SCREEN_WIDTH / 2;
-int lastClickY = SCREEN_HEIGHT / 2;
+int lastClickX = SCREEN_WIDTH / 4;
+int lastClickY = SCREEN_HEIGHT / 4;
 Uint32 lastTime = 0;
 Uint32 curTime = 0;
 
-Unit grunt = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
+Unit grunt = { SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, DIR_N, EUT_GRUNT, EUS_IDLE, 0, 0 };
+Unit peon = { SCREEN_WIDTH/4, SCREEN_HEIGHT/4, SCREEN_WIDTH/4, SCREEN_HEIGHT/4, DIR_N, EUT_PEON, EUS_IDLE, 0, 0 };
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -158,6 +163,7 @@ void Render()
 	{
 		RenderRightClick(lastClickX, lastClickY);
 		Render(grunt);
+		Render(peon);
 	}
 	EndScene();
 }
@@ -178,9 +184,16 @@ void Run()
 		Uint32 elapsedTime = curTime - lastTime;
 
 		//DirectionFromKeys();
+#if 0
 		grunt.targetPosX = lastClickX;
 		grunt.targetPosY = lastClickY;
-		Update(grunt, curTime, elapsedTime);
+#else
+		peon.targetPosX = lastClickX;
+		peon.targetPosY = lastClickY;
+#endif
+
+		//Update(grunt, curTime, elapsedTime);
+		Update(peon, curTime, elapsedTime);
 
 		Render();		
 

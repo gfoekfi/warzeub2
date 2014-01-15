@@ -93,7 +93,7 @@ void UpdatePosition(Unit& parUnit, Uint32 parElapsedTime)
 void UpdateAnimation(Unit& parUnit, Uint32 parCurTime)
 {
 	Uint32 deltaTime = parCurTime - parUnit.spriteLastTime;
-	if (deltaTime > 170) // 170 = grunt
+	if (deltaTime > 180) // 180 = grunt
 	{
 		parUnit.spriteStep++;
 		parUnit.spriteLastTime = parCurTime;
@@ -105,6 +105,12 @@ void UpdateAnimation(Unit& parUnit, Uint32 parCurTime)
 void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	UpdatePosition(parUnit, parElapsedTime);
+#if 0
+	//parUnit.state = EUS_HARVEST;
+	//parUnit.state = EUS_GATHER_WOOD;
+	//parUnit.state = EUS_MOVE;
+	//parUnit.dir = DIR_S;
+#endif
 	UpdateAnimation(parUnit, parCurTime);
 }
 
