@@ -3,6 +3,7 @@
 ===============================================================================
 - Peon animation: Idle, Move, Harvest, GatherGold, GatherWood
 - Render selection square
+- Mouse event handler + mouse structure
 ===============================================================================
 
 ===============================================================================
@@ -11,7 +12,6 @@
 - Right clicking move the grunt with the proper direction and animation
 - Clamp() function in Util
 - Render the right clicks
-- 
 ===============================================================================
 
 ===============================================================================

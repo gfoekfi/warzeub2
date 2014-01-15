@@ -206,6 +206,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UserInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UserInput.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Util.cpp"
 				>
 			</File>
