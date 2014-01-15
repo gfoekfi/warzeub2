@@ -71,10 +71,9 @@ void Render(const Unit& parUnit)
 {
 	const AnimDesc& animDesc = unitTypeStateToAnimation[parUnit.type][parUnit.state];
 
-	int offsetY = animDesc.offsetY;
 	int curStep = (parUnit.spriteStep % animDesc.maxStep);
-	int spriteY = curStep * animDesc.height + offsetY;
-	int spriteX = parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0; // special case for dead
+	int spriteY = curStep * animDesc.height + animDesc.offsetY;
+	int spriteX = (parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + animDesc.offsetX; // special case for dead
 	SDL_Rect srcRect = { spriteX, spriteY, animDesc.width, animDesc.height };
 	SDL_Rect dstRect = { parUnit.posX - animDesc.width / 2, parUnit.posY - animDesc.height / 2, 0, 0 };
 
