@@ -174,14 +174,6 @@
 			Name="Source"
 			>
 			<File
-				RelativePath=".\AnimDesc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AnimDesc.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Player.cpp"
 				>
 			</File>
@@ -195,6 +187,14 @@
 			</File>
 			<File
 				RelativePath=".\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SpriteDesc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SpriteDesc.h"
 				>
 			</File>
 			<File

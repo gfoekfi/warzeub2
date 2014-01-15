@@ -10,9 +10,9 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-struct AnimDesc
+struct SpriteDesc
 {
-	AnimDesc(int parOffsetX, int parOffsetY, int parWidth, int parHeight, int parMaxStep)
+	SpriteDesc(int parOffsetX, int parOffsetY, int parWidth, int parHeight, int parMaxStep)
 		: offsetX(parOffsetX),
 		offsetY(parOffsetY),
 		width(parWidth),
@@ -21,7 +21,7 @@ struct AnimDesc
 	{
 	}
 
-	AnimDesc()
+	SpriteDesc()
 		: offsetX(0),
 		offsetY(0),
 		width(0),
@@ -39,12 +39,12 @@ struct AnimDesc
 
 // ============================================================================
 
-void InitAnimDesc();
-void ReleaseAnimDesc();
+void InitSpriteDesc();
+void ReleaseSpriteDesc();
 
 // ============================================================================
 
-extern std::map<EUnitType, std::map<EUnitState, AnimDesc> > unitTypeStateToAnimation;
+extern std::map<EUnitType, std::map<EUnitState, SpriteDesc> > unitTypeStateToSpriteDesc;
 extern std::map<EUnitType, SDL_Surface*> unitTypeToImage;
 
 // ============================================================================

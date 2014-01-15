@@ -1,5 +1,5 @@
 #include "Unit.h"
-#include "AnimDesc.h"
+#include "SpriteDesc.h"
 #include "UnitDesc.h"
 #include "Renderer.h"
 #include "UserInput.h"
@@ -24,7 +24,7 @@ bool Init()
 	SDL_WM_SetCaption("WarZeub 2 !", 0);
 	
 	InitRenderer();
-	InitAnimDesc();
+	InitSpriteDesc();
 	InitUnitDesc();
 
 	player.selectedUnit = &peon;
@@ -36,7 +36,7 @@ bool Init()
 
 void Quit()
 {
-	ReleaseAnimDesc();
+	ReleaseSpriteDesc();
 	ReleaseRenderer();
 
 	SDL_Quit();
@@ -110,8 +110,8 @@ void DrawSelections()
 {
 	if (player.selectedUnit)
 	{
-		const AnimDesc& animDesc =
-			unitTypeStateToAnimation[player.selectedUnit->type][player.selectedUnit->state];
+		const SpriteDesc& spriteDesc =
+			unitTypeStateToSpriteDesc[player.selectedUnit->type][player.selectedUnit->state];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->type];
 
 		SDL_Rect src = { player.selectedUnit->pos.x - unitDesc.width / 2,

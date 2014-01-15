@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "AnimDesc.h"
+#include "SpriteDesc.h"
 #include <SDL.h>
 
 // ============================================================================
@@ -47,19 +47,19 @@ void EndScene()
 
 int SpriteXOffsetFromDir(const Unit& parUnit)
 {
-	const AnimDesc& animDesc = unitTypeStateToAnimation[parUnit.type][parUnit.state];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.type][parUnit.state];
 
 	switch (parUnit.dir)
 	{
-	case DIR_N:		return animDesc.width * 0;
-	case DIR_NE:	return animDesc.width * 1;
-	case DIR_E:		return animDesc.width * 2;
-	case DIR_SE:	return animDesc.width * 3;
-	case DIR_S:		return animDesc.width * 4;
+	case DIR_N:		return spriteDesc.width * 0;
+	case DIR_NE:	return spriteDesc.width * 1;
+	case DIR_E:		return spriteDesc.width * 2;
+	case DIR_SE:	return spriteDesc.width * 3;
+	case DIR_S:		return spriteDesc.width * 4;
 
-	case DIR_SW:	return animDesc.width * 1; // FIXME: symetry from sprite (Moon Walk Style ATM!)
-	case DIR_W:		return animDesc.width * 2;
-	case DIR_NW:	return animDesc.width * 3;
+	case DIR_SW:	return spriteDesc.width * 1; // FIXME: symetry from sprite (Moon Walk Style ATM!)
+	case DIR_W:		return spriteDesc.width * 2;
+	case DIR_NW:	return spriteDesc.width * 3;
 	}
 
 	return 0;
@@ -69,13 +69,13 @@ int SpriteXOffsetFromDir(const Unit& parUnit)
 
 void Render(const Unit& parUnit)
 {
-	const AnimDesc& animDesc = unitTypeStateToAnimation[parUnit.type][parUnit.state];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.type][parUnit.state];
 
-	int curStep = (parUnit.spriteStep % animDesc.maxStep);
-	int spriteY = curStep * animDesc.height + animDesc.offsetY;
-	int spriteX = (parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + animDesc.offsetX; // special case for dead
-	SDL_Rect srcRect = { spriteX, spriteY, animDesc.width, animDesc.height };
-	SDL_Rect dstRect = { parUnit.pos.x - animDesc.width / 2, parUnit.pos.y - animDesc.height / 2, 0, 0 };
+	int curStep = (parUnit.spriteStep % spriteDesc.maxStep);
+	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
+	int spriteX = (parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
+	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
+	SDL_Rect dstRect = { parUnit.pos.x - spriteDesc.width / 2, parUnit.pos.y - spriteDesc.height / 2, 0, 0 };
 
 	SDL_BlitSurface(unitTypeToImage[parUnit.type], &srcRect, screen, &dstRect);
 }
