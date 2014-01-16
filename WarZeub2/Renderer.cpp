@@ -90,18 +90,29 @@ void Render(const Map& parMap)
 	if (!tileImg)
 		return;
 
-	SDL_Rect src = { MAP_TILE_SIZE * 10, MAP_TILE_SIZE * 13, MAP_TILE_SIZE, MAP_TILE_SIZE };
-	SDL_Rect dst = { 0, 0, 0, 0 };
-
-	for (size_t x = 0; x < parMap.width; ++x)
+	static SDL_Surface* mapSurface = 0;
+	if (!mapSurface)
 	{
-		for (size_t y = 0; y < parMap.height; ++y)
+		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w, screen->h, 
+			screen->format->BitsPerPixel, screen->format->Amask, screen->format->Gmask, 
+			screen->format->Bmask, screen->format->Amask);
+
+		SDL_Rect src = { MAP_TILE_SIZE * 10, MAP_TILE_SIZE * 13, MAP_TILE_SIZE, MAP_TILE_SIZE };
+		SDL_Rect dst = { 0, 0, 0, 0 };
+
+		for (size_t x = 0; x < parMap.width; ++x)
 		{
-			dst.x = x * (MAP_TILE_SIZE - 1);
-			dst.y = y * (MAP_TILE_SIZE - 1);
-			SDL_BlitSurface(tileImg, &src, screen, &dst);
+			for (size_t y = 0; y < parMap.height; ++y)
+			{
+				dst.x = x * (MAP_TILE_SIZE - 1);
+				dst.y = y * (MAP_TILE_SIZE - 1);
+				SDL_BlitSurface(tileImg, &src, mapSurface, &dst);
+			}
 		}
 	}
+
+	if (mapSurface)
+		SDL_BlitSurface(mapSurface, 0, screen, 0);
 }
 
 // ============================================================================

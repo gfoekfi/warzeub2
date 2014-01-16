@@ -9,6 +9,8 @@
 std::vector<Unit*> units;
 Map map;
 
+// ============================================================================
+
 Unit grunt =
 {
 	Vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
