@@ -2,6 +2,7 @@
 #include "SpriteDesc.h"
 #include <SDL.h>
 #include <SDL_Image.h>
+#include <assert.h>
 
 
 // ============================================================================
@@ -9,6 +10,7 @@
 // ============================================================================
 
 SDL_Surface* screen = 0;
+SDL_Surface* summerTilesSurface = 0;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -22,6 +24,8 @@ void InitRenderer()
 #else
 		32, SDL_HWSURFACE | SDL_FULLSCREEN);
 #endif
+
+	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 }
 
 // ============================================================================
@@ -84,11 +88,42 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
+void RenderHUD()
+{
+	assert(summerTilesSurface);
+
+	static SDL_Surface* backgroundSurface = 0;
+	if (!backgroundSurface)
+	{
+		backgroundSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w / 4, screen->h, 
+			screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
+			screen->format->Bmask, screen->format->Amask);
+
+		SDL_Rect src = { MAP_TILE_SIZE * 11, MAP_TILE_SIZE * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
+		SDL_Rect dst = { 0, 0, 0, 0 };
+
+		for (size_t line = 0; line < (1 + screen->h / MAP_TILE_SIZE); ++line)
+		{
+			for (size_t col = 0; col < (1 + backgroundSurface->w / MAP_TILE_SIZE); ++col)
+			{
+				dst.x = col * (MAP_TILE_SIZE - 1);
+				dst.y = line * (MAP_TILE_SIZE - 1);
+				SDL_BlitSurface(summerTilesSurface, &src, backgroundSurface, &dst);
+			}
+		}
+	}
+
+	if (!backgroundSurface)
+		return;
+
+	SDL_BlitSurface(backgroundSurface, 0, screen, 0);
+}
+
+// ============================================================================
+
 void Render(const Map& parMap)
 {
-	static SDL_Surface* tileImg = IMG_Load("../Data/summer_tiles.png");
-	if (!tileImg)
-		return;
+	assert(summerTilesSurface);
 
 	static SDL_Surface* mapSurface = 0;
 	if (!mapSurface)
@@ -106,7 +141,7 @@ void Render(const Map& parMap)
 			{
 				dst.x = x * (MAP_TILE_SIZE - 1);
 				dst.y = y * (MAP_TILE_SIZE - 1);
-				SDL_BlitSurface(tileImg, &src, mapSurface, &dst);
+				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
 			}
 		}
 	}

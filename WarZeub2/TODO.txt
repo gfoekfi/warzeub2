@@ -1,4 +1,4 @@
-- Afficher le "background" du HUD (couleur unie)
+x Afficher le "background" du HUD
 - Afficher icone unite selectionne
 - Afficher icone d'ordre ("deplacement", "attack")
 - Gestion des ordres

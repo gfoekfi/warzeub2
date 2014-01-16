@@ -27,6 +27,7 @@ void Render(const Unit& parUnit);
 void Render(const Map& parMap);
 void RenderRightClick(const Vec2& parPos);
 void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst);
+void RenderHUD();
 
 // ============================================================================
 // ----------------------------------------------------------------------------
