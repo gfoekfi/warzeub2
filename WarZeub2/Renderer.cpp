@@ -89,42 +89,61 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
+SDL_Surface* GenerateHudBackgroundSurface()
+{
+	SDL_Surface* backgroundSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w / 4,
+		screen->h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
+		screen->format->Bmask, screen->format->Amask);
+
+	SDL_Rect src = { (MAP_TILE_SIZE + 1) * 11, (MAP_TILE_SIZE + 1) * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
+	SDL_Rect dst = { 0, 0, 0, 0 };
+
+	for (size_t line = 0; line < (1 + screen->h / MAP_TILE_SIZE); ++line)
+	{
+		for (size_t col = 0; col < (1 + backgroundSurface->w / MAP_TILE_SIZE); ++col)
+		{
+			dst.x = col * MAP_TILE_SIZE;
+			dst.y = line * MAP_TILE_SIZE;
+			SDL_BlitSurface(summerTilesSurface, &src, backgroundSurface, &dst);
+		}
+	}
+
+	return backgroundSurface;
+}
+
+// ============================================================================
+
 void RenderHUD()
 {
 	assert(summerTilesSurface);
 
-	static SDL_Surface* backgroundSurface = 0;
-	if (!backgroundSurface)
-	{
-		backgroundSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w / 4, screen->h, 
-			screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
-			screen->format->Bmask, screen->format->Amask);
-
-		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 11, (MAP_TILE_SIZE + 1) * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
-		SDL_Rect dst = { 0, 0, 0, 0 };
-
-		for (size_t line = 0; line < (1 + screen->h / MAP_TILE_SIZE); ++line)
-		{
-			for (size_t col = 0; col < (1 + backgroundSurface->w / MAP_TILE_SIZE); ++col)
-			{
-				dst.x = col * MAP_TILE_SIZE;
-				dst.y = line * MAP_TILE_SIZE;
-				SDL_BlitSurface(summerTilesSurface, &src, backgroundSurface, &dst);
-			}
-		}
-	}
+	static SDL_Surface* backgroundSurface = GenerateHudBackgroundSurface();
 	assert(backgroundSurface);
 	SDL_BlitSurface(backgroundSurface, 0, screen, 0);
 
 	static SDL_Surface* iconsSurface = IMG_Load("../Data/orc_icons.png");
 	assert(iconsSurface);
 
+	int miniMapOffsetX = backgroundSurface->w / 20;
+	int miniMapOffsetY = (backgroundSurface->h / 3 ) / 20;
+	static SDL_Rect miniMapRect = {miniMapOffsetX, miniMapOffsetY, 
+		backgroundSurface->w - (2 * miniMapOffsetX), 
+		(backgroundSurface->h / 3) - (2 * miniMapOffsetY)};
+	SDL_FillRect(screen, &miniMapRect, 0);
+
 	if (player.selectedUnit)
 	{
-		const SpriteDesc& spriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
+		int selectionInfoOffsetX = backgroundSurface->w / 50;
+		int selectionInfoOffsetY = (backgroundSurface->h / 3) / 50;
+		SDL_Rect borderSrc = { selectionInfoOffsetX,
+			selectionInfoOffsetY + (backgroundSurface->h / 3), 0, 0 };
+		SDL_Rect borderDst = { backgroundSurface->w - (2 * selectionInfoOffsetX),
+			(2*backgroundSurface->h / 3) - selectionInfoOffsetY, 0, 0 };
+		RenderSelection(borderSrc, borderDst, 0x00ffffff);
 
-		SDL_Rect src = { spriteDesc.offsetX, spriteDesc.offsetY, spriteDesc.width, spriteDesc.height };
-		SDL_Rect dst = { 0, 0, 0, 0 };
+		const SpriteDesc& iconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
+		SDL_Rect src = { iconSpriteDesc.offsetX, iconSpriteDesc.offsetY, iconSpriteDesc.width, iconSpriteDesc.height };
+		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
 	}
 }
@@ -170,7 +189,7 @@ void RenderRightClick(const Vec2& parPos)
 
 // ============================================================================
 
-void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst)
+void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
 {
 	int width = abs(parDst.x - parSrc.x);
 	int height = abs(parDst.y - parSrc.y);
@@ -183,15 +202,15 @@ void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst)
 		1
 	};
 
-	SDL_FillRect(screen, &bar, 0x0000ff00);
+	SDL_FillRect(screen, &bar, parColor);
 	bar.y += height;
-	SDL_FillRect(screen, &bar, 0x0000ff00);
+	SDL_FillRect(screen, &bar, parColor);
 	bar.y -= height;
 	bar.w = 1;
 	bar.h = height;
-	SDL_FillRect(screen, &bar, 0x0000ff00);
+	SDL_FillRect(screen, &bar, parColor);
 	bar.x += width;
-	SDL_FillRect(screen, &bar, 0x0000ff00);
+	SDL_FillRect(screen, &bar, parColor);
 }
 
 // ============================================================================
