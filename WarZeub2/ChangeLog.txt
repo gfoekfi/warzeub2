@@ -1,10 +1,11 @@
 ===============================================================================
 * v0.4
 ===============================================================================
-- Refactor: (posX, posY) stuff uses Vec2
+- Refactor: (posX, posY) stuff uses 'Vec2'
 - World : stub + unit declaration
-- Rename AnimDesc To SpriteDesc
-- Add selectable mine and town hall unit into World ( + Rendering)
+- Rename 'AnimDesc' To 'SpriteDesc'
+- Add selectable 'mine' and 'town hall' unit into World (+ Rendering)
+- Render map using (+ cache creation)
 ===============================================================================
 
 ===============================================================================
