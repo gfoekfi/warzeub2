@@ -8,6 +8,7 @@
 
 std::map<EUnitType, std::map<EUnitState, SpriteDesc> > unitTypeStateToSpriteDesc;
 std::map<EUnitType, SDL_Surface*> unitTypeToImage;
+std::map<EUnitType, SpriteDesc> unitTypeToIconSpriteDesc;
 
 // ============================================================================
 
@@ -24,6 +25,13 @@ const SpriteDesc peonGatherWood(24, 40*5 + 50*7 + 5*43 - 20, 42, 46, 5);
 
 const SpriteDesc mineIdleAnim(10, 5, 100, 100, 1);
 const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
+
+// ============================================================================
+
+const SpriteDesc peonIcon(6 + 1*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
+const SpriteDesc gruntIcon(6 + 3*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
+const SpriteDesc mineIcon(6 + 4*(46 + 3), 5 + 7*(38 + 3), 46, 38, 1);
+const SpriteDesc townHallIcon(6 + 1*(46 + 3), 5 + 4*(38 + 3), 46, 38, 1);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -49,6 +57,13 @@ void InitSpriteDesc()
 
 	unitTypeStateToSpriteDesc[EUT_MINE][EUS_IDLE] = mineIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_IDLE] = townHallIdleAnim;
+
+	// ---
+
+	unitTypeToIconSpriteDesc[EUT_PEON] = peonIcon;
+	unitTypeToIconSpriteDesc[EUT_GRUNT] = gruntIcon;
+	unitTypeToIconSpriteDesc[EUT_MINE] = mineIcon;
+	unitTypeToIconSpriteDesc[EUT_TOWN_HALL] = townHallIcon;
 }
 
 // ============================================================================

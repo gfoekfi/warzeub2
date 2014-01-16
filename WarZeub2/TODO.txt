@@ -1,5 +1,5 @@
 x Afficher le "background" du HUD
-- Afficher icone unite selectionne
+X Afficher icone unite selectionne
 - Afficher icone d'ordre ("deplacement", "attack")
 - Gestion des ordres
 - Entrainement d'unité => Creation + ajout au monde

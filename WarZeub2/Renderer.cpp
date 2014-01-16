@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "SpriteDesc.h"
+#include "Player.h"
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <assert.h>
@@ -99,24 +100,33 @@ void RenderHUD()
 			screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
 			screen->format->Bmask, screen->format->Amask);
 
-		SDL_Rect src = { MAP_TILE_SIZE * 11, MAP_TILE_SIZE * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
+		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 11, (MAP_TILE_SIZE + 1) * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
 		SDL_Rect dst = { 0, 0, 0, 0 };
 
 		for (size_t line = 0; line < (1 + screen->h / MAP_TILE_SIZE); ++line)
 		{
 			for (size_t col = 0; col < (1 + backgroundSurface->w / MAP_TILE_SIZE); ++col)
 			{
-				dst.x = col * (MAP_TILE_SIZE - 1);
-				dst.y = line * (MAP_TILE_SIZE - 1);
+				dst.x = col * MAP_TILE_SIZE;
+				dst.y = line * MAP_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, backgroundSurface, &dst);
 			}
 		}
 	}
-
-	if (!backgroundSurface)
-		return;
-
+	assert(backgroundSurface);
 	SDL_BlitSurface(backgroundSurface, 0, screen, 0);
+
+	static SDL_Surface* iconsSurface = IMG_Load("../Data/orc_icons.png");
+	assert(iconsSurface);
+
+	if (player.selectedUnit)
+	{
+		const SpriteDesc& spriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
+
+		SDL_Rect src = { spriteDesc.offsetX, spriteDesc.offsetY, spriteDesc.width, spriteDesc.height };
+		SDL_Rect dst = { 0, 0, 0, 0 };
+		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
+	}
 }
 
 // ============================================================================
@@ -132,15 +142,15 @@ void Render(const Map& parMap)
 			screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
 			screen->format->Bmask, screen->format->Amask);
 
-		SDL_Rect src = { MAP_TILE_SIZE * 14, MAP_TILE_SIZE * 18, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (14, 18) = grass
+		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 14, (MAP_TILE_SIZE + 1) * 18, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (14, 18) = grass
 		SDL_Rect dst = { 0, 0, 0, 0 };
 
 		for (int x = 0; x < parMap.width; ++x)
 		{
 			for (int y = 0; y < parMap.height; ++y)
 			{
-				dst.x = x * (MAP_TILE_SIZE - 1);
-				dst.y = y * (MAP_TILE_SIZE - 1);
+				dst.x = x * MAP_TILE_SIZE;
+				dst.y = y * MAP_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
 			}
 		}
