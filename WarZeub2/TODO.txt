@@ -1,8 +1,13 @@
-1/ Afficher une carte toute verte
+- Afficher le "background" du HUD (couleur unie)
+- Afficher icone unite selectionne
+- Afficher icone d'ordre ("deplacement", "attack")
+- Gestion des ordres
+- Entrainement d'unité => Creation + ajout au monde
+- Collision unit / batiment
 
-
-
-
+- object
+- collision
+- path finding
 
 // -----------------------------
 
