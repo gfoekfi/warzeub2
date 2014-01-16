@@ -127,7 +127,9 @@ void Run()
 
 		Render();		
 
-		SDL_Delay(1);
+		char* error = SDL_GetError();
+		if (error && strlen(error) > 0)
+			fprintf(stderr, "%s\n", error);
 	}
 }
 
