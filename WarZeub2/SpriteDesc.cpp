@@ -9,6 +9,7 @@
 std::map<EUnitType, std::map<EUnitState, SpriteDesc> > unitTypeStateToSpriteDesc;
 std::map<EUnitType, SDL_Surface*> unitTypeToImage;
 std::map<EUnitType, SpriteDesc> unitTypeToIconSpriteDesc;
+std::map<EOrder, SpriteDesc> orderToIconSpriteDesc;
 
 // ============================================================================
 
@@ -32,6 +33,9 @@ const SpriteDesc peonIcon(6 + 1*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
 const SpriteDesc gruntIcon(6 + 3*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
 const SpriteDesc mineIcon(6 + 4*(46 + 3), 5 + 7*(38 + 3), 46, 38, 1);
 const SpriteDesc townHallIcon(6 + 1*(46 + 3), 5 + 4*(38 + 3), 46, 38, 1);
+
+const SpriteDesc stopIcon(6 + 7*(46 + 3), 5 + 16*(38 + 3), 46, 38, 1);
+const SpriteDesc cancelIcon(6 + 1*(46 + 3), 5 + 9*(38 + 3), 46, 38, 1);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -64,6 +68,11 @@ void InitSpriteDesc()
 	unitTypeToIconSpriteDesc[EUT_GRUNT] = gruntIcon;
 	unitTypeToIconSpriteDesc[EUT_MINE] = mineIcon;
 	unitTypeToIconSpriteDesc[EUT_TOWN_HALL] = townHallIcon;
+	
+	// ---
+
+	orderToIconSpriteDesc[EO_STOP] = stopIcon;
+	orderToIconSpriteDesc[EO_CANCEL] = cancelIcon;
 }
 
 // ============================================================================
@@ -72,6 +81,8 @@ void ReleaseSpriteDesc()
 {
 	SDL_FreeSurface(unitTypeToImage[EUT_GRUNT]);
 	SDL_FreeSurface(unitTypeToImage[EUT_PEON]);
+	SDL_FreeSurface(unitTypeToImage[EUT_MINE]);
+	SDL_FreeSurface(unitTypeToImage[EUT_TOWN_HALL]);
 }
 
 // ============================================================================

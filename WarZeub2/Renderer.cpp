@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "UnitDesc.h"
 #include "SpriteDesc.h"
 #include "Player.h"
 #include <SDL.h>
@@ -91,7 +92,7 @@ void Render(const Unit& parUnit)
 
 SDL_Surface* GenerateHudBackgroundSurface()
 {
-	SDL_Surface* backgroundSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w / 4,
+	SDL_Surface* backgroundSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w / 5,
 		screen->h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
 		screen->format->Bmask, screen->format->Amask);
 
@@ -133,6 +134,7 @@ void RenderHUD()
 
 	if (player.selectedUnit)
 	{
+		// Selection info
 		int selectionInfoOffsetX = backgroundSurface->w / 50;
 		int selectionInfoOffsetY = (backgroundSurface->h / 3) / 50;
 		SDL_Rect borderSrc = { selectionInfoOffsetX,
@@ -141,10 +143,25 @@ void RenderHUD()
 			(2*backgroundSurface->h / 3) - selectionInfoOffsetY, 0, 0 };
 		RenderSelection(borderSrc, borderDst, 0x00ffffff);
 
-		const SpriteDesc& iconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
-		SDL_Rect src = { iconSpriteDesc.offsetX, iconSpriteDesc.offsetY, iconSpriteDesc.width, iconSpriteDesc.height };
+		const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
+		SDL_Rect src = { unitIconSpriteDesc.offsetX, unitIconSpriteDesc.offsetY, 
+			unitIconSpriteDesc.width, unitIconSpriteDesc.height };
 		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
+
+		// Orders
+		int orderMask = unitTypeToUnitDesc[player.selectedUnit->type].orderMask;
+		EOrder order = EO_NONE;
+		if (orderMask & EO_STOP)
+			order = EO_STOP;
+		else if (orderMask & EO_CANCEL)
+			order = EO_CANCEL;
+		const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[order];
+		SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
+			orderIconSpriteDesc.width, orderIconSpriteDesc.height };
+		SDL_Rect orderIconDst = { selectionInfoOffsetX,
+			(2*backgroundSurface->h / 3) + 2*selectionInfoOffsetY, 0, 0};
+		SDL_BlitSurface(iconsSurface, &orderIconSrc, screen, &orderIconDst);
 	}
 }
 
