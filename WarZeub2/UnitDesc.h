@@ -12,20 +12,23 @@
 
 struct UnitDesc
 {
-	UnitDesc(int parWidth, int parHeight) :
+	UnitDesc(int parWidth, int parHeight, int parOrderMask) :
 		width(parWidth),
-		height(parHeight)
+		height(parHeight),
+		orderMask(parOrderMask)
 	{
 	}
 
 	UnitDesc() :
 		width(0),
-		height(0)
+		height(0),
+		orderMask(0)
 	{
 	}
 
 	int width;
 	int height;
+	int orderMask;
 };
 
 // ============================================================================
