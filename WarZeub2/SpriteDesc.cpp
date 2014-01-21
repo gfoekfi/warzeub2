@@ -73,6 +73,7 @@ void InitSpriteDesc()
 
 	orderToIconSpriteDesc[EO_STOP] = stopIcon;
 	orderToIconSpriteDesc[EO_CANCEL] = cancelIcon;
+	orderToIconSpriteDesc[EO_TRAIN_PEON] = peonIcon;
 }
 
 // ============================================================================

@@ -152,7 +152,9 @@ void RenderHUD()
 		// Orders
 		int orderMask = unitTypeToUnitDesc[player.selectedUnit->type].orderMask;
 		EOrder order = EO_NONE;
-		if (orderMask & EO_STOP)
+		if (orderMask & EO_TRAIN_PEON)
+			order = EO_TRAIN_PEON;
+		else if (orderMask & EO_STOP)
 			order = EO_STOP;
 		else if (orderMask & EO_CANCEL)
 			order = EO_CANCEL;

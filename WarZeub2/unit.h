@@ -36,9 +36,10 @@ enum EUnitState
 
 enum EOrder
 {
-	EO_NONE		= 0,
-	EO_STOP		= 1,
-	EO_CANCEL	= 1 << 1
+	EO_NONE			= 0,
+	EO_STOP			= 1 << 0,
+	EO_CANCEL		= 1 << 1,
+	EO_TRAIN_PEON	= 1 << 2,
 };
 
 // ============================================================================
