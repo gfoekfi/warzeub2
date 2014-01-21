@@ -162,7 +162,7 @@ void RenderHUD()
 		SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
 			orderIconSpriteDesc.width, orderIconSpriteDesc.height };
 		SDL_Rect orderIconDst = { selectionInfoOffsetX,
-			(2*backgroundSurface->h / 3) + 2*selectionInfoOffsetY, 0, 0};
+			(2*backgroundSurface->h / 3) + selectionInfoOffsetY, 0, 0};
 		SDL_BlitSurface(iconsSurface, &orderIconSrc, screen, &orderIconDst);
 	}
 }
