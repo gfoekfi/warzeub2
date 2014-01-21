@@ -74,11 +74,11 @@ void DrawSelections()
 	if (player.selectedUnit)
 	{
 		const SpriteDesc& spriteDesc =
-			unitTypeStateToSpriteDesc[player.selectedUnit->type][player.selectedUnit->state];
-		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->type];
+			unitTypeStateToSpriteDesc[player.selectedUnit->Type()][player.selectedUnit->State()];
+		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->Type()];
 
-		SDL_Rect src = { player.selectedUnit->pos.x - unitDesc.width / 2,
-			player.selectedUnit->pos.y - unitDesc.height / 2, 0, 0 };
+		SDL_Rect src = { player.selectedUnit->Pos().x - unitDesc.width / 2,
+			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
 		RenderSelection(src, dst, 0x0000ff00);

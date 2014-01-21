@@ -29,7 +29,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				{
 					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
 					if (player.selectedUnit && (mouse.lastRightClickPos.x >= (screen->w / 5)))
-						player.selectedUnit->targetPos = mouse.lastRightClickPos;
+						player.selectedUnit->Move(mouse.lastRightClickPos);
 				}
 				mouse.rightButtonPressed = true;
 			}
@@ -63,12 +63,8 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 					if (DoesBBoxesCollide(&mouseRect, &iconRect))
 					{
-						if (player.selectedUnit->type == EUT_TOWN_HALL)
-						{
-							Vec2 newUnitPos = player.selectedUnit->pos;
-							newUnitPos.y += unitTypeToUnitDesc[EUT_TOWN_HALL].height / 2 + unitTypeToUnitDesc[EUT_PEON].height / 2;
-							units.push_back(new Unit(newUnitPos, EUT_PEON));
-						}
+						if (player.selectedUnit->Type() == EUT_TOWN_HALL)
+							player.selectedUnit->Train(EUT_PEON);
 					}
 				}
 			}

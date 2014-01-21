@@ -55,9 +55,9 @@ void EndScene()
 
 int SpriteXOffsetFromDir(const Unit& parUnit)
 {
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.type][parUnit.state];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.State()];
 
-	switch (parUnit.dir)
+	switch (parUnit.Dir())
 	{
 	case DIR_N:		return spriteDesc.width * 0;
 	case DIR_NE:	return spriteDesc.width * 1;
@@ -77,15 +77,15 @@ int SpriteXOffsetFromDir(const Unit& parUnit)
 
 void Render(const Unit& parUnit)
 {
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.type][parUnit.state];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.State()];
 
-	int curStep = (parUnit.spriteStep % spriteDesc.maxStep);
+	int curStep = (parUnit.SpriteStep() % spriteDesc.maxStep);
 	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
-	int spriteX = (parUnit.state != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
+	int spriteX = (parUnit.State() != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
-	SDL_Rect dstRect = { parUnit.pos.x - spriteDesc.width / 2, parUnit.pos.y - spriteDesc.height / 2, 0, 0 };
+	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
-	SDL_BlitSurface(unitTypeToImage[parUnit.type], &srcRect, screen, &dstRect);
+	SDL_BlitSurface(unitTypeToImage[parUnit.Type()], &srcRect, screen, &dstRect);
 }
 
 // ============================================================================
@@ -143,14 +143,14 @@ void RenderHUD()
 			(2*backgroundSurface->h / 3) - selectionInfoOffsetY, 0, 0 };
 		RenderSelection(borderSrc, borderDst, 0x00ffffff);
 
-		const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->type];
+		const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->Type()];
 		SDL_Rect src = { unitIconSpriteDesc.offsetX, unitIconSpriteDesc.offsetY, 
 			unitIconSpriteDesc.width, unitIconSpriteDesc.height };
 		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
 
 		// Orders
-		int orderMask = unitTypeToUnitDesc[player.selectedUnit->type].orderMask;
+		int orderMask = unitTypeToUnitDesc[player.selectedUnit->Type()].orderMask;
 		EOrder order = EO_NONE;
 		if (orderMask & EO_TRAIN_PEON)
 			order = EO_TRAIN_PEON;

@@ -3,10 +3,9 @@ X Afficher icone unite selectionne
 X Meilleure affichage du HUD (decoupage en 3 partie: minimap, unit selection, ordre)
 X Afficher icone d'ordre ("stop", "deplacement", "attack")
 X Entrainement d'unité => Creation + ajout au monde
+X Gestion des ordres (train, move)
 
-- Gestion des ordres
 - Collision unit / batiment
-
 - object
 - collision
 - path finding

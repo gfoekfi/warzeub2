@@ -29,12 +29,27 @@ struct Vec2
 	{
 	}
 
+#if 0
 	Vec2& operator=(Vec2& parRhs)
 	{
 		x = parRhs.x;
 		y = parRhs.y;
 
 		return *this;
+	}
+#endif
+
+	Vec2& operator=(const Vec2& parRhs)
+	{
+		x = parRhs.x;
+		y = parRhs.y;
+
+		return *this;
+	}
+
+	bool operator==(const Vec2& parRhs) const
+	{
+		return (x == parRhs.x && y == parRhs.y);
 	}
 
 	int x;
@@ -45,12 +60,36 @@ struct Vec2
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-int Clamp(int parValue, int parMin, int parMax);
+enum EDir
+{
+	DIR_N = 0,
+	DIR_NE,
+	DIR_E,
+	DIR_SE,
+	DIR_S,
+	DIR_SW,
+	DIR_W,
+	DIR_NW,
+	MAX_DIRS
+};
 
-bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
+// ============================================================================
+
+extern Vec2 dirs[MAX_DIRS];
 
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
+
+int Clamp(int parValue, int parMin, int parMax);
+
+bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
+
+EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst);
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
 
 #endif

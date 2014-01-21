@@ -34,60 +34,50 @@ enum EUnitState
 
 // ============================================================================
 
-enum EOrder
+class Order;
+
+class Unit
 {
-	EO_NONE			= 0,
-	EO_STOP			= 1 << 0,
-	EO_CANCEL		= 1 << 1,
-	EO_TRAIN_PEON	= 1 << 2,
+public:
+	Unit(const Vec2& parPos, EUnitType parType);
+	virtual ~Unit();
+
+public:
+	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
+	virtual bool Train(EUnitType parUnitTypeToTrain);
+	virtual bool Move(const Vec2& parTargetPos);
+
+public:
+	const Vec2& Pos() const { return pos_; }
+	EUnitType Type() const { return type_; }
+	EUnitState State() const { return state_; }
+	EDir Dir() const { return dir_; }
+	int SpriteStep() const { return spriteStep_; }
+	Uint32 SpriteLastTime() const { return spriteLastTime_; }
+
+	void SetState(EUnitState parUnitState) { state_ = parUnitState; }
+	void SetDir(EDir parDir) { dir_ = parDir; }
+	void SetPos(const Vec2& parPos) { pos_ = parPos; };
+
+public:
+	SDL_Rect BoundingBox() const;
+
+private:
+	void UpdateOrder_(Uint32 parElapsedTime);
+	void UpdateAnimation_(Uint32 parCurTime);
+
+private:
+	bool IsMovable_() const;
+
+protected:
+	Vec2 pos_;
+	EDir dir_;
+	EUnitType type_;
+	EUnitState state_;
+	int spriteStep_;
+	Uint32 spriteLastTime_;
+	Order* curOrder_;
 };
-
-// ============================================================================
-
-enum EDir
-{
-	DIR_N = 0,
-	DIR_NE,
-	DIR_E,
-	DIR_SE,
-	DIR_S,
-	DIR_SW,
-	DIR_W,
-	DIR_NW,
-	MAX_DIRS
-};
-
-// ============================================================================
-
-struct Unit
-{
-	Unit(const Vec2& parPos, EUnitType parType) :
-		pos(parPos),
-		targetPos(parPos),
-		dir(DIR_N),
-		type(parType),
-		state(EUS_IDLE),
-		spriteStep(0),
-		spriteLastTime(0)
-	{
-	}
-
-	Vec2 pos;
-	Vec2 targetPos;
-
-	EDir dir;
-	EUnitType type;
-	EUnitState state;
-
-	int spriteStep;
-	Uint32 spriteLastTime;
-};
-
-// ============================================================================
-
-void Update(Unit& parUnit, Uint32 parCurTime, Uint32 parElapsedTime);
-
-SDL_Rect BoundingBoxFromUnit(const Unit& parUnit);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

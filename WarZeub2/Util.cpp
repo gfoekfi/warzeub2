@@ -5,6 +5,22 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+Vec2 dirs[MAX_DIRS] =
+{
+	Vec2(0, -1), // N
+	Vec2(1, -1),
+	Vec2(1, 0),	// E
+	Vec2(1, 1),
+	Vec2(0, 1),	// S
+	Vec2(-1, 1),
+	Vec2(-1, 0),	// W
+	Vec2(-1, -1)
+};
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
 int Clamp(int parValue, int parMin, int parMax)
 {
 	if (parValue < parMin)
@@ -35,6 +51,40 @@ bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB)
 		((left->x + left->w) >= right->x)) &&
 		(IsPointInSegment(top->y, bottom->y, bottom->y + bottom->h) ||
 		((top->y + top->h) >= bottom->y));
+}
+
+// ============================================================================
+
+EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst)
+{
+	int deltaPosX = parDst.x - parSrc.x;
+	int deltaPosY = parDst.y - parSrc.y;
+	const int MOVE_STEP_TRESHOLD = 1;
+
+	if (deltaPosY >= MOVE_STEP_TRESHOLD)
+	{
+		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+			return DIR_SW;
+		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+			return DIR_SE;
+		else
+			return DIR_S;
+	}
+	else if (deltaPosY <= -MOVE_STEP_TRESHOLD)
+	{
+		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+			return DIR_NW;
+		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+			return DIR_NE;
+		else
+			return DIR_N;
+	}
+	else if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+		return DIR_W;
+	else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+		return DIR_E;
+
+	return DIR_N;
 }
 
 // ============================================================================

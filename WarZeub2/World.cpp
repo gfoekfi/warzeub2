@@ -29,7 +29,7 @@ void InitWorld()
 void UpdateWorld(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	for (size_t unit = 0; unit < units.size(); ++unit)
-		Update(*units[unit], parCurTime, parElapsedTime);
+		units[unit]->Update(parCurTime, parElapsedTime);
 }
 
 // ============================================================================

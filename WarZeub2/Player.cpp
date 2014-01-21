@@ -2,6 +2,8 @@
 #include "UserInput.h"
 #include "Util.h"
 #include "World.h"
+#include "Unit.h"
+
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -19,7 +21,7 @@ void UpdateSelection(Player& player)
 	
 	for (size_t unit = 0; unit < units.size(); ++unit)
 	{
-		SDL_Rect unitBoundingBox = BoundingBoxFromUnit(*units[unit]);
+		SDL_Rect unitBoundingBox = units[unit]->BoundingBox();
 
 		if (DoesBBoxesCollide(&selectionBoundingBox, &unitBoundingBox))
 		{
