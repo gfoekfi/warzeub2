@@ -1,6 +1,9 @@
 #include "UserInput.h"
 #include "Player.h"
 #include "Renderer.h"
+#include "SpriteDesc.h"
+#include "World.h"
+#include "UnitDesc.h"
 
 
 // ============================================================================
@@ -47,6 +50,28 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		{
 			if (mouse.lastLeftClickPos.x >= screen->w / 5)
 				UpdateSelection(player);
+			else
+			{
+				if (player.selectedUnit && mouse.lastLeftClickPos.y >= 2* screen->h / 3)
+				{
+					SDL_Rect mouseRect = BoundingBoxFromMouse(mouse);
+
+					const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[EO_CANCEL];
+					int iconOffsetX = (screen->w / 5) / 50;
+					int iconOffsetY = (2 * screen->h / 3) + ((screen->h / 3) / 50);
+					SDL_Rect iconRect = {iconOffsetX, iconOffsetY, orderIconSpriteDesc.width, orderIconSpriteDesc.height};
+
+					if (DoesBBoxesCollide(&mouseRect, &iconRect))
+					{
+						if (player.selectedUnit->type == EUT_TOWN_HALL)
+						{
+							Vec2 newUnitPos = player.selectedUnit->pos;
+							newUnitPos.y += unitTypeToUnitDesc[EUT_TOWN_HALL].height / 2 + unitTypeToUnitDesc[EUT_PEON].height / 2;
+							units.push_back(new Unit(newUnitPos, EUT_PEON));
+						}
+					}
+				}
+			}
 
 			mouse.leftButtonPressed = false;
 		}

@@ -2,8 +2,9 @@ x Afficher le "background" du HUD
 X Afficher icone unite selectionne
 X Meilleure affichage du HUD (decoupage en 3 partie: minimap, unit selection, ordre)
 X Afficher icone d'ordre ("stop", "deplacement", "attack")
+X Entrainement d'unité => Creation + ajout au monde
+
 - Gestion des ordres
-- Entrainement d'unité => Creation + ajout au monde
 - Collision unit / batiment
 
 - object
