@@ -65,6 +65,11 @@ void MouseEventHandler(const SDL_Event& parEvent)
 					{
 						if (player.selectedUnit->Type() == EUT_TOWN_HALL)
 							player.selectedUnit->Train(EUT_PEON);
+						else if (player.selectedUnit->Type() == EUT_PEON || 
+									player.selectedUnit->Type() == EUT_GRUNT)
+						{
+							player.selectedUnit->CancelOrder();
+						}
 					}
 				}
 			}

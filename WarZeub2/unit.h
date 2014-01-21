@@ -46,6 +46,7 @@ public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 	virtual bool Train(EUnitType parUnitTypeToTrain);
 	virtual bool Move(const Vec2& parTargetPos);
+	virtual bool CancelOrder();
 
 public:
 	const Vec2& Pos() const { return pos_; }

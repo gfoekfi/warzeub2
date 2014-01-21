@@ -92,6 +92,22 @@ bool Unit::Move(const Vec2& parTargetPos)
 
 // ============================================================================
 
+bool Unit::CancelOrder()
+{
+	if (curOrder_)
+	{
+		delete curOrder_;
+		curOrder_ = 0;
+	}
+
+	state_ = EUS_IDLE;
+	spriteStep_ = 0;
+
+	return true;
+}
+
+// ============================================================================
+
 SDL_Rect Unit::BoundingBox() const
 {
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[type_];
