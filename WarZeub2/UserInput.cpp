@@ -1,5 +1,6 @@
 #include "UserInput.h"
 #include "Player.h"
+#include "Renderer.h"
 
 
 // ============================================================================
@@ -24,7 +25,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.rightButtonPressed)
 				{
 					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					if (player.selectedUnit)
+					if (player.selectedUnit && (mouse.lastRightClickPos.x >= (screen->w / 5)))
 						player.selectedUnit->targetPos = mouse.lastRightClickPos;
 				}
 				mouse.rightButtonPressed = true;
@@ -44,13 +45,20 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		else if (parEvent.button.button == SDL_BUTTON_LEFT
 			&& mouse.leftButtonPressed) // prevents SDL send 'up' events multiple times
 		{
-			UpdateSelection(player);
+			if (mouse.lastLeftClickPos.x >= screen->w / 5)
+				UpdateSelection(player);
+
 			mouse.leftButtonPressed = false;
 		}
 		break;
 
 	case SDL_MOUSEMOTION:
 		mouse.pos = Vec2(parEvent.motion.x, parEvent.motion.y);
+		if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x >= screen->w / 5))
+		{
+			mouse.pos.x = (mouse.pos.x < (screen->w / 5)) ? (screen->w / 5) : mouse.pos.x;
+			UpdateSelection(player);
+		}
 		break;
 	}
 }

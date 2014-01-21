@@ -83,7 +83,7 @@ void DrawSelections()
 		RenderSelection(src, dst, 0x0000ff00);
 	}
 
-	if (mouse.leftButtonPressed)
+	if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x > (screen->w / 5)))
 	{
 		SDL_Rect src = { mouse.lastLeftClickPos.x, mouse.lastLeftClickPos.y, 0, 0 };
 		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };
@@ -105,7 +105,6 @@ void Render()
 			Render(*units[unit]);
 
 		DrawSelections();
-
 		RenderHUD();
 	}
 	EndScene();
