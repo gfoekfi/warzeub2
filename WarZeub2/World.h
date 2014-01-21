@@ -31,6 +31,7 @@ extern Map map;
 
 void InitWorld();
 void UpdateWorld(Uint32 parCurTime, Uint32 parElapsedTime);
+void ReleaseWorld();
 
 // ============================================================================
 // ----------------------------------------------------------------------------

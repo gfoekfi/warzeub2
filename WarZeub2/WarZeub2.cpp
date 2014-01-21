@@ -39,6 +39,7 @@ void Quit()
 {
 	ReleaseSpriteDesc();
 	ReleaseRenderer();
+	ReleaseWorld();
 
 	SDL_Quit();
 }

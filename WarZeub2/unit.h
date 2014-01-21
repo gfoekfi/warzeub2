@@ -61,6 +61,17 @@ enum EDir
 
 struct Unit
 {
+	Unit(const Vec2& parPos, EUnitType parType) :
+		pos(parPos),
+		targetPos(parPos),
+		dir(DIR_N),
+		type(parType),
+		state(EUS_IDLE),
+		spriteStep(0),
+		spriteLastTime(0)
+	{
+	}
+
 	Vec2 pos;
 	Vec2 targetPos;
 
