@@ -79,8 +79,11 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 
 bool Unit::Move(const Vec2& parTargetPos)
 {
-	if (curOrder_ || !IsMovable_())
+	if (!IsMovable_())
 		return false;
+
+	if (curOrder_)
+		delete curOrder_;
 
 	curOrder_ = new MoveOrder(this, parTargetPos);
 
