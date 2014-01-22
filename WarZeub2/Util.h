@@ -29,16 +29,6 @@ struct Vec2
 	{
 	}
 
-#if 0
-	Vec2& operator=(Vec2& parRhs)
-	{
-		x = parRhs.x;
-		y = parRhs.y;
-
-		return *this;
-	}
-#endif
-
 	Vec2& operator=(const Vec2& parRhs)
 	{
 		x = parRhs.x;
