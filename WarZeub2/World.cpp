@@ -1,5 +1,5 @@
 #include "World.h"
-#include "Renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
+#include "renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 
 
 // ============================================================================

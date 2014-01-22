@@ -1,7 +1,7 @@
 #include "unit.h"
 #include "SpriteDesc.h"
 #include "UnitDesc.h"
-#include "Renderer.h"
+#include "renderer.h"
 #include "UserInput.h"
 #include "Player.h"
 #include "World.h"
