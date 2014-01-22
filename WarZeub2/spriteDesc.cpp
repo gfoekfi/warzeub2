@@ -34,6 +34,7 @@ const SpriteDesc gruntIcon(6 + 3*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
 const SpriteDesc mineIcon(6 + 4*(46 + 3), 5 + 7*(38 + 3), 46, 38, 1);
 const SpriteDesc townHallIcon(6 + 1*(46 + 3), 5 + 4*(38 + 3), 46, 38, 1);
 
+const SpriteDesc moveIcon(6 + 4*(46 + 3), 5 + 8*(38 + 3), 46, 38, 1);
 const SpriteDesc stopIcon(6 + 7*(46 + 3), 5 + 16*(38 + 3), 46, 38, 1);
 const SpriteDesc cancelIcon(6 + 1*(46 + 3), 5 + 9*(38 + 3), 46, 38, 1);
 
@@ -71,6 +72,7 @@ void InitSpriteDesc()
 	
 	// ---
 
+	orderToIconSpriteDesc[EO_MOVE] = moveIcon;
 	orderToIconSpriteDesc[EO_STOP] = stopIcon;
 	orderToIconSpriteDesc[EO_CANCEL] = cancelIcon;
 	orderToIconSpriteDesc[EO_TRAIN_PEON] = peonIcon;
