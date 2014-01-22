@@ -6,43 +6,44 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-std::vector<Unit*> units;
-Map map;
-
-// ============================================================================
-// ----------------------------------------------------------------------------
-// ============================================================================
-
-void InitWorld()
+World::World()
 {
-	units.push_back(new Unit(Vec2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
-	units.push_back(new Unit(Vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
-	units.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
-	units.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
+	map_ = new Map();
+	map_->width = 25;
+	map_->height = 19;
 
-	map.width = 25;
-	map.height = 19;
+	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
+	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
+	units_.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
+	units_.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
 }
 
 // ============================================================================
 
-void UpdateWorld(Uint32 parCurTime, Uint32 parElapsedTime)
+World::~World()
 {
-	for (size_t unit = 0; unit < units.size(); ++unit)
-		units[unit]->Update(parCurTime, parElapsedTime);
-}
-
-// ============================================================================
-
-void ReleaseWorld()
-{
-	for (size_t unit = 0; unit < units.size(); ++unit)
+	for (size_t unit = 0; unit < units_.size(); ++unit)
 	{
-		if (units[unit])
-			delete units[unit];
+		if (units_[unit])
+			delete units_[unit];
 	}
 
-	units.clear();
+	units_.clear();
+}
+
+// ============================================================================
+
+void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
+{
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+		units_[unit]->Update(parCurTime, parElapsedTime);
+}
+
+// ============================================================================
+
+void World::AddUnit(Unit* parUnit)
+{
+	units_.push_back(parUnit);
 }
 
 // ============================================================================

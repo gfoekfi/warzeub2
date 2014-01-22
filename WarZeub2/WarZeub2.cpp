@@ -26,7 +26,8 @@ bool Init()
 	InitRenderer();
 	InitSpriteDesc();
 	InitUnitDesc();
-	InitWorld();
+
+	World::Inst(); // force the world initialization
 
 	player.selectedUnit = 0;
 
@@ -39,7 +40,8 @@ void Quit()
 {
 	ReleaseSpriteDesc();
 	ReleaseRenderer();
-	ReleaseWorld();
+
+	World::Kill();
 
 	SDL_Quit();
 }
@@ -98,10 +100,11 @@ void Render()
 {
 	BeginScene();
 	{
-		Render(map);
+		Render(World::Inst()->GetMap());
 
 		RenderRightClick(mouse.lastRightClickPos);
 
+		const std::vector<Unit*>& units = World::Inst()->Units();
 		for (size_t unit = 0; unit < units.size(); ++unit)
 			Render(*units[unit]);
 
@@ -126,7 +129,7 @@ void Run()
 		curTime = SDL_GetTicks();
 		Uint32 elapsedTime = curTime - lastTime;
 
-		UpdateWorld(curTime, elapsedTime);
+		World::Inst()->Update(curTime, elapsedTime);
 
 		Render();		
 

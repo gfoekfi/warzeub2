@@ -32,7 +32,8 @@ bool TrainOrder::Update(Uint32 parElapsedTime)
 		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
 			unitTypeToUnitDesc[unitTypeToTrain_].height / 2;
 		trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_);
-		units.push_back(trainedUnit_);
+
+		World::Inst()->AddUnit(trainedUnit_);
 	}
 
 	return true;

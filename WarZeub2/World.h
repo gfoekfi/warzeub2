@@ -3,6 +3,7 @@
 
 
 #include "Unit.h"
+#include "singleton.h"
 #include <vector>
 
 
@@ -22,16 +23,24 @@ struct Map
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-extern std::vector<Unit*> units;
-extern Map map;
+class World : public Singleton<World>
+{
+public:
+	World();
+	~World();
 
-// ============================================================================
-// ----------------------------------------------------------------------------
-// ============================================================================
+public:
+	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
+	void AddUnit(Unit* parUnit); // Take the ownership
 
-void InitWorld();
-void UpdateWorld(Uint32 parCurTime, Uint32 parElapsedTime);
-void ReleaseWorld();
+public:
+	const std::vector<Unit*>& Units() const { return units_; }
+	const Map& GetMap() const { return *map_; }
+
+private:
+	std::vector<Unit*> units_;
+	Map* map_;
+};
 
 // ============================================================================
 // ----------------------------------------------------------------------------
