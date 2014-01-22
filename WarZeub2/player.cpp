@@ -1,6 +1,6 @@
 #include "player.h"
 #include "userInput.h"
-#include "Util.h"
+#include "util.h"
 #include "world.h"
 #include "unit.h"
 

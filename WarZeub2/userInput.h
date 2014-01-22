@@ -2,7 +2,7 @@
 #define USER_INPUT_H_
 
 
-#include "Util.h"
+#include "util.h"
 #include <SDL.h>
 
 

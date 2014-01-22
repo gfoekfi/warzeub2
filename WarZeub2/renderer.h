@@ -2,7 +2,7 @@
 #define RENDERER_H_
 
 
-#include "Util.h"
+#include "util.h"
 #include "unit.h"
 #include "world.h"
 
