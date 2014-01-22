@@ -1,4 +1,4 @@
-#include "SpriteDesc.h"
+#include "spriteDesc.h"
 #include <SDL_Image.h>
 
 

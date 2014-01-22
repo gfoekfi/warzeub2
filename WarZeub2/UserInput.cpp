@@ -1,7 +1,7 @@
 #include "UserInput.h"
 #include "Player.h"
 #include "renderer.h"
-#include "SpriteDesc.h"
+#include "spriteDesc.h"
 #include "World.h"
 #include "UnitDesc.h"
 

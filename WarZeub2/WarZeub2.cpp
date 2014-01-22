@@ -1,5 +1,5 @@
 #include "unit.h"
-#include "SpriteDesc.h"
+#include "spriteDesc.h"
 #include "UnitDesc.h"
 #include "renderer.h"
 #include "UserInput.h"

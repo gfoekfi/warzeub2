@@ -1,6 +1,6 @@
 #include "renderer.h"
 #include "UnitDesc.h"
-#include "SpriteDesc.h"
+#include "spriteDesc.h"
 #include "Player.h"
 #include <SDL.h>
 #include <SDL_Image.h>
