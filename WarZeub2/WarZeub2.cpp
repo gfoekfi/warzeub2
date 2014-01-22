@@ -3,7 +3,7 @@
 #include "unitDesc.h"
 #include "renderer.h"
 #include "UserInput.h"
-#include "Player.h"
+#include "player.h"
 #include "world.h"
 
 // ============================================================================

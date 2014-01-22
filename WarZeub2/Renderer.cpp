@@ -1,7 +1,7 @@
 #include "renderer.h"
 #include "unitDesc.h"
 #include "spriteDesc.h"
-#include "Player.h"
+#include "player.h"
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <assert.h>
