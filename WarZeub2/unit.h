@@ -51,12 +51,14 @@ public:
 public:
 	const Vec2& Pos() const { return pos_; }
 	EUnitType Type() const { return type_; }
-	EUnitState State() const { return state_; }
+	EUnitState MoveState() const { return moveState_; }
+	EUnitState ActionState() const { return actionState_; }
 	EDir Dir() const { return dir_; }
 	int SpriteStep() const { return spriteStep_; }
 	Uint32 SpriteLastTime() const { return spriteLastTime_; }
 
-	void SetState(EUnitState parUnitState) { state_ = parUnitState; }
+	void SetMoveState(EUnitState parState) { moveState_ = parState; }
+	void SetActionState(EUnitState parState) { actionState_ = parState; }
 	void SetDir(EDir parDir) { dir_ = parDir; }
 	void SetPos(const Vec2& parPos) { pos_ = parPos; };
 
@@ -74,7 +76,8 @@ protected:
 	Vec2 pos_;
 	EDir dir_;
 	EUnitType type_;
-	EUnitState state_;
+	EUnitState moveState_;
+	EUnitState actionState_;
 	int spriteStep_;
 	Uint32 spriteLastTime_;
 	Order* curOrder_;

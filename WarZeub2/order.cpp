@@ -70,11 +70,11 @@ bool MoveOrder::Update(Uint32 parElapsedTime)
 
 	// Temporary hack that allows grunt and peon only to move
 	if (hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT)
-		hostUnit_->SetState((abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE);
+		hostUnit_->SetMoveState((abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE);
 	else
-		hostUnit_->SetState(EUS_IDLE);
+		hostUnit_->SetMoveState(EUS_IDLE);
 
-	if (hostUnit_->State() == EUS_MOVE) // TODO: Add 'GatherGold', 'GatherWood'
+	if (hostUnit_->MoveState() == EUS_MOVE)
 	{
 		hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
 

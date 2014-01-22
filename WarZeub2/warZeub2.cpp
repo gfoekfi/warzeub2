@@ -6,6 +6,7 @@
 #include "player.h"
 #include "world.h"
 
+
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
@@ -79,7 +80,7 @@ void DrawSelections()
 	if (player.selectedUnit)
 	{
 		const SpriteDesc& spriteDesc =
-			unitTypeStateToSpriteDesc[player.selectedUnit->Type()][player.selectedUnit->State()];
+			unitTypeStateToSpriteDesc[player.selectedUnit->Type()][player.selectedUnit->MoveState()];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->Type()];
 
 		SDL_Rect src = { player.selectedUnit->Pos().x - unitDesc.width / 2,

@@ -14,7 +14,8 @@ Unit::Unit(const Vec2& parPos, EUnitType parType)
 pos_(parPos),
 dir_(DIR_N),
 type_(parType),
-state_(EUS_IDLE),
+moveState_(EUS_IDLE),
+actionState_(EUS_IDLE),
 spriteStep_(0),
 spriteLastTime_(0),
 curOrder_(0)
@@ -100,7 +101,9 @@ bool Unit::CancelOrder()
 		curOrder_ = 0;
 	}
 
-	state_ = EUS_IDLE;
+	moveState_ = EUS_IDLE;
+	actionState_ = EUS_IDLE;
+
 	spriteStep_ = 0;
 
 	return true;

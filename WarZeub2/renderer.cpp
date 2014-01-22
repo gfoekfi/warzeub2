@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <assert.h>
+#include <map>
 
 
 // ============================================================================
@@ -13,9 +14,21 @@
 
 SDL_Surface* screen = 0;
 SDL_Surface* summerTilesSurface = 0;
+std::map<EOrder, int> orderToGridPos; // 0 to 8 (3 per line)
+
 
 // ============================================================================
 // ----------------------------------------------------------------------------
+// ============================================================================
+
+void InitOrderToGridPos()
+{
+	orderToGridPos[EO_MOVE] = 0;
+	orderToGridPos[EO_STOP] = 1;
+	orderToGridPos[EO_CANCEL] = 8;
+	orderToGridPos[EO_TRAIN_PEON] = 0;
+}
+
 // ============================================================================
 
 void InitRenderer()
@@ -28,6 +41,8 @@ void InitRenderer()
 #endif
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
+
+	InitOrderToGridPos();
 }
 
 // ============================================================================
@@ -55,7 +70,7 @@ void EndScene()
 
 int SpriteXOffsetFromDir(const Unit& parUnit)
 {
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.State()];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
 
 	switch (parUnit.Dir())
 	{
@@ -77,11 +92,11 @@ int SpriteXOffsetFromDir(const Unit& parUnit)
 
 void Render(const Unit& parUnit)
 {
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.State()];
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
 
 	int curStep = (parUnit.SpriteStep() % spriteDesc.maxStep);
 	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
-	int spriteX = (parUnit.State() != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
+	int spriteX = (parUnit.MoveState() != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
@@ -110,6 +125,23 @@ SDL_Surface* GenerateHudBackgroundSurface()
 	}
 
 	return backgroundSurface;
+}
+
+// ============================================================================
+
+void RenderHUDOrder(SDL_Surface* parIconSurface, EOrder parOrder, const Vec2& parOffset)
+{
+	if (parOrder == EO_NONE)
+		return;
+
+	const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[parOrder];
+	SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
+		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
+
+	int gridPos = orderToGridPos[parOrder];
+	SDL_Rect orderIconDst = { parOffset.x + (gridPos % 3) * orderIconSpriteDesc.width,
+		parOffset.y + (gridPos / 3) * orderIconSpriteDesc.height, 0, 0};
+	SDL_BlitSurface(parIconSurface, &orderIconSrc, screen, &orderIconDst);
 }
 
 // ============================================================================
@@ -149,6 +181,15 @@ void RenderHUD()
 		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
 
+		// map: Unit -> State -> set<order>
+		//map[PEON][IDLE] -> Move, Stop
+		//map[PEON][BUILDING_SELECTION] -> Farm, TownHall, Barrack (, stock) + cancel
+		//map[PEON][BUILDING_PLACEMENT]
+		//map[PEON][BUILDING]
+
+		//map[TOWN_HALL][IDLE] -> trainPeon
+		//map[TOWN_HALL][TRAINING] -> cancel
+
 		// Orders
 		int orderMask = unitTypeToUnitDesc[player.selectedUnit->Type()].orderMask;
 		EOrder order = EO_NONE;
@@ -158,12 +199,10 @@ void RenderHUD()
 			order = EO_STOP;
 		else if (orderMask & EO_CANCEL)
 			order = EO_CANCEL;
-		const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[order];
-		SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
-			orderIconSpriteDesc.width, orderIconSpriteDesc.height };
-		SDL_Rect orderIconDst = { selectionInfoOffsetX,
-			(2*backgroundSurface->h / 3) + selectionInfoOffsetY, 0, 0};
-		SDL_BlitSurface(iconsSurface, &orderIconSrc, screen, &orderIconDst);
+
+		Vec2 orderHudOffset(selectionInfoOffsetX,
+			(2*backgroundSurface->h / 3) + selectionInfoOffsetY);
+		RenderHUDOrder(iconsSurface, order, orderHudOffset);
 	}
 }
 
