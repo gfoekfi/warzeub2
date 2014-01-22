@@ -174,27 +174,27 @@
 			Name="Source"
 			>
 			<File
-				RelativePath=".\Order.cpp"
+				RelativePath=".\order.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Order.h"
+				RelativePath=".\order.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Player.cpp"
+				RelativePath=".\player.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Player.h"
+				RelativePath=".\player.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Renderer.cpp"
+				RelativePath=".\renderer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Renderer.h"
+				RelativePath=".\renderer.h"
 				>
 			</File>
 			<File
@@ -202,55 +202,55 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SpriteDesc.cpp"
+				RelativePath=".\spriteDesc.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SpriteDesc.h"
+				RelativePath=".\spriteDesc.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Unit.cpp"
+				RelativePath=".\unit.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Unit.h"
+				RelativePath=".\unit.h"
 				>
 			</File>
 			<File
-				RelativePath=".\UnitDesc.cpp"
+				RelativePath=".\unitDesc.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\UnitDesc.h"
+				RelativePath=".\unitDesc.h"
 				>
 			</File>
 			<File
-				RelativePath=".\UserInput.cpp"
+				RelativePath=".\userInput.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\UserInput.h"
+				RelativePath=".\userInput.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Util.cpp"
+				RelativePath=".\util.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Util.h"
+				RelativePath=".\util.h"
 				>
 			</File>
 			<File
-				RelativePath=".\WarZeub2.cpp"
+				RelativePath=".\warZeub2.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\World.cpp"
+				RelativePath=".\world.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\World.h"
+				RelativePath=".\world.h"
 				>
 			</File>
 		</Filter>

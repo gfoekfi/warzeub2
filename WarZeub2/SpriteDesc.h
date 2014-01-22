@@ -2,7 +2,7 @@
 #define ANIM_DESC_
 
 
-#include "Unit.h"
+#include "unit.h"
 #include "UnitDesc.h"
 #include <SDL.h>
 #include <map>
