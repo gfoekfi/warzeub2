@@ -4,13 +4,10 @@ X Meilleure affichage du HUD (decoupage en 3 partie: minimap, unit selection, or
 X Afficher icone d'ordre ("stop", "deplacement", "attack")
 X Entrainement d'unité => Creation + ajout au monde
 X Gestion des ordres (train, move, Cancel)
+X Appuyer sur la touche Echappe quitte le jeu
 
 - Refacto HUD
 - Collision unit / batiment
 - object
 - collision
 - path finding
-
-// -----------------------------
-
-- Faire remarcher le 'SDLK_ESCAPE'

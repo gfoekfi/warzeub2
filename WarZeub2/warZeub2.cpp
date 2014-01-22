@@ -67,6 +67,9 @@ void EventHandler(const SDL_Event& parEvent)
 		isDone = true;
 		break;
 	}
+
+	if (keyboard.keysPressed[SDLK_ESCAPE])
+		isDone = true;
 }
 
 // ============================================================================
