@@ -29,7 +29,8 @@ enum EUnitState
 	EUS_HARVEST,
 	EUS_GATHER_GOLD,
 	EUS_GATHER_WOOD,
-	EUS_DEAD
+	EUS_DEAD,
+	EUS_TRAINING
 };
 
 // ============================================================================
