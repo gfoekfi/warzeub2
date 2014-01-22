@@ -1,4 +1,4 @@
-#include "World.h"
+#include "world.h"
 #include "renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 
 

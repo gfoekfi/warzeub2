@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "renderer.h"
 #include "spriteDesc.h"
-#include "World.h"
+#include "world.h"
 #include "unitDesc.h"
 
 
