@@ -29,14 +29,19 @@ const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
 
 // ============================================================================
 
-const SpriteDesc peonIcon(6 + 1*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
-const SpriteDesc gruntIcon(6 + 3*(46 + 3), 5 + 0*(38 + 3), 46, 38, 1);
-const SpriteDesc mineIcon(6 + 4*(46 + 3), 5 + 7*(38 + 3), 46, 38, 1);
-const SpriteDesc townHallIcon(6 + 1*(46 + 3), 5 + 4*(38 + 3), 46, 38, 1);
 
-const SpriteDesc moveIcon(6 + 4*(46 + 3), 5 + 8*(38 + 3), 46, 38, 1);
-const SpriteDesc stopIcon(6 + 7*(46 + 3), 5 + 16*(38 + 3), 46, 38, 1);
-const SpriteDesc cancelIcon(6 + 1*(46 + 3), 5 + 9*(38 + 3), 46, 38, 1);
+#define SPRITE_DESC_PARAM_FROM_ICON(col, line)\
+	6 + col*(46 + 3), 5 + line*(38 + 3), 46, 38, 1
+
+const SpriteDesc peonIcon		(SPRITE_DESC_PARAM_FROM_ICON(1, 0));
+const SpriteDesc gruntIcon		(SPRITE_DESC_PARAM_FROM_ICON(3, 0));
+const SpriteDesc mineIcon		(SPRITE_DESC_PARAM_FROM_ICON(4, 7));
+const SpriteDesc townHallIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 4));
+const SpriteDesc moveIcon		(SPRITE_DESC_PARAM_FROM_ICON(4, 8));
+const SpriteDesc stopIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 16));
+const SpriteDesc cancelIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 9));
+
+#undef SPRITE_DESC_PARAM_FROM_ICON
 
 // ============================================================================
 // ----------------------------------------------------------------------------
