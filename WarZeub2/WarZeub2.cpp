@@ -2,7 +2,7 @@
 #include "spriteDesc.h"
 #include "unitDesc.h"
 #include "renderer.h"
-#include "UserInput.h"
+#include "userInput.h"
 #include "player.h"
 #include "world.h"
 

@@ -1,5 +1,5 @@
 #include "player.h"
-#include "UserInput.h"
+#include "userInput.h"
 #include "Util.h"
 #include "world.h"
 #include "unit.h"
