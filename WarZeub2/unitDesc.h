@@ -4,6 +4,7 @@
 
 #include "unit.h"
 #include <map>
+#include <set>
 
 
 // ============================================================================
@@ -23,23 +24,22 @@ enum EOrder
 
 struct UnitDesc
 {
-	UnitDesc(int parWidth, int parHeight, int parOrderMask) :
+	UnitDesc(int parWidth, int parHeight) :
 		width(parWidth),
-		height(parHeight),
-		orderMask(parOrderMask)
+		height(parHeight)
 	{
 	}
 
 	UnitDesc() :
 		width(0),
-		height(0),
-		orderMask(0)
+		height(0)
 	{
 	}
 
 	int width;
 	int height;
-	int orderMask;
+
+	std::map<EUnitState, std::set<EOrder> > unitStateToOrderSet;
 };
 
 // ============================================================================

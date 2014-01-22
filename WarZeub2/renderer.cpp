@@ -139,8 +139,8 @@ void RenderHUDOrder(SDL_Surface* parIconSurface, EOrder parOrder, const Vec2& pa
 		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
 
 	int gridPos = orderToGridPos[parOrder];
-	SDL_Rect orderIconDst = { parOffset.x + (gridPos % 3) * orderIconSpriteDesc.width,
-		parOffset.y + (gridPos / 3) * orderIconSpriteDesc.height, 0, 0};
+	SDL_Rect orderIconDst = { parOffset.x + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
+		parOffset.y + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
 	SDL_BlitSurface(parIconSurface, &orderIconSrc, screen, &orderIconDst);
 }
 
@@ -181,28 +181,15 @@ void RenderHUD()
 		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 		SDL_BlitSurface(iconsSurface, &src, screen, &dst);
 
-		// map: Unit -> State -> set<order>
-		//map[PEON][IDLE] -> Move, Stop
-		//map[PEON][BUILDING_SELECTION] -> Farm, TownHall, Barrack (, stock) + cancel
-		//map[PEON][BUILDING_PLACEMENT]
-		//map[PEON][BUILDING]
-
-		//map[TOWN_HALL][IDLE] -> trainPeon
-		//map[TOWN_HALL][TRAINING] -> cancel
-
-		// Orders
-		int orderMask = unitTypeToUnitDesc[player.selectedUnit->Type()].orderMask;
-		EOrder order = EO_NONE;
-		if (orderMask & EO_TRAIN_PEON)
-			order = EO_TRAIN_PEON;
-		else if (orderMask & EO_STOP)
-			order = EO_STOP;
-		else if (orderMask & EO_CANCEL)
-			order = EO_CANCEL;
-
 		Vec2 orderHudOffset(selectionInfoOffsetX,
 			(2*backgroundSurface->h / 3) + selectionInfoOffsetY);
-		RenderHUDOrder(iconsSurface, order, orderHudOffset);
+		const std::set<EOrder>& unitOrders =
+			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToOrderSet[player.selectedUnit->ActionState()];
+		for (std::set<EOrder>::const_iterator order = unitOrders.begin();
+			order != unitOrders.end(); ++order)
+		{
+			RenderHUDOrder(iconsSurface, *order, orderHudOffset);
+		}
 	}
 }
 
