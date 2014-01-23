@@ -6,9 +6,8 @@ X Entrainement d'unité => Creation + ajout au monde
 X Gestion des ordres (train, move, Cancel)
 X Appuyer sur la touche Echappe quitte le jeu
 X Stockage et affichage automatique des ordres en fonction de l'unite et son etat
+X collision ordre / action effective
 
 - Refacto HUD
 - Collision unit / batiment
-- object
-- collision
 - path finding

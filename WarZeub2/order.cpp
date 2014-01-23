@@ -3,7 +3,29 @@
 #include "world.h"
 #include "util.h"
 #include "unitDesc.h"
+#include "userInput.h"
 
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+std::map<EOrder, int> orderToGridPos;
+std::map<int, std::set<EOrder> > gridPosToOrders;
+
+void InitOrderGridPosMapping()
+{
+	orderToGridPos[EO_MOVE] = 0;
+	orderToGridPos[EO_STOP] = 1;
+	orderToGridPos[EO_CANCEL] = 8;
+	orderToGridPos[EO_TRAIN_PEON] = 6;
+
+	for (std::map<EOrder, int>::iterator it = orderToGridPos.begin();
+			it != orderToGridPos.end(); ++it)
+	{
+		gridPosToOrders[it->second].insert(it->first);
+	}
+}
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -80,7 +102,7 @@ bool MoveOrder::Update(Uint32 parElapsedTime)
 
 		int velX = dirs[hostUnit_->Dir()].x * (parElapsedTime / 3);
 		int velY = dirs[hostUnit_->Dir()].y * (parElapsedTime / 3);
-   		if (abs(velX) > abs(deltaPosX))
+		if (abs(velX) > abs(deltaPosX))
 			velX = deltaPosX;
 		if (abs(velY) > abs(deltaPosY))
 			velY = deltaPosY;

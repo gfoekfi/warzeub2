@@ -2,6 +2,7 @@
 #include "unitDesc.h"
 #include "spriteDesc.h"
 #include "player.h"
+#include "order.h"
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <assert.h>
@@ -14,21 +15,9 @@
 
 SDL_Surface* screen = 0;
 SDL_Surface* summerTilesSurface = 0;
-std::map<EOrder, int> orderToGridPos; // 0 to 8 (3 per line)
-
 
 // ============================================================================
 // ----------------------------------------------------------------------------
-// ============================================================================
-
-void InitOrderToGridPos()
-{
-	orderToGridPos[EO_MOVE] = 0;
-	orderToGridPos[EO_STOP] = 1;
-	orderToGridPos[EO_CANCEL] = 8;
-	orderToGridPos[EO_TRAIN_PEON] = 0;
-}
-
 // ============================================================================
 
 void InitRenderer()
@@ -42,7 +31,7 @@ void InitRenderer()
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 
-	InitOrderToGridPos();
+	InitOrderGridPosMapping();
 }
 
 // ============================================================================
