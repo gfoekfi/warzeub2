@@ -17,6 +17,7 @@ const int SCREEN_HEIGHT = 600;
 // ============================================================================
 
 extern SDL_Surface* screen;
+extern SDL_Surface* summerTilesSurface;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -31,7 +32,6 @@ void Render(const Unit& parUnit);
 void Render(const Map& parMap);
 void RenderRightClick(const Vec2& parPos);
 void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
-void RenderHUD();
 
 // ============================================================================
 // ----------------------------------------------------------------------------

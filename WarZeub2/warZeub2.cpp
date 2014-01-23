@@ -116,7 +116,7 @@ void Render()
 			Render(*units[unit]);
 
 		DrawSelections();
-		RenderHUD();
+		HUD::Inst()->Render();
 	}
 	EndScene();
 }
