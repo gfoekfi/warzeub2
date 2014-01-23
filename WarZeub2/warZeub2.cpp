@@ -5,6 +5,7 @@
 #include "userInput.h"
 #include "player.h"
 #include "world.h"
+#include "hud.h"
 
 
 // ============================================================================
@@ -28,7 +29,8 @@ bool Init()
 	InitSpriteDesc();
 	InitUnitDesc();
 
-	World::Inst(); // force the world initialization
+	HUD::Inst(); // force initialization
+	World::Inst(); // force initialization
 
 	player.selectedUnit = 0;
 
@@ -42,6 +44,7 @@ void Quit()
 	ReleaseSpriteDesc();
 	ReleaseRenderer();
 
+	HUD::Kill();
 	World::Kill();
 
 	SDL_Quit();

@@ -10,27 +10,6 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-std::map<EOrder, int> orderToGridPos;
-std::map<int, std::set<EOrder> > gridPosToOrders;
-
-void InitOrderGridPosMapping()
-{
-	orderToGridPos[EO_MOVE] = 0;
-	orderToGridPos[EO_STOP] = 1;
-	orderToGridPos[EO_CANCEL] = 8;
-	orderToGridPos[EO_TRAIN_PEON] = 6;
-
-	for (std::map<EOrder, int>::iterator it = orderToGridPos.begin();
-			it != orderToGridPos.end(); ++it)
-	{
-		gridPosToOrders[it->second].insert(it->first);
-	}
-}
-
-// ============================================================================
-// ----------------------------------------------------------------------------
-// ============================================================================
-
 TrainOrder::TrainOrder(Unit* parHostUnit, EUnitType parUnitTypeToTrain)
 	: Order(parHostUnit),
 	unitTypeToTrain_(parUnitTypeToTrain),

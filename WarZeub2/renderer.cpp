@@ -3,6 +3,7 @@
 #include "spriteDesc.h"
 #include "player.h"
 #include "order.h"
+#include "hud.h"
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <assert.h>
@@ -30,8 +31,6 @@ void InitRenderer()
 #endif
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
-
-	InitOrderGridPosMapping();
 }
 
 // ============================================================================
@@ -127,7 +126,7 @@ void RenderHUDOrder(SDL_Surface* parIconSurface, EOrder parOrder, const Vec2& pa
 	SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
 		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
 
-	int gridPos = orderToGridPos[parOrder];
+	int gridPos = HUD::Inst()->OrderToGridPos()[parOrder];
 	SDL_Rect orderIconDst = { parOffset.x + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
 		parOffset.y + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
 	SDL_BlitSurface(parIconSurface, &orderIconSrc, screen, &orderIconDst);
