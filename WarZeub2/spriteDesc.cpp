@@ -40,6 +40,7 @@ const SpriteDesc townHallIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 4));
 const SpriteDesc moveIcon		(SPRITE_DESC_PARAM_FROM_ICON(4, 8));
 const SpriteDesc stopIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 16));
 const SpriteDesc cancelIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 9));
+const SpriteDesc buildIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 8));
 
 #undef SPRITE_DESC_PARAM_FROM_ICON
 
@@ -81,6 +82,8 @@ void InitSpriteDesc()
 	orderToIconSpriteDesc[EO_STOP] = stopIcon;
 	orderToIconSpriteDesc[EO_CANCEL] = cancelIcon;
 	orderToIconSpriteDesc[EO_TRAIN_PEON] = peonIcon;
+	orderToIconSpriteDesc[EO_BUILD] = buildIcon;
+	orderToIconSpriteDesc[EO_BUILD_TOWN_HALL] = townHallIcon;
 }
 
 // ============================================================================

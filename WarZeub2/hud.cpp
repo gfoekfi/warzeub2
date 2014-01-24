@@ -3,6 +3,7 @@
 #include "player.h"
 #include "userInput.h"
 #include "spriteDesc.h"
+#include "util.h"
 #include <assert.h>
 #include <algorithm>
 #include <SDL_Image.h>
@@ -123,6 +124,8 @@ void HUD::InitOrderGridPosMapping_()
 	orderToGridPos_[EO_STOP] = 1;
 	orderToGridPos_[EO_CANCEL] = 8;
 	orderToGridPos_[EO_TRAIN_PEON] = 0;
+	orderToGridPos_[EO_BUILD] = 6;
+	orderToGridPos_[EO_BUILD_TOWN_HALL] = 0;
 
 	for (std::map<EOrder, int>::iterator it = orderToGridPos_.begin();
 			it != orderToGridPos_.end(); ++it)
@@ -187,7 +190,12 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 		case EO_STOP: parUnit.CancelOrder(); break;
 		case EO_MOVE: parUnit.Move(mouse.lastRightClickPos); break; // FIXME: Should enter in 'You have to click' mode
 		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
-		default: break;
+		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break;
+		case EO_BUILD_TOWN_HALL:
+			Vec2 buildingPos(SCREEN_WIDTH / 2, 3 * SCREEN_HEIGHT / 4);
+			World::Inst()->AddUnit(new Unit(buildingPos, EUT_TOWN_HALL));
+			parUnit.SetActionState(EUS_IDLE);
+			break;
 		};
 	}
 }

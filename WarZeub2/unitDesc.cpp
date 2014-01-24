@@ -28,6 +28,9 @@ void InitUnitDesc()
 	gruntUnitDesc.unitStateToOrderSet[EUS_MOVE] = moveOrderSet;
 
 	peonUnitDesc.unitStateToOrderSet = gruntUnitDesc.unitStateToOrderSet;
+	peonUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_BUILD);
+	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_CANCEL);
+	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_BUILD_TOWN_HALL);
 
 	mineUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_NONE);
 

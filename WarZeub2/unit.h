@@ -30,7 +30,8 @@ enum EUnitState
 	EUS_GATHER_GOLD,
 	EUS_GATHER_WOOD,
 	EUS_DEAD,
-	EUS_TRAINING
+	EUS_TRAINING,
+	EUS_SELECT_BUILDING, // TODO: Should be a 'hud state'
 };
 
 // ============================================================================
