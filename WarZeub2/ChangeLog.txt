@@ -1,4 +1,18 @@
 ===============================================================================
+* v0.5
+===============================================================================
+- HUD rendering (background, empty minimap, selection info icons, available
+  order from current selected unit)
+- Peon can be train (created and added to world) from townhall
+- Refactor: A lots of structure have become classes
+- Order handling
+- Filenames renamed to lowercase
+- Unit has now two state: move and action
+- Singleton implementation
+- Selection square is limited to game region only
+===============================================================================
+
+===============================================================================
 * v0.4
 ===============================================================================
 - Refactor: (posX, posY) stuff uses 'Vec2'
