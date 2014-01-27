@@ -1,13 +1,20 @@
 ===============================================================================
 * FEATURE
 ===============================================================================
-- Renderer training/building state in selected info region
+- Renderer training/building state in selected info region (progress bar)
 - Collision unit / building
 - path finding
 - multiple unit selection
 - smart unit selection (unit > building)
 - new buildings: farm, barrack
 - gold gathering
+- music / sound
+- alert system (not enough resource, under-attack...)
+- sprite error mirroring
+- right click cancel a 'choose destination' order
+- make most events effective on 'click down' instead of 'click up'
+- map scrolling
+- grid keyboard shortcut
 ===============================================================================
 
 
@@ -22,4 +29,5 @@
 * BUG
 ===============================================================================
 - Bad square rendering when display from the top of the screen
+- Right clicking very near a 'stopped' peon and the move animation continue
 ===============================================================================
