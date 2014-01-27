@@ -200,14 +200,12 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 			parUnit.CancelOrder();
 			break;
 		case EO_STOP: parUnit.CancelOrder(); break;
-		case EO_MOVE:
-			lastOrder_ = EO_MOVE;
-			parUnit.SetActionState(EUS_CHOOSE_DESTINATION);
-			break;
 		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
 		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break;
+		// orders with destination
+		case EO_MOVE:
 		case EO_BUILD_TOWN_HALL:
-			lastOrder_ = EO_BUILD_TOWN_HALL;
+			lastOrder_ = order;
 			parUnit.SetActionState(EUS_CHOOSE_DESTINATION);
 			break;
 		};
@@ -222,7 +220,6 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition)
 	{
 	case EO_MOVE: parUnit.Move(parPosition); break;
 	case EO_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
-	default: break;
 	};
 
 	lastOrder_ = EO_NONE;
