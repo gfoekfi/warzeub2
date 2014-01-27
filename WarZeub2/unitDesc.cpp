@@ -33,13 +33,20 @@ void InitUnitDesc()
 	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_CANCEL);
 	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_BUILD_TOWN_HALL);
 
+	// ---
+
 	mineUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_NONE);
 
+	// ---
+
+	std::map<EUnitState, std::set<EOrder> > buildingStateToOrderSet;
+	buildingStateToOrderSet[EUS_BEING_BUILD_STATE0].insert(EO_CANCEL);
+	buildingStateToOrderSet[EUS_BEING_BUILD_STATE1].insert(EO_CANCEL);
+	buildingStateToOrderSet[EUS_BEING_BUILD_STATE2].insert(EO_CANCEL);
+
+	townHallUnitDesc.unitStateToOrderSet = buildingStateToOrderSet;
 	townHallUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_TRAIN_PEON);
 	townHallUnitDesc.unitStateToOrderSet[EUS_TRAINING].insert(EO_CANCEL);
-	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE0].insert(EO_CANCEL);
-	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE1].insert(EO_CANCEL);
-	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE2].insert(EO_CANCEL);
 
 	// ---
 
