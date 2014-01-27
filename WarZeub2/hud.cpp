@@ -226,7 +226,7 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition)
 	};
 
 	lastOrder_ = EO_NONE;
-	parUnit.SetActionState(EUS_IDLE);
+	parUnit.SetActionState(EUS_IDLE); // used to reset the 'hud state' of the unit
 }
 
 // ============================================================================
