@@ -32,6 +32,7 @@ public:
 public:
 	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 	void AddUnit(Unit* parUnit); // Take the ownership
+	void RemoveUnit(Unit* parUnit);
 
 public:
 	const std::vector<Unit*>& Units() const { return units_; }

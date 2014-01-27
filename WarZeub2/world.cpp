@@ -1,5 +1,6 @@
 #include "world.h"
 #include "renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
+#include <algorithm> // std::find
 
 
 // ============================================================================
@@ -44,6 +45,25 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 void World::AddUnit(Unit* parUnit)
 {
 	units_.push_back(parUnit);
+}
+
+// ============================================================================
+
+void World::RemoveUnit(Unit* parUnit)
+{
+	if (parUnit->IsBeingConstructed())
+	{
+		for (size_t unit = 0; unit < units_.size(); ++unit)
+			if (units_[unit]->IsBuilding(parUnit))
+			{
+				units_[unit]->CancelOrder();
+				break;
+			}
+	}
+
+	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
+
+	delete parUnit;
 }
 
 // ============================================================================

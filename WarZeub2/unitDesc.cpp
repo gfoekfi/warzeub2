@@ -37,6 +37,9 @@ void InitUnitDesc()
 
 	townHallUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_TRAIN_PEON);
 	townHallUnitDesc.unitStateToOrderSet[EUS_TRAINING].insert(EO_CANCEL);
+	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE0].insert(EO_CANCEL);
+	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE1].insert(EO_CANCEL);
+	townHallUnitDesc.unitStateToOrderSet[EUS_BEING_BUILD_STATE2].insert(EO_CANCEL);
 
 	// ---
 

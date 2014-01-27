@@ -128,6 +128,11 @@ BuildOrder::~BuildOrder()
 {
 	if (moveOrder_)
 		delete moveOrder_;
+
+	if (player.selectedUnit && player.selectedUnit == buildingUnit_)
+		player.selectedUnit = hostUnit_;
+
+	hostUnit_->SetActionState(EUS_IDLE);
 }
 
 // ============================================================================

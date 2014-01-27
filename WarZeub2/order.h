@@ -72,6 +72,9 @@ public:
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
+public:
+	const Unit* BuildingUnit() const { return buildingUnit_; }
+
 private:
 	EUnitType unitTypeToBuild_;
 	Vec2 buildingPos_;

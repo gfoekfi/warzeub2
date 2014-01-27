@@ -6,6 +6,7 @@
 - Render building for building placement
 - Units takes time to be trained (according to their unit description)
 - Render different building state according to construction ETA
+- Building in construction can be canceled
 ===============================================================================
 
 ===============================================================================

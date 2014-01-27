@@ -155,5 +155,27 @@ bool Unit::IsMovable() const
 }
 
 // ============================================================================
+
+bool Unit::IsBeingConstructed() const
+{
+	return (actionState_ == EUS_BEING_BUILD_STATE0 ||
+		actionState_ == EUS_BEING_BUILD_STATE1 ||
+		actionState_ == EUS_BEING_BUILD_STATE2);
+}
+
+// ============================================================================
+
+bool Unit::IsBuilding(const Unit* parUnit) const
+{
+	assert(parUnit);
+
+	if (!curOrder_ || actionState_ != EUS_BUILDING)
+		return false;
+
+	const BuildOrder* buildOrder = dynamic_cast<const BuildOrder*>(curOrder_);
+	return (buildOrder && buildOrder->BuildingUnit() == parUnit);
+}
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================

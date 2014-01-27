@@ -197,7 +197,10 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 		switch (order)
 		{
 		case EO_CANCEL:
-			parUnit.CancelOrder();
+			if (parUnit.IsBeingConstructed())
+				World::Inst()->RemoveUnit(&parUnit);
+			else
+				parUnit.CancelOrder();
 			break;
 		case EO_STOP: parUnit.CancelOrder(); break;
 		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;

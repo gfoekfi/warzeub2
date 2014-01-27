@@ -75,6 +75,8 @@ public:
 public:
 	SDL_Rect BoundingBox() const;
 	bool IsMovable() const;
+	bool IsBeingConstructed() const;
+	bool IsBuilding(const Unit* parUnit) const;
 
 private:
 	void UpdateOrder_(Uint32 parCurTime, Uint32 parElapsedTime);
