@@ -31,7 +31,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	if (startTime_ == -1)
 		startTime_ = parCurTime;
 
-	if ((parCurTime - startTime_) < 1000)
+	if ((parCurTime - startTime_) < unitTypeToUnitDesc[unitTypeToTrain_].buildTime)
 	{
 		hostUnit_->SetActionState(EUS_TRAINING);
 		return false;
