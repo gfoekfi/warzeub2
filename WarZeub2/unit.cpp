@@ -93,6 +93,18 @@ bool Unit::Move(const Vec2& parTargetPos)
 
 // ============================================================================
 
+bool Unit::Build(EUnitType parUnitTypeToBuild, const Vec2& parPos)
+{
+	if (curOrder_)
+		delete curOrder_;
+
+	curOrder_ = new BuildOrder(this, parUnitTypeToBuild, parPos);
+
+	return true;
+}
+
+// ============================================================================
+
 bool Unit::CancelOrder()
 {
 	if (curOrder_)

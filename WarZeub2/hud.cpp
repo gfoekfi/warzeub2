@@ -221,12 +221,8 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition)
 {
 	switch (lastOrder_)
 	{
-	case EO_MOVE:
-		parUnit.Move(parPosition);
-		break;
-	case EO_BUILD_TOWN_HALL:
-		World::Inst()->AddUnit(new Unit(parPosition, EUT_TOWN_HALL));
-		break;
+	case EO_MOVE: parUnit.Move(parPosition); break;
+	case EO_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
 	default: break;
 	};
 

@@ -62,6 +62,24 @@ private:
 };
 
 // ============================================================================
+
+class BuildOrder : public Order
+{
+public:
+	BuildOrder(Unit* parHostUnit, EUnitType parUnitTypeToBuild, const Vec2& parPos);
+	virtual ~BuildOrder();
+
+public:
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
+
+private:
+	EUnitType unitTypeToBuild_;
+	Vec2 buildingPos_;
+	Unit* buildingUnit_;
+	Uint32 buildingStartTime_;
+};
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
 

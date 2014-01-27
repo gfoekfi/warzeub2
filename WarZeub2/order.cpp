@@ -31,7 +31,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	if (startTime_ == -1)
 		startTime_ = parCurTime;
 
-	if ((parCurTime - startTime_) < unitTypeToUnitDesc[unitTypeToTrain_].buildTime)
+	if ((parCurTime - startTime_) < (Uint32)unitTypeToUnitDesc[unitTypeToTrain_].buildTime)
 	{
 		hostUnit_->SetActionState(EUS_TRAINING);
 		return false;
@@ -105,6 +105,38 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	}
 
 	return (hostUnit_->Pos() == targetPos_);
+}
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const Vec2 &parPos)
+	: Order(parHostUnit),
+	unitTypeToBuild_(parUnitTypeToBuild),
+	buildingUnit_(0),
+	buildingStartTime_(-1),
+	buildingPos_(parPos)
+{
+}
+
+// ============================================================================
+
+BuildOrder::~BuildOrder()
+{
+}
+
+// ============================================================================
+
+bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
+{
+	if (!buildingUnit_)
+	{
+		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
+		World::Inst()->AddUnit(buildingUnit_);
+	}
+
+	return true;
 }
 
 // ============================================================================
