@@ -13,7 +13,8 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-HUD::HUD()
+HUD::HUD() :
+	lastOrder_(EO_NONE)
 {
 	InitOrderGridPosMapping_();
 
@@ -187,17 +188,41 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 		switch (order)
 		{
 		case EO_CANCEL:
+			parUnit.CancelOrder();
+			lastOrder_ = EO_NONE;
+			break;
 		case EO_STOP: parUnit.CancelOrder(); break;
-		case EO_MOVE: parUnit.Move(mouse.lastRightClickPos); break; // FIXME: Should enter in 'You have to click' mode
+		case EO_MOVE:
+			lastOrder_ = EO_MOVE;
+			parUnit.SetActionState(EUS_CHOOSE_DESTINATION);
+			break;
 		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
 		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break;
 		case EO_BUILD_TOWN_HALL:
-			Vec2 buildingPos(SCREEN_WIDTH / 2, 3 * SCREEN_HEIGHT / 4);
-			World::Inst()->AddUnit(new Unit(buildingPos, EUT_TOWN_HALL));
-			parUnit.SetActionState(EUS_IDLE);
+			lastOrder_ = EO_BUILD_TOWN_HALL;
+			parUnit.SetActionState(EUS_CHOOSE_DESTINATION);
 			break;
 		};
 	}
+}
+
+// ============================================================================
+
+void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition)
+{
+	switch (lastOrder_)
+	{
+	case EO_MOVE:
+		parUnit.Move(parPosition);
+		break;
+	case EO_BUILD_TOWN_HALL:
+		World::Inst()->AddUnit(new Unit(parPosition, EUT_TOWN_HALL));
+		break;
+	default: break;
+	};
+
+	lastOrder_ = EO_NONE;
+	parUnit.SetActionState(EUS_IDLE);
 }
 
 // ============================================================================

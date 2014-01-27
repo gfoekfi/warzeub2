@@ -54,6 +54,8 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		{
 			if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 				HUD::Inst()->GridClickHandler();
+			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
+				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, mouse.lastLeftClickPos);
 			else
 				UpdateSelection(player);
 			mouse.leftButtonPressed = false;

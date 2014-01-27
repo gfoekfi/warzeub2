@@ -18,6 +18,9 @@ Player player;
 void UpdateSelection(Player& player)
 {
 	SDL_Rect selectionBoundingBox = BoundingBoxFromMouse(mouse);
+
+	if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
+		player.selectedUnit->SetActionState(EUS_IDLE);
 	
 	const std::vector<Unit*>& units = World::Inst()->Units();
 	for (size_t unit = 0; unit < units.size(); ++unit)

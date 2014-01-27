@@ -32,6 +32,7 @@ enum EUnitState
 	EUS_DEAD,
 	EUS_TRAINING,
 	EUS_SELECT_BUILDING, // TODO: Should be a 'hud state'
+	EUS_CHOOSE_DESTINATION, // TODO: Should be a 'hud state'
 };
 
 // ============================================================================

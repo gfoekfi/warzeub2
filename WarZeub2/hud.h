@@ -26,6 +26,8 @@ public:
 	void GridClickHandler();
 	void Render();
 
+	void ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition);
+
 private:
 	void InitOrderGridPosMapping_();
 	int GridClickPositionFromMouse_();
@@ -39,6 +41,7 @@ private:
 	std::map<int, std::set<EOrder> > gridPosToOrders_;
 	SDL_Surface* iconsSurface_;
 	SDL_Surface* backgroundSurface_;
+	EOrder lastOrder_;
 };
 
 // ============================================================================
