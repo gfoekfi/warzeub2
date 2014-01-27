@@ -62,9 +62,10 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 	case SDL_MOUSEMOTION:
 		mouse.pos = Vec2(parEvent.motion.x, parEvent.motion.y);
-		if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x >= screen->w / 5))
+		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		{
-			mouse.pos.x = (mouse.pos.x < (screen->w / 5)) ? (screen->w / 5) : mouse.pos.x;
+			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
+				(screen->w / 5) : mouse.pos.x;
 			UpdateSelection(player);
 		}
 		break;
