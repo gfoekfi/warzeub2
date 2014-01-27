@@ -32,8 +32,11 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.rightButtonPressed)
 				{
 					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos))
+					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
+						&& player.selectedUnit->IsMovable())
+					{
 						player.selectedUnit->Move(mouse.lastRightClickPos);
+					}
 				}
 				mouse.rightButtonPressed = true;
 			}

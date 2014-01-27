@@ -68,13 +68,11 @@ public:
 
 public:
 	SDL_Rect BoundingBox() const;
+	bool IsMovable() const;
 
 private:
 	void UpdateOrder_(Uint32 parCurTime, Uint32 parElapsedTime);
 	void UpdateAnimation_(Uint32 parCurTime);
-
-private:
-	bool IsMovable_() const;
 
 protected:
 	Vec2 pos_;

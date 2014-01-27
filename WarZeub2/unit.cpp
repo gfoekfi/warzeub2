@@ -3,6 +3,7 @@
 #include "order.h"
 #include "unitDesc.h"
 #include <stdlib.h>
+#include <assert.h>
 
 
 // ============================================================================
@@ -80,8 +81,7 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 
 bool Unit::Move(const Vec2& parTargetPos)
 {
-	if (!IsMovable_())
-		return false;
+	assert(IsMovable());
 
 	if (curOrder_)
 		delete curOrder_;
@@ -139,7 +139,7 @@ SDL_Rect Unit::BoundingBox() const
 
 // ============================================================================
 
-bool Unit::IsMovable_() const
+bool Unit::IsMovable() const
 {
 	switch (type_)
 	{
