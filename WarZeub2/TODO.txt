@@ -1,2 +1,3 @@
 - Collision unit / batiment
 - path finding
+- BUG: Bad square rendering when display from the top of the screen

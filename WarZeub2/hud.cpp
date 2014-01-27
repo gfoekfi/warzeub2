@@ -61,6 +61,15 @@ void HUD::GenerateBackgroundSurface_()
 
 void HUD::Render()
 {
+	// Building placement
+	if (player.selectedUnit && (player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION))
+	{
+		switch (lastOrder_)
+		{
+		case EO_BUILD_TOWN_HALL: ::Render(EUT_TOWN_HALL, mouse.pos); break;
+		};
+	}
+
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
 	int miniMapOffsetX = backgroundSurface_->w / 20;

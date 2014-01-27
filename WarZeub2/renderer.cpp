@@ -93,6 +93,18 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
+void Render(EUnitType parUnitType, const Vec2& parPos)
+{
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnitType][EUS_IDLE];
+
+	SDL_Rect srcRect = { spriteDesc.offsetX, spriteDesc.offsetY, spriteDesc.width, spriteDesc.height };
+	SDL_Rect dstRect = { parPos.x - spriteDesc.width / 2, parPos.y - spriteDesc.height / 2, 0, 0 };
+
+	SDL_BlitSurface(unitTypeToImage[parUnitType], &srcRect, screen, &dstRect);
+}
+
+// ============================================================================
+
 void Render(const Map& parMap)
 {
 	assert(summerTilesSurface);

@@ -29,6 +29,7 @@ void BeginScene();
 void EndScene();
 
 void Render(const Unit& parUnit);
+void Render(EUnitType parUnitType, const Vec2& parPos); // used by building placement
 void Render(const Map& parMap);
 void RenderRightClick(const Vec2& parPos);
 void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
