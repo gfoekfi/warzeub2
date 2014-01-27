@@ -26,9 +26,6 @@ public:
 	void GridClickHandler();
 	void Render();
 
-public:
-	std::map<EOrder, int>& OrderToGridPos() { return orderToGridPos_; }
-
 private:
 	void InitOrderGridPosMapping_();
 	int GridClickPositionFromMouse_();

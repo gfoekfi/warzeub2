@@ -110,7 +110,7 @@ void HUD::RenderHUDOrder_(EOrder parOrder, const Vec2& parGridRegionOffset)
 	SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
 		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
 
-	int gridPos = HUD::Inst()->OrderToGridPos()[parOrder];
+	int gridPos = orderToGridPos_[parOrder];
 	SDL_Rect orderIconDst = { parGridRegionOffset.x + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
 		parGridRegionOffset.y + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
 	SDL_BlitSurface(iconsSurface_, &orderIconSrc, screen, &orderIconDst);
