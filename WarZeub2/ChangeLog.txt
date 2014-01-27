@@ -1,4 +1,13 @@
 ===============================================================================
+* v0.6
+===============================================================================
+- Townhall can be build from peon
+- Order which need a destination is handled
+- Render building for building placement
+- Units takes time to be trained (according to their unit description)
+===============================================================================
+
+===============================================================================
 * v0.5
 ===============================================================================
 - HUD rendering (background, empty minimap, selection info icons, available
