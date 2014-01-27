@@ -143,6 +143,12 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
 			World::Inst()->AddUnit(buildingUnit_);
 
+			// Make the building unit pop at the bottom of the created building
+			Vec2 newUnitPos(hostUnit_->Pos());
+			newUnitPos.y += unitTypeToUnitDesc[unitTypeToBuild_].height / 2 +
+				unitTypeToUnitDesc[hostUnit_->Type()].height / 2;
+			hostUnit_->SetPos(newUnitPos);
+
 			return true;
 		}
 	}
