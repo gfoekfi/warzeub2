@@ -58,6 +58,7 @@ void EndScene()
 
 int SpriteXOffsetFromDir(const Unit& parUnit)
 {
+	assert(parUnit.IsMovable());
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
 
 	switch (parUnit.Dir())
@@ -80,15 +81,24 @@ int SpriteXOffsetFromDir(const Unit& parUnit)
 
 void Render(const Unit& parUnit)
 {
+	if (parUnit.ActionState() == EUS_BUILDING) // don't render unit that are building
+		return;
+
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
 
 	int curStep = (parUnit.SpriteStep() % spriteDesc.maxStep);
 	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
-	int spriteX = (parUnit.MoveState() != EUS_DEAD ? SpriteXOffsetFromDir(parUnit) : 0) + spriteDesc.offsetX; // special case for dead
+	int spriteX = spriteDesc.offsetX;
+	if (parUnit.IsMovable() && (parUnit.MoveState() != EUS_DEAD))
+		spriteX += SpriteXOffsetFromDir(parUnit);
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
-	SDL_BlitSurface(unitTypeToImage[parUnit.Type()], &srcRect, screen, &dstRect);
+	// FIXME: Temporary to see the 'in construction' effect
+	if (parUnit.ActionState() == EUS_BEING_BUILD_STATE0)
+		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
+	else
+		SDL_BlitSurface(unitTypeToImage[parUnit.Type()], &srcRect, screen, &dstRect);
 }
 
 // ============================================================================

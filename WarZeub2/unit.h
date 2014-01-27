@@ -31,6 +31,10 @@ enum EUnitState
 	EUS_GATHER_WOOD,
 	EUS_DEAD,
 	EUS_TRAINING,
+	EUS_BUILDING,
+
+	EUS_BEING_BUILD_STATE0,
+
 	EUS_SELECT_BUILDING, // TODO: Should be a 'hud state'
 	EUS_CHOOSE_DESTINATION, // TODO: Should be a 'hud state'
 };

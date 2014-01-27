@@ -135,13 +135,28 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	if (!moveOrder_)
 		moveOrder_ = new MoveOrder(hostUnit_, buildingPos_);
+	if (!moveOrder_->Update(parCurTime, parElapsedTime))
+		return false;
 
-	if (moveOrder_->Update(parCurTime, parElapsedTime))
+	if (!buildingUnit_)
 	{
-		if (!buildingUnit_)
+		buildingStartTime_ = parCurTime;
+
+		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
+		buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0);
+		buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE0);
+
+		World::Inst()->AddUnit(buildingUnit_);
+
+		hostUnit_->SetActionState(EUS_BUILDING);
+	}
+	else
+	{
+		if ((parCurTime - buildingStartTime_) >= (Uint32)unitTypeToUnitDesc[unitTypeToBuild_].buildTime)
 		{
-			buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
-			World::Inst()->AddUnit(buildingUnit_);
+			buildingUnit_->SetMoveState(EUS_IDLE); // FIXME: Bad double setter
+			buildingUnit_->SetActionState(EUS_IDLE);
+			hostUnit_->SetActionState(EUS_IDLE);
 
 			// Make the building unit pop at the bottom of the created building
 			Vec2 newUnitPos(hostUnit_->Pos());

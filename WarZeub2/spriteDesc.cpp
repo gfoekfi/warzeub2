@@ -68,6 +68,7 @@ void InitSpriteDesc()
 
 	unitTypeStateToSpriteDesc[EUT_MINE][EUS_IDLE] = mineIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_IDLE] = townHallIdleAnim;
+	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE0] = mineIdleAnim; // FIXME: Use the proper sprite
 
 	// ---
 
