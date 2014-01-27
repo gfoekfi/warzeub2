@@ -34,18 +34,18 @@ Unit::~Unit()
 
 void Unit::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
-	UpdateOrder_(parElapsedTime);
+	UpdateOrder_(parCurTime, parElapsedTime);
 	UpdateAnimation_(parCurTime);
 }
 
 // ============================================================================
 
-void Unit::UpdateOrder_(Uint32 parElapsedTime)
+void Unit::UpdateOrder_(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	if (!curOrder_)
 		return;
 
-	if (curOrder_->Update(parElapsedTime))
+	if (curOrder_->Update(parCurTime, parElapsedTime))
 	{
 		delete curOrder_;
 		curOrder_ = 0;

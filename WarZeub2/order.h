@@ -23,7 +23,7 @@ public:
 	virtual ~Order() {}
 
 public:
-	virtual bool Update(Uint32 parElapsedTime) = 0; // Return true if the order is complete
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) = 0; // Return true if the order is complete
 
 protected:
 	Unit* hostUnit_;
@@ -38,7 +38,7 @@ public:
 	virtual ~MoveOrder();
 
 public:
-	virtual bool Update(Uint32 parElapsedTime) override;
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 private:
 	Vec2 targetPos_;
@@ -53,11 +53,12 @@ public:
 	virtual ~TrainOrder();
 
 public:
-	virtual bool Update(Uint32 parElapsedTime) override;
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 private:
 	EUnitType unitTypeToTrain_;
-	Unit* trainedUnit_;
+	Unit* trainedUnit_; // only 1 unit is train by train order
+	Uint32 startTime_;
 };
 
 // ============================================================================

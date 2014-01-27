@@ -13,7 +13,8 @@
 TrainOrder::TrainOrder(Unit* parHostUnit, EUnitType parUnitTypeToTrain)
 	: Order(parHostUnit),
 	unitTypeToTrain_(parUnitTypeToTrain),
-	trainedUnit_(0)
+	trainedUnit_(0),
+	startTime_(-1)
 {
 }
 
@@ -25,8 +26,17 @@ TrainOrder::~TrainOrder()
 
 // ============================================================================
 
-bool TrainOrder::Update(Uint32 parElapsedTime)
+bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
+	if (startTime_ == -1)
+		startTime_ = parCurTime;
+
+	if ((parCurTime - startTime_) < 1000)
+	{
+		hostUnit_->SetActionState(EUS_TRAINING);
+		return false;
+	}
+
 	if (!trainedUnit_)
 	{
 		Vec2 newUnitPos(hostUnit_->Pos());
@@ -36,6 +46,8 @@ bool TrainOrder::Update(Uint32 parElapsedTime)
 
 		World::Inst()->AddUnit(trainedUnit_);
 	}
+
+	hostUnit_->SetActionState(EUS_IDLE);
 
 	return true;
 }
@@ -58,7 +70,7 @@ MoveOrder::~MoveOrder()
 
 // ============================================================================
 
-bool MoveOrder::Update(Uint32 parElapsedTime)
+bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	int deltaPosX = targetPos_.x - hostUnit_->Pos().x;
 	int deltaPosY = targetPos_.y - hostUnit_->Pos().y;
