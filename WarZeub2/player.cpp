@@ -25,6 +25,10 @@ void UpdateSelection(Player& player)
 	const std::vector<Unit*>& units = World::Inst()->Units();
 	for (size_t unit = 0; unit < units.size(); ++unit)
 	{
+		Unit* curUnit = units[unit];
+		if (curUnit->ActionState() == EUS_BUILDING)
+			continue; // we can't select an unit which is currently building
+
 		SDL_Rect unitBoundingBox = units[unit]->BoundingBox();
 
 		if (DoesBBoxesCollide(&selectionBoundingBox, &unitBoundingBox))

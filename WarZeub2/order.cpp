@@ -4,6 +4,7 @@
 #include "util.h"
 #include "unitDesc.h"
 #include "userInput.h"
+#include "player.h"
 
 
 // ============================================================================
@@ -149,6 +150,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		World::Inst()->AddUnit(buildingUnit_);
 
 		hostUnit_->SetActionState(EUS_BUILDING);
+		player.selectedUnit = buildingUnit_; // force the selection change
 	}
 	else
 	{
