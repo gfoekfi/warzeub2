@@ -26,6 +26,10 @@ const SpriteDesc peonGatherWood(24, 40*5 + 50*7 + 5*43 - 20, 42, 46, 5);
 
 const SpriteDesc mineIdleAnim(10, 5, 100, 100, 1);
 const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
+const SpriteDesc townHallbuildingStep2Anim(12, 540, 130, 130, 1);
+
+const SpriteDesc buildingStep0Anim(585, 145, 60, 45, 1);
+const SpriteDesc buildingStep1Anim(585, 200, 65, 60, 1);
 
 // ============================================================================
 
@@ -68,7 +72,9 @@ void InitSpriteDesc()
 
 	unitTypeStateToSpriteDesc[EUT_MINE][EUS_IDLE] = mineIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_IDLE] = townHallIdleAnim;
-	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE0] = mineIdleAnim; // FIXME: Use the proper sprite
+	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE0] = buildingStep0Anim;
+	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE1] = buildingStep1Anim;
+	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE2] = townHallbuildingStep2Anim;
 
 	// ---
 
