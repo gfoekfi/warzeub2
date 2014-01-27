@@ -116,7 +116,8 @@ BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const Ve
 	unitTypeToBuild_(parUnitTypeToBuild),
 	buildingUnit_(0),
 	buildingStartTime_(-1),
-	buildingPos_(parPos)
+	buildingPos_(parPos),
+	moveOrder_(0)
 {
 }
 
@@ -124,19 +125,29 @@ BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const Ve
 
 BuildOrder::~BuildOrder()
 {
+	if (moveOrder_)
+		delete moveOrder_;
 }
 
 // ============================================================================
 
 bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
-	if (!buildingUnit_)
+	if (!moveOrder_)
+		moveOrder_ = new MoveOrder(hostUnit_, buildingPos_);
+
+	if (moveOrder_->Update(parCurTime, parElapsedTime))
 	{
-		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
-		World::Inst()->AddUnit(buildingUnit_);
+		if (!buildingUnit_)
+		{
+			buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
+			World::Inst()->AddUnit(buildingUnit_);
+
+			return true;
+		}
 	}
 
-	return true;
+	return false;
 }
 
 // ============================================================================

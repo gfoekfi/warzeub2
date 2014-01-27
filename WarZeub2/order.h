@@ -77,6 +77,7 @@ private:
 	Vec2 buildingPos_;
 	Unit* buildingUnit_;
 	Uint32 buildingStartTime_;
+	MoveOrder* moveOrder_;
 };
 
 // ============================================================================
