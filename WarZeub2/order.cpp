@@ -150,7 +150,8 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		World::Inst()->AddUnit(buildingUnit_);
 
 		hostUnit_->SetActionState(EUS_BUILDING);
-		player.selectedUnit = buildingUnit_; // force the selection change
+		if (player.selectedUnit == hostUnit_)
+			player.selectedUnit = buildingUnit_; // force the selection change if necessary
 	}
 	else
 	{

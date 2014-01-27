@@ -198,7 +198,6 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 		{
 		case EO_CANCEL:
 			parUnit.CancelOrder();
-			lastOrder_ = EO_NONE;
 			break;
 		case EO_STOP: parUnit.CancelOrder(); break;
 		case EO_MOVE:
