@@ -92,8 +92,8 @@ void DrawSelections()
 			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
-		TransformToScreenCoordinate(src, cameraOffset);
-		TransformToScreenCoordinate(dst, cameraOffset);
+		TransformToScreenCoordinate(src, cameraPos);
+		TransformToScreenCoordinate(dst, cameraPos);
 
 		RenderSquare(src, dst, 0x0000ff00);
 	}
@@ -103,7 +103,7 @@ void DrawSelections()
 		// sexy stuff ;)
 		Vec2 lastPos(mouse.lastLeftClickPos);
 		TransformToWorldCoordinate(lastPos, mouse.lastCameraPosOnLeftClick);
-		TransformToScreenCoordinate(lastPos, cameraOffset);
+		TransformToScreenCoordinate(lastPos, cameraPos);
 
 		SDL_Rect src = { lastPos.x, lastPos.y, 0, 0 };
 		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };

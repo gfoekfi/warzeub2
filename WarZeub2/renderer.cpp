@@ -15,7 +15,7 @@
 // ============================================================================
 
 const SDL_Rect viewport = {SCREEN_WIDTH / 5, 0, 4 * SCREEN_WIDTH / 5, SCREEN_HEIGHT };
-Vec2 cameraOffset(0, 0);
+Vec2 cameraPos(0, 0);
 SDL_Surface* screen = 0;
 SDL_Surface* summerTilesSurface = 0;
 
@@ -94,9 +94,9 @@ void Render(const Unit& parUnit)
 	if (parUnit.IsMovable() && (parUnit.MoveState() != EUS_DEAD))
 		spriteX += SpriteXOffsetFromDir(parUnit);
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
-	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
-	TransformToScreenCoordinate(dstRect, cameraOffset);
+	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
+	TransformToScreenCoordinate(dstRect, cameraPos);
 
 	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
 		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
@@ -147,7 +147,7 @@ void Render(const Map& parMap)
 	if (mapSurface)
 	{
 		SDL_Rect dst = { 0, 0, 0, 0 };
-		TransformToScreenCoordinate(dst, cameraOffset);
+		TransformToScreenCoordinate(dst, cameraPos);
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
 	}
 }

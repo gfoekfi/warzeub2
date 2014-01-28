@@ -21,6 +21,8 @@
 - render building that will be constructed
 - font handling
 - Building placement should be tiles aligned
+- render minimap
+- move with minimap
 ===============================================================================
 
 

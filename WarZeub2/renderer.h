@@ -22,7 +22,7 @@ const int SCREEN_HEIGHT = 768;
 // ============================================================================
 
 extern const SDL_Rect viewport;
-extern Vec2 cameraOffset;
+extern Vec2 cameraPos;
 extern SDL_Surface* screen;
 extern SDL_Surface* summerTilesSurface;
 
