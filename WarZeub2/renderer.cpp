@@ -96,7 +96,7 @@ void Render(const Unit& parUnit)
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
-	TransformToScreenCoordinate(dstRect);
+	TransformToScreenCoordinate(dstRect, cameraOffset);
 
 	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
 		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
@@ -147,7 +147,7 @@ void Render(const Map& parMap)
 	if (mapSurface)
 	{
 		SDL_Rect dst = { 0, 0, 0, 0 };
-		TransformToScreenCoordinate(dst);
+		TransformToScreenCoordinate(dst, cameraOffset);
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
 	}
 }

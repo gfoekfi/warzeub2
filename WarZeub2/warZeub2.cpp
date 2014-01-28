@@ -75,17 +75,7 @@ void EventHandler(const SDL_Event& parEvent)
 	if (keyboard.keysPressed[SDLK_ESCAPE])
 		isDone = true;
 
-	// TODO: Better and smoother implementation
-	const int SCROLLING_SENSITIVITY = 5;
-	cameraOffset.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
-	cameraOffset.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
-	cameraOffset.x = Clamp<int>(cameraOffset.x, 0,
-		World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
-
-	cameraOffset.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
-	cameraOffset.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
-	cameraOffset.y = Clamp<int>(cameraOffset.y, 0,
-		World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
+	KeyboardScrollingHandler();
 }
 
 // ============================================================================
@@ -102,15 +92,20 @@ void DrawSelections()
 			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
-		TransformToScreenCoordinate(src);
-		TransformToScreenCoordinate(dst);
+		TransformToScreenCoordinate(src, cameraOffset);
+		TransformToScreenCoordinate(dst, cameraOffset);
 
 		RenderSquare(src, dst, 0x0000ff00);
 	}
 
 	if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x > (screen->w / 5)))
 	{
-		SDL_Rect src = { mouse.lastLeftClickPos.x, mouse.lastLeftClickPos.y, 0, 0 };
+		// sexy stuff ;)
+		Vec2 lastPos(mouse.lastLeftClickPos);
+		TransformToWorldCoordinate(lastPos, mouse.lastCameraPosOnLeftClick);
+		TransformToScreenCoordinate(lastPos, cameraOffset);
+
+		SDL_Rect src = { lastPos.x, lastPos.y, 0, 0 };
 		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };
 		RenderSquare(src, dst, 0x0000ff00);
 	}

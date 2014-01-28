@@ -85,10 +85,10 @@ T Clamp(T parValue, T parMin, T parMax)
 
 bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
 EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst);
-void TransformToScreenCoordinate(SDL_Rect& parRect);
-void TransformToScreenCoordinate(Vec2& parPos);
-void TransformToWorldCoordinate(SDL_Rect& parRect);
-void TransformToWorldCoordinate(Vec2& parRect);
+void TransformToScreenCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos);
+void TransformToScreenCoordinate(Vec2& parPos, const Vec2& parCameraPos);
+void TransformToWorldCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos);
+void TransformToWorldCoordinate(Vec2& parRect, const Vec2& parCameraPos);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

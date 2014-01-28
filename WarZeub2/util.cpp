@@ -79,34 +79,34 @@ EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst)
 
 // ============================================================================
 
-void TransformToScreenCoordinate(SDL_Rect& parRect)
+void TransformToScreenCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos)
 {
-	parRect.x += viewport.x - cameraOffset.x;
-	parRect.y += viewport.y - cameraOffset.y;
+	parRect.x += viewport.x - parCameraPos.x;
+	parRect.y += viewport.y - parCameraPos.y;
 }
 
 // ============================================================================
 
-void TransformToScreenCoordinate(Vec2& parPos)
+void TransformToScreenCoordinate(Vec2& parPos, const Vec2& parCameraPos)
 {
-	parPos.x += viewport.x - cameraOffset.x;
-	parPos.y += viewport.y - cameraOffset.y;
+	parPos.x += viewport.x - parCameraPos.x;
+	parPos.y += viewport.y - parCameraPos.y;
 }
 
 // ============================================================================
 
-void TransformToWorldCoordinate(SDL_Rect& parRect)
+void TransformToWorldCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos)
 {
-	parRect.x -= viewport.x - cameraOffset.x;
-	parRect.y -= viewport.y - cameraOffset.y;
+	parRect.x -= viewport.x - parCameraPos.x;
+	parRect.y -= viewport.y - parCameraPos.y;
 }
 
 // ============================================================================
 
-void TransformToWorldCoordinate(Vec2& parPos)
+void TransformToWorldCoordinate(Vec2& parPos, const Vec2& parCameraPos)
 {
-	parPos.x -= viewport.x - cameraOffset.x;
-	parPos.y -= viewport.y - cameraOffset.y;
+	parPos.x -= viewport.x - parCameraPos.x;
+	parPos.y -= viewport.y - parCameraPos.y;
 }
 
 // ============================================================================

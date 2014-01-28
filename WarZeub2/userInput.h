@@ -16,6 +16,9 @@ struct Mouse
 	Vec2 lastRightClickPos;
 	Vec2 lastLeftClickPos;
 
+	Vec2 lastCameraPosOnRightClick;	// It might sounds odd to declare this here,
+	Vec2 lastCameraPosOnLeftClick;	// but it makes things easier
+
 	bool leftButtonPressed;
 	bool rightButtonPressed;
 };
@@ -35,7 +38,9 @@ extern Keyboard keyboard;
 void MouseEventHandler(const SDL_Event& parEvent);
 void KeyboardEventHandler(const SDL_Event& parEvent);
 
-SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse);
+void KeyboardScrollingHandler();
+
+SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoordinate);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

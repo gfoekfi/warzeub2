@@ -29,12 +29,15 @@
 ===============================================================================
 - unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
 - split *real* unit and building unit hierarchy (polymorphism)
+- UserInput start to get messy again
+- UpdateSelection() might need to be moved somewhere else
+- Map rendering should be done only on the viewport region
 ===============================================================================
 
 
 ===============================================================================
 * BUG
 ===============================================================================
-- Right clicking very near a 'stopped' peon and the move animation continue
-- Selection square source should stick to the 'previous' camera position
+- Right clicking very near a 'stopped' peon and the move animation continue or
+  when a lag occurs (convergence issue?)
 ===============================================================================

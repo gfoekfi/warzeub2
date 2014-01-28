@@ -179,7 +179,7 @@ bool HUD::IsInHUDRegion(const Vec2& parPos) const
 
 int HUD::GridClickPositionFromMouse_()
 {
-	SDL_Rect mouseRect = BoundingBoxFromMouse(mouse);
+	SDL_Rect mouseRect = BoundingBoxFromMouse(mouse, false);
 	const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[EO_CANCEL];
 
 	for (int line = 0; line < 3; ++line)
