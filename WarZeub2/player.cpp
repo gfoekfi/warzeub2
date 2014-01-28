@@ -18,6 +18,7 @@ Player player;
 void UpdateSelection(Player& player)
 {
 	SDL_Rect selectionBoundingBox = BoundingBoxFromMouse(mouse);
+	TransformToWorldCoordinate(selectionBoundingBox);
 
 	if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
 		player.selectedUnit->SetActionState(EUS_IDLE);

@@ -21,6 +21,8 @@ const int SCREEN_HEIGHT = 768;
 
 // ============================================================================
 
+extern const SDL_Rect viewport;
+extern Vec2 cameraOffset;
 extern SDL_Surface* screen;
 extern SDL_Surface* summerTilesSurface;
 
@@ -34,9 +36,8 @@ void BeginScene();
 void EndScene();
 
 void Render(const Unit& parUnit);
-void Render(EUnitType parUnitType, const Vec2& parPos); // used by building placement
+void Render(EUnitType parUnitType, const Vec2& parScreenPos); // used by building placement
 void Render(const Map& parMap);
-void RenderRightClick(const Vec2& parPos);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
 void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);
 

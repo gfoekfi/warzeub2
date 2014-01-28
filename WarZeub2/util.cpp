@@ -1,4 +1,5 @@
 #include "util.h"
+#include "renderer.h"
 
 
 // ============================================================================
@@ -74,6 +75,38 @@ EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst)
 		return DIR_E;
 
 	return DIR_N;
+}
+
+// ============================================================================
+
+void TransformToScreenCoordinate(SDL_Rect& parRect)
+{
+	parRect.x += viewport.x - cameraOffset.x;
+	parRect.y += viewport.y - cameraOffset.y;
+}
+
+// ============================================================================
+
+void TransformToScreenCoordinate(Vec2& parPos)
+{
+	parPos.x += viewport.x - cameraOffset.x;
+	parPos.y += viewport.y - cameraOffset.y;
+}
+
+// ============================================================================
+
+void TransformToWorldCoordinate(SDL_Rect& parRect)
+{
+	parRect.x -= viewport.x - cameraOffset.x;
+	parRect.y -= viewport.y - cameraOffset.y;
+}
+
+// ============================================================================
+
+void TransformToWorldCoordinate(Vec2& parPos)
+{
+	parPos.x -= viewport.x - cameraOffset.x;
+	parPos.y -= viewport.y - cameraOffset.y;
 }
 
 // ============================================================================

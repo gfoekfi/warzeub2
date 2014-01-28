@@ -14,6 +14,8 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+const SDL_Rect viewport = {SCREEN_WIDTH / 5, 0, 4 * SCREEN_WIDTH / 5, SCREEN_HEIGHT };
+Vec2 cameraOffset(0, 0);
 SDL_Surface* screen = 0;
 SDL_Surface* summerTilesSurface = 0;
 
@@ -94,6 +96,8 @@ void Render(const Unit& parUnit)
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
 
+	TransformToScreenCoordinate(dstRect);
+
 	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
 		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
 	else
@@ -102,12 +106,12 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
-void Render(EUnitType parUnitType, const Vec2& parPos)
+void Render(EUnitType parUnitType, const Vec2& parScreenPos)
 {
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnitType][EUS_IDLE];
 
 	SDL_Rect srcRect = { spriteDesc.offsetX, spriteDesc.offsetY, spriteDesc.width, spriteDesc.height };
-	SDL_Rect dstRect = { parPos.x - spriteDesc.width / 2, parPos.y - spriteDesc.height / 2, 0, 0 };
+	SDL_Rect dstRect = { parScreenPos.x - spriteDesc.width / 2, parScreenPos.y - spriteDesc.height / 2, 0, 0 };
 
 	SDL_BlitSurface(unitTypeToImage[parUnitType], &srcRect, screen, &dstRect);
 }
@@ -140,15 +144,11 @@ void Render(const Map& parMap)
 	}
 
 	if (mapSurface)
-		SDL_BlitSurface(mapSurface, 0, screen, 0);
-}
-
-// ============================================================================
-
-void RenderRightClick(const Vec2& parPos)
-{
-	SDL_Rect rect = {parPos.x - 5, parPos.y - 5, 10, 10};
-	SDL_FillRect(screen, &rect, 0x00ff0000);	
+	{
+		SDL_Rect dst = { 0, 0, 0, 0 };
+		TransformToScreenCoordinate(dst);
+		SDL_BlitSurface(mapSurface, 0, screen, &dst);
+	}
 }
 
 // ============================================================================

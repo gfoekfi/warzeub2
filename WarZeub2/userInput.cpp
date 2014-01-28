@@ -35,7 +35,9 @@ void MouseEventHandler(const SDL_Event& parEvent)
 					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
 						&& player.selectedUnit->IsMovable())
 					{
-						player.selectedUnit->Move(mouse.lastRightClickPos);
+						Vec2 pos = mouse.lastRightClickPos;
+						TransformToWorldCoordinate(pos);
+						player.selectedUnit->Move(pos);
 					}
 				}
 				mouse.rightButtonPressed = true;
@@ -58,7 +60,11 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 				HUD::Inst()->GridClickHandler();
 			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
-				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, mouse.lastLeftClickPos);
+			{
+				Vec2 worldPos(mouse.lastLeftClickPos);
+				TransformToWorldCoordinate(worldPos);
+				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
+			}
 			else
 				UpdateSelection(player);
 			mouse.leftButtonPressed = false;

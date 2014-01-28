@@ -74,6 +74,18 @@ void EventHandler(const SDL_Event& parEvent)
 
 	if (keyboard.keysPressed[SDLK_ESCAPE])
 		isDone = true;
+
+	// TODO: Better and smoother implementation
+	const int SCROLLING_SENSITIVITY = 5;
+	cameraOffset.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
+	cameraOffset.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
+	cameraOffset.x = Clamp<int>(cameraOffset.x, 0,
+		World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
+
+	cameraOffset.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
+	cameraOffset.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
+	cameraOffset.y = Clamp<int>(cameraOffset.y, 0,
+		World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h); // FIXME: bug if max number is not a multiplier of MAP_TILE_SIZE
 }
 
 // ============================================================================
@@ -89,6 +101,9 @@ void DrawSelections()
 		SDL_Rect src = { player.selectedUnit->Pos().x - unitDesc.width / 2,
 			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
+
+		TransformToScreenCoordinate(src);
+		TransformToScreenCoordinate(dst);
 
 		RenderSquare(src, dst, 0x0000ff00);
 	}
@@ -108,8 +123,6 @@ void Render()
 	BeginScene();
 	{
 		Render(World::Inst()->GetMap());
-
-		RenderRightClick(mouse.lastRightClickPos);
 
 		const std::vector<Unit*>& units = World::Inst()->Units();
 		for (size_t unit = 0; unit < units.size(); ++unit)

@@ -1,6 +1,7 @@
 ===============================================================================
 * FEATURE
 ===============================================================================
+- Scroll screen when mouse is at the border of viewport
 - Collision unit / building
 - path finding
 - multiple unit selection
@@ -12,7 +13,6 @@
 - sprite mirroring
 - right click cancel a 'choose destination' order
 - make most events effective on 'click down' instead of 'click up'
-- map scrolling
 - keyboard shortcut (grid / first letter)
 - tree handling
 - unit mouvement speed according to unit desc
@@ -36,4 +36,5 @@
 * BUG
 ===============================================================================
 - Right clicking very near a 'stopped' peon and the move animation continue
+- Selection square source should stick to the 'previous' camera position
 ===============================================================================
