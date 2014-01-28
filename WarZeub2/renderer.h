@@ -38,6 +38,7 @@ void Render(EUnitType parUnitType, const Vec2& parPos); // used by building plac
 void Render(const Map& parMap);
 void RenderRightClick(const Vec2& parPos);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
+void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

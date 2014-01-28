@@ -183,5 +183,23 @@ void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
 }
 
 // ============================================================================
+
+void RenderProgressBar(SDL_Rect& parDimensions, float parStatus)
+{
+	assert(parStatus >= 0.0f && parStatus <= 1.0f);
+
+	Uint32 greyColor = 0x00999999;
+	SDL_Rect dst = { parDimensions.x + parDimensions.w, parDimensions.y + parDimensions.h, 0, 0 };
+	RenderSquare(parDimensions, dst, greyColor);
+
+	parDimensions.y += 2;
+	parDimensions.h -= 3;
+	parDimensions.x += 2;
+	parDimensions.w -= 3;
+	parDimensions.w = Uint16(parDimensions.w * parStatus);
+	SDL_FillRect(screen, &parDimensions, greyColor);
+}
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
