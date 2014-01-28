@@ -17,6 +17,10 @@
 - tree handling
 - unit mouvement speed according to unit desc
 - group selection
+- fog of war
+- render building that will be constructed
+- font handling
+- Building placement should be tiles aligned
 ===============================================================================
 
 
@@ -24,7 +28,7 @@
 * REFACTOR
 ===============================================================================
 - unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
-- split *real* unit and building unit hierarchy (polymorphism) ?
+- split *real* unit and building unit hierarchy (polymorphism)
 ===============================================================================
 
 
