@@ -71,10 +71,19 @@ extern Vec2 dirs[MAX_DIRS];
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-int Clamp(int parValue, int parMin, int parMax);
+template <typename T>
+T Clamp(T parValue, T parMin, T parMax)
+{
+	if (parValue < parMin)
+		return parMin;
+	if (parValue > parMax)
+		return parMax;
+	return parValue;
+}
+
+// ============================================================================
 
 bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
-
 EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst);
 
 // ============================================================================

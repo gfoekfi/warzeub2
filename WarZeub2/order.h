@@ -19,14 +19,18 @@ enum EUnitType;
 class Order
 {
 public:
-	Order(Unit* parHostUnit) : hostUnit_(parHostUnit) {}
+	Order(Unit* parHostUnit) : hostUnit_(parHostUnit), completionStatus_(-1.0f) {}
 	virtual ~Order() {}
 
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) = 0; // Return true if the order is complete
 
+public:
+	float CompletionStatus() const { return completionStatus_; }
+
 protected:
 	Unit* hostUnit_;
+	float completionStatus_;
 };
 
 // ============================================================================

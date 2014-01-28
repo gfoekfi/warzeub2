@@ -73,6 +73,7 @@ public:
 	void SetPos(const Vec2& parPos) { pos_ = parPos; };
 
 public:
+	float OrderCompletionStatus() const; // used by hud (progress bar)
 	SDL_Rect BoundingBox() const;
 	bool IsMovable() const;
 	bool IsBeingConstructed() const;

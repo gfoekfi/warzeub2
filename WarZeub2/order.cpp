@@ -32,7 +32,10 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	if (startTime_ == -1)
 		startTime_ = parCurTime;
 
-	if ((parCurTime - startTime_) < (Uint32)unitTypeToUnitDesc[unitTypeToTrain_].buildTime)
+	completionStatus_ = float(parCurTime - startTime_) / float(unitTypeToUnitDesc[unitTypeToTrain_].buildTime);
+	completionStatus_ = Clamp(completionStatus_, 0.f, 1.f);
+
+	if (completionStatus_ < 1.f)
 	{
 		hostUnit_->SetActionState(EUS_TRAINING);
 		return false;
@@ -160,19 +163,19 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	}
 	else
 	{
-		Uint32 totalBuildTime = unitTypeToUnitDesc[unitTypeToBuild_].buildTime;
-		Uint32 deltaTime = parCurTime - buildingStartTime_;
-		if (deltaTime < (totalBuildTime / 3))
+		completionStatus_ = float(parCurTime - buildingStartTime_) / float(unitTypeToUnitDesc[unitTypeToBuild_].buildTime);
+		completionStatus_ = Clamp(completionStatus_, 0.f, 1.f);
+		if (completionStatus_ < 0.3f)
 		{
 			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE0);
 		}
-		else if (deltaTime < (2 * totalBuildTime / 3))
+		else if (completionStatus_ < 0.6f)
 		{
 			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE1); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE1);
 		}
-		else if (deltaTime < totalBuildTime)
+		else if (completionStatus_ < 1.f)
 		{
 			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE2); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE2);

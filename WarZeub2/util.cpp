@@ -21,17 +21,6 @@ Vec2 dirs[MAX_DIRS] =
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-int Clamp(int parValue, int parMin, int parMax)
-{
-	if (parValue < parMin)
-		return parMin;
-	if (parValue > parMax)
-		return parMax;
-	return parValue;
-}
-
-// ============================================================================
-
 inline bool IsPointInSegment(int parValue, int parSrcValue, int parDstValue)
 {
 	return (parValue >= parSrcValue) && (parValue <= parDstValue);

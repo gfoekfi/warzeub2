@@ -123,6 +123,15 @@ bool Unit::CancelOrder()
 
 // ============================================================================
 
+float Unit::OrderCompletionStatus() const
+{
+	if (curOrder_)
+		return curOrder_->CompletionStatus();
+	return -1.0f;
+}
+
+// ============================================================================
+
 SDL_Rect Unit::BoundingBox() const
 {
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[type_];
