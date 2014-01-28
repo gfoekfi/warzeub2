@@ -88,7 +88,7 @@ void HUD::Render()
 			selectionInfoOffsetY + (backgroundSurface_->h / 3), 0, 0 };
 		SDL_Rect borderDst = { backgroundSurface_->w - (2 * selectionInfoOffsetX),
 			(2*backgroundSurface_->h / 3) - selectionInfoOffsetY, 0, 0 };
-		RenderSelection(borderSrc, borderDst, 0x00ffffff);
+		RenderSquare(borderSrc, borderDst, 0x00ffffff);
 
 		const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->Type()];
 		SDL_Rect src = { unitIconSpriteDesc.offsetX, unitIconSpriteDesc.offsetY,

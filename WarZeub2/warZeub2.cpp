@@ -90,14 +90,14 @@ void DrawSelections()
 			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
-		RenderSelection(src, dst, 0x0000ff00);
+		RenderSquare(src, dst, 0x0000ff00);
 	}
 
 	if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x > (screen->w / 5)))
 	{
 		SDL_Rect src = { mouse.lastLeftClickPos.x, mouse.lastLeftClickPos.y, 0, 0 };
 		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };
-		RenderSelection(src, dst, 0x0000ff00);
+		RenderSquare(src, dst, 0x0000ff00);
 	}
 }
 

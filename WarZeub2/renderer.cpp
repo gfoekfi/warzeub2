@@ -153,7 +153,7 @@ void RenderRightClick(const Vec2& parPos)
 
 // ============================================================================
 
-void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
+void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
 {
 	parSrc.x = Clamp(parSrc.x, 0, SCREEN_WIDTH - 1);
 	parSrc.y = Clamp(parSrc.y, 0, SCREEN_HEIGHT - 1);
