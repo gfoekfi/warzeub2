@@ -75,12 +75,14 @@ void HUD::RenderSelectionInfos_(const Vec2& parInfoRegionOffset)
 	SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 	SDL_BlitSurface(iconsSurface_, &src, screen, &dst);
 
-	if (player.selectedUnit->ActionState() == EUS_TRAINING)
-	{
-		SDL_Rect progressBarRect = { 2*parInfoRegionOffset.x, borderSrc.y + 60,
+	SDL_Rect progressBarRect = { 2*parInfoRegionOffset.x, borderSrc.y + 60,
 			backgroundSurface_->w - (5 * parInfoRegionOffset.x), 15 };
-
+	if (player.selectedUnit->ActionState() == EUS_TRAINING)
 		RenderProgressBar(progressBarRect, player.selectedUnit->OrderCompletionStatus());
+	else if (player.selectedUnit->IsBeingConstructed())
+	{
+		const Unit* builder = World::Inst()->BuilderOf(player.selectedUnit);
+		RenderProgressBar(progressBarRect, builder->OrderCompletionStatus());
 	}
 }
 

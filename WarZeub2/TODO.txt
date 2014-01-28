@@ -1,7 +1,6 @@
 ===============================================================================
 * FEATURE
 ===============================================================================
-- Renderer training/building state in selected info region (progress bar)
 - Collision unit / building
 - path finding
 - multiple unit selection
@@ -10,7 +9,7 @@
 - gold gathering
 - music / sound
 - alert system (not enough resource, under-attack...)
-- sprite error mirroring
+- sprite mirroring
 - right click cancel a 'choose destination' order
 - make most events effective on 'click down' instead of 'click up'
 - map scrolling
