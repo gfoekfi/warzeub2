@@ -14,20 +14,22 @@
 - right click cancel a 'choose destination' order
 - make most events effective on 'click down' instead of 'click up'
 - map scrolling
-- grid keyboard shortcut
+- keyboard shortcut (grid / first letter)
+- tree handling
+- unit mouvement speed according to unit desc
+- group selection
 ===============================================================================
 
 
 ===============================================================================
 * REFACTOR
 ===============================================================================
-- unit 'moveState' / 'actionState', design is not clear
+- unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
 ===============================================================================
 
 
 ===============================================================================
 * BUG
 ===============================================================================
-- Bad square rendering when display from the top of the screen
 - Right clicking very near a 'stopped' peon and the move animation continue
 ===============================================================================

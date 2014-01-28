@@ -155,6 +155,11 @@ void RenderRightClick(const Vec2& parPos)
 
 void RenderSelection(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
 {
+	parSrc.x = Clamp(parSrc.x, 0, SCREEN_WIDTH - 1);
+	parSrc.y = Clamp(parSrc.y, 0, SCREEN_HEIGHT - 1);
+	parDst.x = Clamp(parDst.x, 0, SCREEN_WIDTH - 1);
+	parDst.y = Clamp(parDst.y, 0, SCREEN_HEIGHT - 1);
+
 	int width = abs(parDst.x - parSrc.x);
 	int height = abs(parDst.y - parSrc.y);
 
