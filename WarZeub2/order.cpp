@@ -150,6 +150,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	if (!buildingUnit_)
 	{
 		buildingStartTime_ = parCurTime;
+		completionStatus_ = 0.0f;
 
 		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
 		buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0);

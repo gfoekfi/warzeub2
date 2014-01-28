@@ -25,6 +25,7 @@
 * REFACTOR
 ===============================================================================
 - unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
+- split *real* unit and building unit hierarchy (polymorphism) ?
 ===============================================================================
 
 
