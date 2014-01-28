@@ -59,6 +59,35 @@ void HUD::GenerateBackgroundSurface_()
 
 // ============================================================================
 
+void HUD::RenderSelectionInfos_(const Vec2& parInfoRegionOffset)
+{
+	assert(player.selectedUnit);
+
+	SDL_Rect borderSrc = { parInfoRegionOffset.x,
+		parInfoRegionOffset.y + (backgroundSurface_->h / 3), 0, 0 };
+	SDL_Rect borderDst = { backgroundSurface_->w - (2 * parInfoRegionOffset.x),
+		(2*backgroundSurface_->h / 3) - parInfoRegionOffset.y, 0, 0 };
+	RenderSquare(borderSrc, borderDst, 0x00ffffff);
+
+	const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->Type()];
+	SDL_Rect src = { unitIconSpriteDesc.offsetX, unitIconSpriteDesc.offsetY,
+		unitIconSpriteDesc.width, unitIconSpriteDesc.height };
+	SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
+	SDL_BlitSurface(iconsSurface_, &src, screen, &dst);
+}
+
+// ============================================================================
+
+void HUD::RenderMinimap_(const Vec2& parMinimapRegionOffset)
+{
+	static SDL_Rect miniMapRect = {parMinimapRegionOffset.x, parMinimapRegionOffset.y,
+		backgroundSurface_->w - (2 * parMinimapRegionOffset.x),
+		(backgroundSurface_->h / 3) - (2 * parMinimapRegionOffset.y)};
+	SDL_FillRect(screen, &miniMapRect, 0);
+}
+
+// ============================================================================
+
 void HUD::Render()
 {
 	// Building placement
@@ -72,33 +101,18 @@ void HUD::Render()
 
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
-	int miniMapOffsetX = backgroundSurface_->w / 20;
-	int miniMapOffsetY = (backgroundSurface_->h / 3 ) / 20;
-	static SDL_Rect miniMapRect = {miniMapOffsetX, miniMapOffsetY,
-		backgroundSurface_->w - (2 * miniMapOffsetX),
-		(backgroundSurface_->h / 3) - (2 * miniMapOffsetY)};
-	SDL_FillRect(screen, &miniMapRect, 0);
+	Vec2 minimapRegionOffset(backgroundSurface_->w / 20, (backgroundSurface_->h / 3 ) / 20);
+	RenderMinimap_(minimapRegionOffset);
 
 	if (player.selectedUnit)
 	{
 		// Selection info
-		int selectionInfoOffsetX = backgroundSurface_->w / 50;
-		int selectionInfoOffsetY = (backgroundSurface_->h / 3) / 50;
-		SDL_Rect borderSrc = { selectionInfoOffsetX,
-			selectionInfoOffsetY + (backgroundSurface_->h / 3), 0, 0 };
-		SDL_Rect borderDst = { backgroundSurface_->w - (2 * selectionInfoOffsetX),
-			(2*backgroundSurface_->h / 3) - selectionInfoOffsetY, 0, 0 };
-		RenderSquare(borderSrc, borderDst, 0x00ffffff);
-
-		const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->Type()];
-		SDL_Rect src = { unitIconSpriteDesc.offsetX, unitIconSpriteDesc.offsetY,
-			unitIconSpriteDesc.width, unitIconSpriteDesc.height };
-		SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
-		SDL_BlitSurface(iconsSurface_, &src, screen, &dst);
+		Vec2 infoRegionOffset(backgroundSurface_->w / 50, (backgroundSurface_->h / 3) / 50);
+		RenderSelectionInfos_(infoRegionOffset);
 
 		// Grid
-		Vec2 orderHudOffset(selectionInfoOffsetX,
-			(2*backgroundSurface_->h / 3) + selectionInfoOffsetY);
+		Vec2 orderHudOffset(infoRegionOffset.x,
+			(2*backgroundSurface_->h / 3) + infoRegionOffset.y);
 		const std::set<EOrder>& unitOrders =
 			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToOrderSet[player.selectedUnit->ActionState()];
 		for (std::set<EOrder>::const_iterator order = unitOrders.begin();

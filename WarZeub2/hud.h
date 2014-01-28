@@ -35,6 +35,8 @@ private:
 
 	void GenerateBackgroundSurface_();
 	void RenderHUDOrder_(EOrder parOrder, const Vec2& parGridRegionOffset);
+	void RenderSelectionInfos_(const Vec2& parInfoRegionOffset);
+	void RenderMinimap_(const Vec2& parMinimapRegionOffset);
 
 private:
 	std::map<EOrder, int> orderToGridPos_; // 0 to 8 (3 per line)
