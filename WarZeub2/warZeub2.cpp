@@ -85,7 +85,7 @@ void EventHandler(const SDL_Event& parEvent)
 	cameraOffset.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
 	cameraOffset.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
 	cameraOffset.y = Clamp<int>(cameraOffset.y, 0,
-		World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h); // FIXME: bug if max number is not a multiplier of MAP_TILE_SIZE
+		World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
 }
 
 // ============================================================================

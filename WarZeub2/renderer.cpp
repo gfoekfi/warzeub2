@@ -125,8 +125,9 @@ void Render(const Map& parMap)
 	static SDL_Surface* mapSurface = 0;
 	if (!mapSurface)
 	{
-		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, screen->w, screen->h, 
-			screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, 
+		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parMap.width * MAP_TILE_SIZE,
+			parMap.height * MAP_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
 
 		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 14, (MAP_TILE_SIZE + 1) * 18, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (14, 18) = grass

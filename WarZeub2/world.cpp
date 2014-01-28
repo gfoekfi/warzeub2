@@ -12,7 +12,7 @@ World::World()
 {
 	map_ = new Map();
 	map_->width = 25;
-	map_->height = 19;
+	map_->height = 21;
 
 	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
