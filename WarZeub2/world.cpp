@@ -1,6 +1,7 @@
 #include "world.h"
 #include "renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 #include <algorithm> // std::find
+#include <assert.h>
 
 
 // ============================================================================
@@ -53,17 +54,27 @@ void World::RemoveUnit(Unit* parUnit)
 {
 	if (parUnit->IsBeingConstructed())
 	{
-		for (size_t unit = 0; unit < units_.size(); ++unit)
-			if (units_[unit]->IsBuilding(parUnit))
-			{
-				units_[unit]->CancelOrder();
-				break;
-			}
+		Unit* builder = BuilderOf(parUnit);
+		builder->CancelOrder();
 	}
 
 	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
 
 	delete parUnit;
+}
+
+// ============================================================================
+
+Unit* World::BuilderOf(Unit* parUnit)
+{
+	assert(parUnit);
+	assert(parUnit->IsBeingConstructed());
+
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+		if (units_[unit]->IsBuilding(parUnit))
+			return units_[unit];
+
+	return 0;
 }
 
 // ============================================================================
