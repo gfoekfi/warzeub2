@@ -1,8 +1,8 @@
 #include "hud.h"
-#include "renderer.h"
+#include "graphic/renderer.h"
+#include "graphic/spriteDesc.h"
 #include "player.h"
 #include "userInput.h"
-#include "spriteDesc.h"
 #include "util.h"
 #include <assert.h>
 #include <algorithm>

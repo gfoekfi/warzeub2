@@ -174,14 +174,6 @@
 			Name="Source"
 			>
 			<File
-				RelativePath=".\camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\camera.h"
-				>
-			</File>
-			<File
 				RelativePath=".\hud.cpp"
 				>
 			</File>
@@ -206,23 +198,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\renderer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\renderer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\singleton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\spriteDesc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\spriteDesc.h"
 				>
 			</File>
 			<File
@@ -269,6 +245,34 @@
 				RelativePath=".\world.h"
 				>
 			</File>
+			<Filter
+				Name="graphic"
+				>
+				<File
+					RelativePath=".\graphic\camera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\camera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\renderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\renderer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\spriteDesc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\spriteDesc.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ChangeLog.txt"

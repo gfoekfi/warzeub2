@@ -1,5 +1,5 @@
 #include "world.h"
-#include "renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
+#include "graphic/renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 #include <algorithm> // std::find
 #include <assert.h>
 

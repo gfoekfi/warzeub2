@@ -2,9 +2,9 @@
 #define RENDERER_H_
 
 
-#include "util.h"
-#include "unit.h"
-#include "world.h"
+#include "../util.h"
+#include "../unit.h"
+#include "../world.h"
 #include "camera.h"
 
 
