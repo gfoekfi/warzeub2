@@ -5,6 +5,7 @@
 #include "util.h"
 #include "unit.h"
 #include "world.h"
+#include "camera.h"
 
 
 // ============================================================================
@@ -20,9 +21,11 @@ const int SCREEN_HEIGHT = 768;
 #endif
 
 // ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
 
 extern const SDL_Rect viewport;
-extern Vec2 cameraPos;
+extern Camera* gCamera;
 extern SDL_Surface* screen;
 extern SDL_Surface* summerTilesSurface;
 

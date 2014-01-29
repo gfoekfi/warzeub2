@@ -32,7 +32,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.rightButtonPressed)
 				{
 					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					mouse.lastCameraPosOnRightClick = cameraPos;
+					mouse.lastCameraPosOnRightClick = gCamera->Pos();
 					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
 						&& player.selectedUnit->IsMovable())
 					{
@@ -48,7 +48,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.leftButtonPressed)
 				{
 					mouse.lastLeftClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					mouse.lastCameraPosOnLeftClick = cameraPos;
+					mouse.lastCameraPosOnLeftClick = gCamera->Pos();
 				}
 				mouse.leftButtonPressed = true;
 			}
@@ -92,17 +92,20 @@ void KeyboardScrollingHandler()
 {
 	// TODO: Better and smoother implementation
 	const int SCROLLING_SENSITIVITY = 5;
-	cameraPos.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
-	cameraPos.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
+	Vec2 nextCameraPos = gCamera->Pos();
+	nextCameraPos.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
+	nextCameraPos.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
 	// need to max when the map is smaller than the screen (should never happens though)
 	int maxX = std::max<int>(0, World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
-	cameraPos.x = Clamp<int>(cameraPos.x, 0, maxX);
+	nextCameraPos.x = Clamp<int>(nextCameraPos.x, 0, maxX);
 
-	cameraPos.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
-	cameraPos.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
+	nextCameraPos.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
+	nextCameraPos.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
 	// need to max when the map is smaller than the screen (should never happens though)
 	int maxY = std::max<int>(0, World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
-	cameraPos.y = Clamp<int>(cameraPos.y, 0, maxY);
+	nextCameraPos.y = Clamp<int>(nextCameraPos.y, 0, maxY);
+
+	gCamera->SetPos(nextCameraPos);
 
 	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos) &&
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||
@@ -139,7 +142,7 @@ SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoo
 
 	if (parTransformToWorldCoordinate)
 	{
-		TransformToWorldCoordinate(curPos, cameraPos);
+		TransformToWorldCoordinate(curPos, gCamera->Pos());
 		TransformToWorldCoordinate(lastPos, mouse.lastCameraPosOnLeftClick);
 	}
 

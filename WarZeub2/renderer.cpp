@@ -15,7 +15,7 @@
 // ============================================================================
 
 const SDL_Rect viewport = {SCREEN_WIDTH / 5, 0, 4 * SCREEN_WIDTH / 5, SCREEN_HEIGHT };
-Vec2 cameraPos(0, 0);
+Camera* gCamera;
 SDL_Surface* screen = 0;
 SDL_Surface* summerTilesSurface = 0;
 
@@ -33,12 +33,15 @@ void InitRenderer()
 #endif
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
+	gCamera = new Camera();
 }
 
 // ============================================================================
 
 void ReleaseRenderer()
 {
+	if (gCamera)
+		delete gCamera;
 	SDL_FreeSurface(screen);
 }
 
@@ -96,7 +99,7 @@ void Render(const Unit& parUnit)
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 
 	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
-	TransformToScreenCoordinate(dstRect, cameraPos);
+	TransformToScreenCoordinate(dstRect, gCamera->Pos());
 
 	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
 		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
@@ -147,7 +150,7 @@ void Render(const Map& parMap)
 	if (mapSurface)
 	{
 		SDL_Rect dst = { 0, 0, 0, 0 };
-		TransformToScreenCoordinate(dst, cameraPos);
+		TransformToScreenCoordinate(dst, gCamera->Pos());
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
 	}
 }
