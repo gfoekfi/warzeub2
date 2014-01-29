@@ -35,6 +35,9 @@
 - UpdateSelection() might need to be moved somewhere else
 - Map rendering should be done only on the viewport region
 - It should be a state to specified when the user is in selecting mode
+- Move DrawSelections() to the right place
+- SDL actually sucks when a lots of sprite have to be displayed, switch to
+  OpenGL/DirectX or uses the OpenGL mode of SDL (or maybe SDL2.0?)
 ===============================================================================
 
 

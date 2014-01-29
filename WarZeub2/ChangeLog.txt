@@ -9,6 +9,7 @@
 - Building in construction or unit being trained can be canceled
 - Render progress bar for unit training and building construction
 - Basic screen scrolling with keyboard
+- FPS counter in window's title
 ===============================================================================
 
 ===============================================================================

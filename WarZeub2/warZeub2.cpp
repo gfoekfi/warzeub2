@@ -80,6 +80,7 @@ void EventHandler(const SDL_Event& parEvent)
 
 // ============================================================================
 
+// TODO: Move it somewhere else
 void DrawSelections()
 {
 	if (player.selectedUnit)
@@ -134,6 +135,8 @@ void Render()
 void Run()
 {
 	SDL_Event event;
+	int nbFrames = 0;
+	Uint32 lastFrameCountTime = 0;
 
 	while (!isDone)
 	{
@@ -151,6 +154,17 @@ void Run()
 		char* error = SDL_GetError();
 		if (error && strlen(error) > 0)
 			fprintf(stderr, "%s\n", error);
+
+		// fps counter
+		nbFrames++;
+		if (curTime - lastFrameCountTime > 1000)
+		{
+			char winTitle[128];
+			sprintf_s(winTitle, sizeof(winTitle), "WarZeub2! (fps: %d)", nbFrames);
+			SDL_WM_SetCaption(winTitle, 0);
+			nbFrames = 0;
+			lastFrameCountTime = curTime;
+		}
 	}
 }
 
