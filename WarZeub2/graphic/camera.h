@@ -30,6 +30,9 @@ public:
 	void SetPos(const Vec2& parPos) { pos_ = parPos; }
 
 private:
+	Vec2 ScrollDirFromUserInput_() const;
+
+private:
 	Vec2 pos_;
 	Vec2 lastPosOnRightClick_;
 	Vec2 lastPosOnLeftClick_;
