@@ -32,12 +32,12 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.rightButtonPressed)
 				{
 					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					mouse.lastCameraPosOnRightClick = gCamera->Pos();
+					gCamera->StorePosOnRightClick();
 					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
 						&& player.selectedUnit->IsMovable())
 					{
 						Vec2 pos = mouse.lastRightClickPos;
-						TransformToWorldCoordinate(pos, mouse.lastCameraPosOnRightClick);
+						TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
 						player.selectedUnit->Move(pos);
 					}
 				}
@@ -48,7 +48,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				if (!mouse.leftButtonPressed)
 				{
 					mouse.lastLeftClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
-					mouse.lastCameraPosOnLeftClick = gCamera->Pos();
+					gCamera->StorePosOnLeftClick();
 				}
 				mouse.leftButtonPressed = true;
 			}
@@ -65,7 +65,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
 			{
 				Vec2 worldPos(mouse.lastLeftClickPos);
-				TransformToWorldCoordinate(worldPos, mouse.lastCameraPosOnLeftClick);
+				TransformToWorldCoordinate(worldPos, gCamera->LastPosOnLeftClick());
 				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
 			}
 			else
@@ -143,7 +143,7 @@ SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoo
 	if (parTransformToWorldCoordinate)
 	{
 		TransformToWorldCoordinate(curPos, gCamera->Pos());
-		TransformToWorldCoordinate(lastPos, mouse.lastCameraPosOnLeftClick);
+		TransformToWorldCoordinate(lastPos, gCamera->LastPosOnLeftClick());
 	}
 
 	SDL_Rect boundingBox =

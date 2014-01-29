@@ -103,7 +103,7 @@ void DrawSelections()
 	{
 		// sexy stuff ;)
 		Vec2 lastPos(mouse.lastLeftClickPos);
-		TransformToWorldCoordinate(lastPos, mouse.lastCameraPosOnLeftClick);
+		TransformToWorldCoordinate(lastPos, gCamera->LastPosOnLeftClick());
 		TransformToScreenCoordinate(lastPos, gCamera->Pos());
 
 		SDL_Rect src = { lastPos.x, lastPos.y, 0, 0 };

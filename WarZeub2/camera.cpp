@@ -6,7 +6,9 @@
 // ============================================================================
 
 Camera::Camera()
-	: pos_(Vec2(0, 0))
+	: pos_(Vec2(0, 0)),
+	lastPosOnRightClick_(Vec2(0, 0)),
+	lastPosOnLeftClick_(Vec2(0, 0))
 {
 }
 

@@ -16,9 +16,6 @@ struct Mouse
 	Vec2 lastRightClickPos;
 	Vec2 lastLeftClickPos;
 
-	Vec2 lastCameraPosOnRightClick;	// It might sounds odd to declare this here,
-	Vec2 lastCameraPosOnLeftClick;	// but it makes things easier
-
 	bool leftButtonPressed;
 	bool rightButtonPressed;
 };
