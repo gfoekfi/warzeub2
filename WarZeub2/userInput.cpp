@@ -1,11 +1,11 @@
 #include "userInput.h"
-#include "player.h"
+#include "hud.h"
 #include "graphic/renderer.h"
 #include "graphic/spriteDesc.h"
-#include "world.h"
-#include "unitDesc.h"
-#include "order.h"
-#include "hud.h"
+#include "gameplay/player.h"
+#include "gameplay/world.h"
+#include "gameplay/unitDesc.h"
+#include "gameplay/order.h"
 #include <assert.h>
 
 

@@ -1,7 +1,7 @@
 #include "hud.h"
 #include "graphic/renderer.h"
 #include "graphic/spriteDesc.h"
-#include "player.h"
+#include "gameplay/player.h"
 #include "userInput.h"
 #include "util.h"
 #include <assert.h>

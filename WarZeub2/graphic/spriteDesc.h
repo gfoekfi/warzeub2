@@ -2,8 +2,8 @@
 #define ANIM_DESC_
 
 
-#include "../unit.h"
-#include "../unitDesc.h"
+#include "../gameplay/unit.h"
+#include "../gameplay/unitDesc.h"
 #include <SDL.h>
 #include <map>
 

@@ -3,8 +3,8 @@
 
 
 #include "../util.h"
-#include "../unit.h"
-#include "../world.h"
+#include "../gameplay/unit.h"
+#include "../gameplay/world.h"
 #include "camera.h"
 
 

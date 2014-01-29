@@ -182,39 +182,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\order.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\order.h"
-				>
-			</File>
-			<File
-				RelativePath=".\player.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\player.h"
-				>
-			</File>
-			<File
 				RelativePath=".\singleton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\unit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\unit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\unitDesc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\unitDesc.h"
 				>
 			</File>
 			<File
@@ -235,14 +203,6 @@
 			</File>
 			<File
 				RelativePath=".\warZeub2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\world.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\world.h"
 				>
 			</File>
 			<Filter
@@ -270,6 +230,50 @@
 				</File>
 				<File
 					RelativePath=".\graphic\spriteDesc.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="gameplay"
+				>
+				<File
+					RelativePath=".\gameplay\order.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\order.h"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\player.h"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\unit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\unit.h"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\unitDesc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\unitDesc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\world.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\world.h"
 					>
 				</File>
 			</Filter>

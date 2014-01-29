@@ -3,9 +3,9 @@
 
 
 #include "singleton.h"
-#include "unitDesc.h"
 #include "util.h"
-#include "unit.h"
+#include "gameplay/unitDesc.h"
+#include "gameplay/unit.h"
 #include <SDL.h>
 
 

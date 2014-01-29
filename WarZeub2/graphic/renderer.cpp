@@ -1,8 +1,8 @@
 #include "renderer.h"
 #include "spriteDesc.h"
-#include "../unitDesc.h"
-#include "../player.h"
-#include "../order.h"
+#include "../gameplay/unitDesc.h"
+#include "../gameplay/player.h"
+#include "../gameplay/order.h"
 #include "../hud.h"
 #include <SDL.h>
 #include <SDL_Image.h>

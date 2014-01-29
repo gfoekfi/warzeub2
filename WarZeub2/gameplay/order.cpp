@@ -1,10 +1,10 @@
 #include "order.h"
 #include "unit.h"
 #include "world.h"
-#include "util.h"
 #include "unitDesc.h"
-#include "userInput.h"
 #include "player.h"
+#include "../util.h"
+#include "../userInput.h"
 
 
 // ============================================================================
