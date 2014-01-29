@@ -58,9 +58,8 @@ void MouseEventHandler(const SDL_Event& parEvent)
 	case SDL_MOUSEBUTTONUP:
 		if (parEvent.button.button == SDL_BUTTON_RIGHT)
 			mouse.rightButtonPressed = false;
-		else if (parEvent.button.button == SDL_BUTTON_LEFT
-			&& mouse.leftButtonPressed) // prevents SDL send 'up' events multiple times
-		{
+		else if (parEvent.button.button == SDL_BUTTON_LEFT && mouse.leftButtonPressed)
+		{ // prevents SDL send 'up' events multiple times
 			if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 				HUD::Inst()->GridClickHandler();
 			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
@@ -95,13 +94,15 @@ void KeyboardScrollingHandler()
 	const int SCROLLING_SENSITIVITY = 5;
 	cameraPos.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
 	cameraPos.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
-	cameraPos.x = Clamp<int>(cameraPos.x, 0,
-		World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
+	// need to max when the map is smaller than the screen (should never happens though)
+	int maxX = std::max<int>(0, World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
+	cameraPos.x = Clamp<int>(cameraPos.x, 0, maxX);
 
 	cameraPos.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
 	cameraPos.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
-	cameraPos.y = Clamp<int>(cameraPos.y, 0,
-		World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
+	// need to max when the map is smaller than the screen (should never happens though)
+	int maxY = std::max<int>(0, World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
+	cameraPos.y = Clamp<int>(cameraPos.y, 0, maxY);
 
 	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos) &&
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||

@@ -2,6 +2,7 @@
 #define UTIL_H_
 
 
+#include <assert.h>
 #include <SDL.h>
 
 
@@ -74,6 +75,8 @@ extern Vec2 dirs[MAX_DIRS];
 template <typename T>
 T Clamp(T parValue, T parMin, T parMax)
 {
+	assert(parMin <= parMax);
+
 	if (parValue < parMin)
 		return parMin;
 	if (parValue > parMax)

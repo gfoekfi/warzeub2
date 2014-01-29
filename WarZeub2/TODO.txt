@@ -16,7 +16,7 @@
 - keyboard shortcut (grid / first letter)
 - tree handling
 - unit mouvement speed according to unit desc
-- group selection
+- group selection save/restore handling
 - fog of war
 - render building that will be constructed
 - font handling
@@ -34,6 +34,7 @@
 - UserInput start to get messy again
 - UpdateSelection() might need to be moved somewhere else
 - Map rendering should be done only on the viewport region
+- It should be a state to specified when the user is in selecting mode
 ===============================================================================
 
 
