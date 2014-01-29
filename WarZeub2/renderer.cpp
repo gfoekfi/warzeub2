@@ -27,9 +27,9 @@ void InitRenderer()
 {
 	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT,
 #if 1
-		32, SDL_HWSURFACE);
+		32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 #else
-		32, SDL_HWSURFACE | SDL_FULLSCREEN);
+		32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 #endif
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
