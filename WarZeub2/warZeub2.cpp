@@ -149,6 +149,7 @@ void Run()
 
 		World::Inst()->Update(curTime, elapsedTime);
 
+		gCamera->Update(lastTime, curTime);
 		Render();		
 
 		char* error = SDL_GetError();

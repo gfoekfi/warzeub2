@@ -76,6 +76,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 	case SDL_MOUSEMOTION:
 		mouse.pos = Vec2(parEvent.motion.x, parEvent.motion.y);
+		// TODO: should disappears from here
 		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		{
 			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
@@ -90,23 +91,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 void KeyboardScrollingHandler()
 {
-	// TODO: Better and smoother implementation
-	const int SCROLLING_SENSITIVITY = 5;
-	Vec2 nextCameraPos = gCamera->Pos();
-	nextCameraPos.x += keyboard.keysPressed[SDLK_RIGHT] ? SCROLLING_SENSITIVITY : 0;
-	nextCameraPos.x -= keyboard.keysPressed[SDLK_LEFT] ? SCROLLING_SENSITIVITY : 0;
-	// need to max when the map is smaller than the screen (should never happens though)
-	int maxX = std::max<int>(0, World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w);
-	nextCameraPos.x = Clamp<int>(nextCameraPos.x, 0, maxX);
-
-	nextCameraPos.y += keyboard.keysPressed[SDLK_DOWN] ? SCROLLING_SENSITIVITY : 0;
-	nextCameraPos.y -= keyboard.keysPressed[SDLK_UP] ? SCROLLING_SENSITIVITY : 0;
-	// need to max when the map is smaller than the screen (should never happens though)
-	int maxY = std::max<int>(0, World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h);
-	nextCameraPos.y = Clamp<int>(nextCameraPos.y, 0, maxY);
-
-	gCamera->SetPos(nextCameraPos);
-
+	// TODO: Move it to another place
 	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos) &&
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||
 		 keyboard.keysPressed[SDLK_UP] || keyboard.keysPressed[SDLK_DOWN]))

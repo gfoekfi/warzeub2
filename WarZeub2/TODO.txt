@@ -48,4 +48,6 @@
 - Right clicking very near a 'stopped' peon and the move animation continue or
   when a lag occurs (convergence issue?)
 - Make compilation works in RELEASE
+- All position stuff should be float instead of int to avoid *stuck* cases
+  because the delta to next position is lesser than 1
 ===============================================================================

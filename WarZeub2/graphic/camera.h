@@ -16,6 +16,9 @@ public:
 	~Camera();
 
 public:
+	void Update(int parLastTime, int parCurTime);
+
+public:
 	void StorePosOnLeftClick() { lastPosOnLeftClick_ = pos_; }
 	void StorePosOnRightClick() { lastPosOnRightClick_ = pos_; }
 
