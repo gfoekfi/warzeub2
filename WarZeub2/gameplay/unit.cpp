@@ -1,7 +1,6 @@
 #include "unit.h"
 #include "order.h"
 #include "unitDesc.h"
-#include "../util.h"
 #include <stdlib.h>
 #include <assert.h>
 

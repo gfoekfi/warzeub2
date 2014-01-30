@@ -3,7 +3,6 @@
 #include "graphic/spriteDesc.h"
 #include "gameplay/player.h"
 #include "userInput.h"
-#include "util.h"
 #include <assert.h>
 #include <algorithm>
 #include <SDL_Image.h>

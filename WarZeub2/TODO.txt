@@ -50,4 +50,5 @@
 - All position stuff should be float instead of int to avoid *stuck* cases
   because the delta to next position is lesser than 1
 - Force mouse to stay inside application screen in windowed mode
+- Diagonal scrolling
 ===============================================================================

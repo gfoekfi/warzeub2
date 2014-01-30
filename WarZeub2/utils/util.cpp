@@ -1,5 +1,5 @@
 #include "util.h"
-#include "graphic/renderer.h"
+#include "../graphic/renderer.h"
 
 
 // ============================================================================

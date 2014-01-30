@@ -2,7 +2,7 @@
 #define UNIT_H_
 
 
-#include "../util.h"
+#include "../utils/util.h"
 #include <SDL.h>
 
 

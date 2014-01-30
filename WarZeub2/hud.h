@@ -2,8 +2,8 @@
 #define HUD_H_
 
 
-#include "singleton.h"
-#include "util.h"
+#include "utils/singleton.h"
+#include "utils/util.h"
 #include "gameplay/unitDesc.h"
 #include "gameplay/unit.h"
 #include <SDL.h>

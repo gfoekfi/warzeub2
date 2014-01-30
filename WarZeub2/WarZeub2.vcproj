@@ -182,23 +182,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\singleton.h"
-				>
-			</File>
-			<File
 				RelativePath=".\userInput.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\userInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\util.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\util.h"
 				>
 			</File>
 			<File
@@ -274,6 +262,22 @@
 				</File>
 				<File
 					RelativePath=".\gameplay\world.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="utils"
+				>
+				<File
+					RelativePath=".\utils\singleton.h"
+					>
+				</File>
+				<File
+					RelativePath=".\utils\util.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\utils\util.h"
 					>
 				</File>
 			</Filter>

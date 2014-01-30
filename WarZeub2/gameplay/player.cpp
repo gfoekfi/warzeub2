@@ -2,7 +2,7 @@
 #include "world.h"
 #include "unit.h"
 #include "../userInput.h"
-#include "../util.h"
+#include "../utils/util.h"
 
 
 // ============================================================================

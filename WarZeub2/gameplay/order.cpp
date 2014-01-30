@@ -3,7 +3,6 @@
 #include "world.h"
 #include "unitDesc.h"
 #include "player.h"
-#include "../util.h"
 #include "../userInput.h"
 
 
