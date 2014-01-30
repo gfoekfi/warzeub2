@@ -141,6 +141,8 @@ SDL_Rect Unit::BoundingBox() const
 		unitDesc.height 
 	};
 
+	assert(boundingBox.w >= 1 && boundingBox.h >= 1);
+
 	return boundingBox;
 }
 

@@ -36,7 +36,7 @@ public:
 
 public:
 	Unit* BuilderOf(const Unit* parUnit) const;
-	bool Collides(const Unit* parUnit, SDL_Rect& parSrc) const; // unit parameter to ignore self collision
+	bool Collides(const Unit* parUnit, SDL_Rect& parDst) const; // unit parameter to ignore self collision
 
 public:
 	const std::vector<Unit*>& Units() const { return units_; }

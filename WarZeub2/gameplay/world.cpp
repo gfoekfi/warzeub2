@@ -86,7 +86,7 @@ Unit* World::BuilderOf(const Unit* parUnit) const
 // ============================================================================
 
 // TODO: Optimize search with Tree
-bool World::Collides(const Unit* parUnit, SDL_Rect& parSrc) const
+bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 {
 	assert(parUnit);
 
@@ -96,7 +96,7 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parSrc) const
 		if (otherUnit == parUnit) // no self collision
 			continue;
 
-		if (DoesBBoxesCollide(&parSrc, &otherUnit->BoundingBox()))
+		if (DoesBBoxesCollide(&parDst, &otherUnit->BoundingBox()))
 			return true;
 	}
 

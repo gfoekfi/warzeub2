@@ -65,6 +65,9 @@ inline bool IsPointInSegment(T parValue, T parSrcValue, T parDstValue)
 
 bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB)
 {
+	assert(parBoxA->w >= 1 && parBoxA->h >= 1);
+	assert(parBoxB->w >= 1 && parBoxB->h >= 1);
+
 	const SDL_Rect* left = (parBoxA->x <= parBoxB->x) ? parBoxA : parBoxB;
 	const SDL_Rect* right = (left == parBoxA) ? parBoxB : parBoxA;
 	const SDL_Rect* top = (parBoxA->y <= parBoxB->y) ? parBoxA : parBoxB;

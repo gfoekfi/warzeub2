@@ -136,8 +136,9 @@ SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoo
 	{ 
 		Sint16((curPos.x < lastPos.x) ? curPos.x : lastPos.x),
 		Sint16((curPos.y < lastPos.y) ? curPos.y : lastPos.y),
-		Sint16(fabs(curPos.x - lastPos.x)),
-		Sint16(fabs(curPos.y - lastPos.y))
+		// width and height should be at least 1, otherwise it's a point not a box
+		std::max<Sint16>(1, Sint16(fabs(curPos.x - lastPos.x))),
+		std::max<Sint16>(1, Sint16(fabs(curPos.y - lastPos.y)))
 	};
 
 	return boundingBox;
