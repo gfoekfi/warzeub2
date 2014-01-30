@@ -46,8 +46,6 @@
 ===============================================================================
 * BUG
 ===============================================================================
-- Right clicking very near a 'stopped' peon and the move animation continue or
-  when a lag occurs (convergence issue?)
 - Make compilation works in RELEASE
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling

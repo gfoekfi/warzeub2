@@ -76,39 +76,35 @@ MoveOrder::~MoveOrder()
 
 bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
-	float deltaPosX = targetPos_.x - hostUnit_->Pos().x;
-	float deltaPosY = targetPos_.y - hostUnit_->Pos().y;
+	assert(hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT);
 
-	// Hack to force the convergence to target
-	if (fabs(deltaPosX) <= 3.f)
-		targetPos_.x = hostUnit_->Pos().x;
-	if (fabs(deltaPosY) <= 3.f)
-		targetPos_.y = hostUnit_->Pos().y;
+	float2 deltaPos(targetPos_.x - hostUnit_->Pos().x, targetPos_.y - hostUnit_->Pos().y);
 
-	// Temporary hack that allows grunt and peon only to move
-	if (hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT)
-		hostUnit_->SetMoveState((fabs(deltaPosX) > 3.f || fabs(deltaPosY) > 3.f) ? EUS_MOVE : EUS_IDLE);
-	else
-		hostUnit_->SetMoveState(EUS_IDLE);
-
-	if (hostUnit_->MoveState() == EUS_MOVE)
+	if (fabs(deltaPos.x) <= 1.f && fabs(deltaPos.y) <= 1.f)
 	{
-		hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
-
-		float velX = dirs[hostUnit_->Dir()].x * float(parElapsedTime) / 3.f;
-		float velY = dirs[hostUnit_->Dir()].y * float(parElapsedTime) / 3.f;
-		if (fabs(velX) > fabs(deltaPosX))
-			velX = deltaPosX;
-		if (fabs(velY) > fabs(deltaPosY))
-			velY = deltaPosY;
-		
-		float2 newPos = hostUnit_->Pos();
-		newPos.x += velX;
-		newPos.y += velY;
-		hostUnit_->SetPos(newPos);
+		targetPos_ = hostUnit_->Pos();
+		hostUnit_->SetMoveState(EUS_IDLE);
+		return true;
 	}
 
-	return (hostUnit_->Pos() == targetPos_);
+	hostUnit_->SetMoveState(EUS_MOVE);
+	hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
+
+	const float MOVE_SPEED = 0.2f;
+	float2 velocity(MOVE_SPEED * float(parElapsedTime) * dirs[hostUnit_->Dir()].x,
+		MOVE_SPEED * float(parElapsedTime) * dirs[hostUnit_->Dir()].y);
+	if (fabs(deltaPos.x) < fabs(velocity.x))
+		velocity.x = deltaPos.x;
+	if (fabs(deltaPos.y) < fabs(velocity.y))
+		velocity.y = deltaPos.y;
+
+	float2 nextPos(hostUnit_->Pos().x + velocity.x, hostUnit_->Pos().y + velocity.y);
+
+	// TODO: Collision check
+
+	hostUnit_->SetPos(nextPos);
+
+	return false;
 }
 
 // ============================================================================

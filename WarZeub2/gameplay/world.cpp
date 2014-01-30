@@ -21,7 +21,7 @@ World::World()
 
 #if 0
 	// used to kill performance
-	for (int i = 0; i < 30; ++i)
+	for (int i = 0; i < 40; ++i)
 		units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4 - i*50, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
 #endif
 }
