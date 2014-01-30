@@ -83,20 +83,24 @@ void EventHandler(const SDL_Event& parEvent)
 // TODO: Move it somewhere else
 void DrawSelections()
 {
-	if (player.selectedUnit)
+	for (size_t unit = 0; unit < World::Inst()->Units().size(); ++unit)
 	{
-		const SpriteDesc& spriteDesc =
-			unitTypeStateToSpriteDesc[player.selectedUnit->Type()][player.selectedUnit->MoveState()];
-		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->Type()];
+		const Unit* curUnit = World::Inst()->Units()[unit];
+		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[curUnit->Type()][curUnit->MoveState()];
+		const UnitDesc& unitDesc = unitTypeToUnitDesc[curUnit->Type()];
 
-		SDL_Rect src = { Sint16(player.selectedUnit->Pos().x) - unitDesc.width / 2,
-			Sint16(player.selectedUnit->Pos().y) - unitDesc.height / 2, 0, 0 };
-		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
+		SDL_Rect src = {
+			Sint16(curUnit->Pos().x) - unitDesc.width / 2,
+			Sint16(curUnit->Pos().y) - unitDesc.height / 2, 0, 0 };
+		SDL_Rect dst = {
+			src.x + unitDesc.width,
+			src.y + unitDesc.height, 0, 0 };
 
 		TransformToScreenCoordinate(src, gCamera->Pos());
 		TransformToScreenCoordinate(dst, gCamera->Pos());
 
-		RenderSquare(src, dst, 0x0000ff00);
+		Uint32 color = (curUnit == player.selectedUnit) ? 0x00ff00 : 0x00999999;
+		RenderSquare(src, dst, color);
 	}
 
 	if (mouse.leftButtonPressed && (Sint16(mouse.lastLeftClickPos.x) > (screen->w / 5)))
