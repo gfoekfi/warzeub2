@@ -88,6 +88,22 @@ private:
 };
 
 // ============================================================================
+
+class GatherOrder : public Order
+{
+public:
+	GatherOrder(Unit* parHostUnit, Unit* parDstUnit);
+	virtual ~GatherOrder();
+
+public:
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsed) override;
+
+private:
+	Unit* dstUnit_; // mine only ATM
+	MoveOrder* moveOrder_;
+};
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
 

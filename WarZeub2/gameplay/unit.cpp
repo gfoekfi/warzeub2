@@ -65,6 +65,21 @@ void Unit::UpdateAnimation_(Uint32 parCurTime)
 
 // ============================================================================
 
+bool Unit::Gather(Unit* parMineUnit)
+{
+	assert(parMineUnit && parMineUnit->Type() == EUT_MINE);
+	assert(type_ == EUT_PEON);
+
+	if (curOrder_)
+		delete curOrder_;
+
+	curOrder_ = new GatherOrder(this, parMineUnit);
+
+	return true;
+}
+
+// ============================================================================
+
 bool Unit::Train(EUnitType parUnitTypeToTrain)
 {
 	if (curOrder_)

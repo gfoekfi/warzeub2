@@ -54,6 +54,7 @@ public:
 public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 
+	virtual bool Gather(Unit* parMineUnit);
 	virtual bool Train(EUnitType parUnitTypeToTrain);
 	virtual bool Move(const float2& parTargetPos);
 	virtual bool Build(EUnitType parUnitTypeToBuild, const float2& parPos);
