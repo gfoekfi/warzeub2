@@ -10,9 +10,9 @@
 // ============================================================================
 
 Camera::Camera()
-	: pos_(Vec2(0, 0)),
-	lastPosOnRightClick_(Vec2(0, 0)),
-	lastPosOnLeftClick_(Vec2(0, 0))
+	: pos_(int2(0, 0)),
+	lastPosOnRightClick_(int2(0, 0)),
+	lastPosOnLeftClick_(int2(0, 0))
 {
 }
 
@@ -26,15 +26,15 @@ Camera::~Camera()
 
 void Camera::Update(int parLastTime, int parCurTime)
 {
-	Vec2 scrollDir = ScrollDirFromUserInput_();
+	int2 scrollDir = ScrollDirFromUserInput_();
 	if (scrollDir.x == 0 && scrollDir.y == 0)
 		return; // no scrolling
 
 	const float SCROLL_SPEED = 1000.f;
 	int velocity = int(0.001f * float(parCurTime - parLastTime) * SCROLL_SPEED);
-	Vec2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
+	int2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
 
-	Vec2 maxPos(
+	int2 maxPos(
 		std::max<int>(0, World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w),
 		std::max<int>(0, World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h));
 	pos_.x = Clamp<int>(nextPos.x, 0, maxPos.x);
@@ -43,9 +43,9 @@ void Camera::Update(int parLastTime, int parCurTime)
 
 // ============================================================================
 
-Vec2 Camera::ScrollDirFromUserInput_() const
+int2 Camera::ScrollDirFromUserInput_() const
 {
-	Vec2 scrollDir(0, 0);
+	int2 scrollDir(0, 0);
 
 	if (keyboard.keysPressed[SDLK_LEFT] ||
 		(mouse.pos.x <= int(0.02f * float(SCREEN_WIDTH))))

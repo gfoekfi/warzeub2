@@ -109,7 +109,7 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
-void Render(EUnitType parUnitType, const Vec2& parScreenPos)
+void Render(EUnitType parUnitType, const int2& parScreenPos)
 {
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnitType][EUS_IDLE];
 

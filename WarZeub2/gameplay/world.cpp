@@ -14,15 +14,15 @@ World::World()
 	map_->width = 30;
 	map_->height = 30;
 
-	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
-	units_.push_back(new Unit(Vec2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
-	units_.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
-	units_.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
+	units_.push_back(new Unit(int2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
+	units_.push_back(new Unit(int2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
+	units_.push_back(new Unit(int2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
+	units_.push_back(new Unit(int2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
 
 #if 0
 	// used to kill performance
 	for (int i = 0; i < 30; ++i)
-		units_.push_back(new Unit(Vec2(3*SCREEN_WIDTH/4 - i*50, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
+		units_.push_back(new Unit(int2(3*SCREEN_WIDTH/4 - i*50, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
 #endif
 }
 

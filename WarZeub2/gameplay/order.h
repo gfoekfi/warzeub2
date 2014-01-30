@@ -38,14 +38,14 @@ protected:
 class MoveOrder : public Order
 {
 public:
-	MoveOrder(Unit* parHostUnit, const Vec2& parTargetPos);
+	MoveOrder(Unit* parHostUnit, const int2& parTargetPos);
 	virtual ~MoveOrder();
 
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 private:
-	Vec2 targetPos_;
+	int2 targetPos_;
 };
 
 // ============================================================================
@@ -70,7 +70,7 @@ private:
 class BuildOrder : public Order
 {
 public:
-	BuildOrder(Unit* parHostUnit, EUnitType parUnitTypeToBuild, const Vec2& parPos);
+	BuildOrder(Unit* parHostUnit, EUnitType parUnitTypeToBuild, const int2& parPos);
 	virtual ~BuildOrder();
 
 public:
@@ -81,7 +81,7 @@ public:
 
 private:
 	EUnitType unitTypeToBuild_;
-	Vec2 buildingPos_;
+	int2 buildingPos_;
 	Unit* buildingUnit_;
 	Uint32 buildingStartTime_;
 	MoveOrder* moveOrder_;

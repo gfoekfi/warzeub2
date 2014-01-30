@@ -2,50 +2,10 @@
 #define UTIL_H_
 
 
+#include "vecTypes.h"
 #include <assert.h>
 #include <SDL.h>
 
-
-// ============================================================================
-// ----------------------------------------------------------------------------
-// ============================================================================
-
-struct Vec2
-{
-	Vec2(int parX, int parY) :
-		x(parX),
-		y(parY)
-	{
-	}
-
-	Vec2(const Vec2& parRhs) :
-		x(parRhs.x),
-		y(parRhs.y)
-	{
-	}
-
-	Vec2() :
-		x(0),
-		y(0)
-	{
-	}
-
-	Vec2& operator=(const Vec2& parRhs)
-	{
-		x = parRhs.x;
-		y = parRhs.y;
-
-		return *this;
-	}
-
-	bool operator==(const Vec2& parRhs) const
-	{
-		return (x == parRhs.x && y == parRhs.y);
-	}
-
-	int x;
-	int y;
-};
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -66,7 +26,11 @@ enum EDir
 
 // ============================================================================
 
-extern Vec2 dirs[MAX_DIRS];
+extern int2 dirs[MAX_DIRS];
+
+// ============================================================================
+
+EDir DirectionToTarget(const int2& parSrc, const int2& parDst);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -87,11 +51,11 @@ T Clamp(T parValue, T parMin, T parMax)
 // ============================================================================
 
 bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
-EDir DirectionToTarget(const Vec2& parSrc, const Vec2& parDst);
-void TransformToScreenCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos);
-void TransformToScreenCoordinate(Vec2& parPos, const Vec2& parCameraPos);
-void TransformToWorldCoordinate(SDL_Rect& parRect, const Vec2& parCameraPos);
-void TransformToWorldCoordinate(Vec2& parRect, const Vec2& parCameraPos);
+
+void TransformToScreenCoordinate(SDL_Rect& parRect, const int2& parCameraPos);
+void TransformToScreenCoordinate(int2& parPos, const int2& parCameraPos);
+void TransformToWorldCoordinate(SDL_Rect& parRect, const int2& parCameraPos);
+void TransformToWorldCoordinate(int2& parRect, const int2& parCameraPos);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

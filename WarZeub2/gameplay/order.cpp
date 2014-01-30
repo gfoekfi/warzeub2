@@ -42,7 +42,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 	if (!trainedUnit_)
 	{
-		Vec2 newUnitPos(hostUnit_->Pos());
+		int2 newUnitPos(hostUnit_->Pos());
 		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
 			unitTypeToUnitDesc[unitTypeToTrain_].height / 2;
 		trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_);
@@ -59,7 +59,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-MoveOrder::MoveOrder(Unit* parHostUnit, const Vec2& parTargetPos)
+MoveOrder::MoveOrder(Unit* parHostUnit, const int2& parTargetPos)
 	: Order(parHostUnit),
 	targetPos_(parTargetPos)
 {
@@ -101,7 +101,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		if (abs(velY) > abs(deltaPosY))
 			velY = deltaPosY;
 		
-		Vec2 newPos = hostUnit_->Pos();
+		int2 newPos = hostUnit_->Pos();
 		newPos.x += velX;
 		newPos.y += velY;
 		hostUnit_->SetPos(newPos);
@@ -114,7 +114,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const Vec2 &parPos)
+BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const int2 &parPos)
 	: Order(parHostUnit),
 	unitTypeToBuild_(parUnitTypeToBuild),
 	buildingUnit_(0),
@@ -187,7 +187,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			hostUnit_->SetActionState(EUS_IDLE);
 
 			// Make the building unit pop at the bottom of the created building
-			Vec2 newUnitPos(hostUnit_->Pos());
+			int2 newUnitPos(hostUnit_->Pos());
 			newUnitPos.y += unitTypeToUnitDesc[unitTypeToBuild_].height / 2 +
 				unitTypeToUnitDesc[hostUnit_->Type()].height / 2;
 			hostUnit_->SetPos(newUnitPos);

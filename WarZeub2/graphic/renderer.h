@@ -39,7 +39,7 @@ void BeginScene();
 void EndScene();
 
 void Render(const Unit& parUnit);
-void Render(EUnitType parUnitType, const Vec2& parScreenPos); // used by building placement
+void Render(EUnitType parUnitType, const int2& parScreenPos); // used by building placement
 void Render(const Map& parMap);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
 void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);

@@ -58,7 +58,7 @@ void HUD::GenerateBackgroundSurface_()
 
 // ============================================================================
 
-void HUD::RenderSelectionInfos_(const Vec2& parInfoRegionOffset)
+void HUD::RenderSelectionInfos_(const int2& parInfoRegionOffset)
 {
 	assert(player.selectedUnit);
 
@@ -87,7 +87,7 @@ void HUD::RenderSelectionInfos_(const Vec2& parInfoRegionOffset)
 
 // ============================================================================
 
-void HUD::RenderMinimap_(const Vec2& parMinimapRegionOffset)
+void HUD::RenderMinimap_(const int2& parMinimapRegionOffset)
 {
 	static SDL_Rect miniMapRect = {parMinimapRegionOffset.x, parMinimapRegionOffset.y,
 		backgroundSurface_->w - (2 * parMinimapRegionOffset.x),
@@ -110,17 +110,17 @@ void HUD::Render()
 
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
-	Vec2 minimapRegionOffset(backgroundSurface_->w / 20, (backgroundSurface_->h / 3 ) / 20);
+	int2 minimapRegionOffset(backgroundSurface_->w / 20, (backgroundSurface_->h / 3 ) / 20);
 	RenderMinimap_(minimapRegionOffset);
 
 	if (player.selectedUnit)
 	{
 		// Selection info
-		Vec2 infoRegionOffset(backgroundSurface_->w / 50, (backgroundSurface_->h / 3) / 50);
+		int2 infoRegionOffset(backgroundSurface_->w / 50, (backgroundSurface_->h / 3) / 50);
 		RenderSelectionInfos_(infoRegionOffset);
 
 		// Grid
-		Vec2 orderHudOffset(infoRegionOffset.x,
+		int2 orderHudOffset(infoRegionOffset.x,
 			(2*backgroundSurface_->h / 3) + infoRegionOffset.y);
 		const std::set<EOrder>& unitOrders =
 			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToOrderSet[player.selectedUnit->ActionState()];
@@ -134,7 +134,7 @@ void HUD::Render()
 
 // ============================================================================
 
-void HUD::RenderHUDOrder_(EOrder parOrder, const Vec2& parGridRegionOffset)
+void HUD::RenderHUDOrder_(EOrder parOrder, const int2& parGridRegionOffset)
 {
 	if (parOrder == EO_NONE)
 		return;
@@ -169,7 +169,7 @@ void HUD::InitOrderGridPosMapping_()
 
 // ============================================================================
 
-bool HUD::IsInHUDRegion(const Vec2& parPos) const
+bool HUD::IsInHUDRegion(const int2& parPos) const
 {
 	return (parPos.x <= (screen->w / 5));
 }
@@ -240,7 +240,7 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 
 // ============================================================================
 
-void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const Vec2& parPosition)
+void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const int2& parPosition)
 {
 	switch (lastOrder_)
 	{

@@ -280,6 +280,10 @@
 					RelativePath=".\utils\util.h"
 					>
 				</File>
+				<File
+					RelativePath=".\utils\vecTypes.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<File

@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-Unit::Unit(const Vec2& parPos, EUnitType parType)
+Unit::Unit(const int2& parPos, EUnitType parType)
 :
 pos_(parPos),
 dir_(DIR_N),
@@ -78,7 +78,7 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 
 // ============================================================================
 
-bool Unit::Move(const Vec2& parTargetPos)
+bool Unit::Move(const int2& parTargetPos)
 {
 	assert(IsMovable());
 
@@ -92,7 +92,7 @@ bool Unit::Move(const Vec2& parTargetPos)
 
 // ============================================================================
 
-bool Unit::Build(EUnitType parUnitTypeToBuild, const Vec2& parPos)
+bool Unit::Build(EUnitType parUnitTypeToBuild, const int2& parPos)
 {
 	if (curOrder_)
 		delete curOrder_;

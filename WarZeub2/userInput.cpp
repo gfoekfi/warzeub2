@@ -31,12 +31,12 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			{
 				if (!mouse.rightButtonPressed)
 				{
-					mouse.lastRightClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
+					mouse.lastRightClickPos = int2(parEvent.motion.x, parEvent.motion.y);
 					gCamera->StorePosOnRightClick();
 					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
 						&& player.selectedUnit->IsMovable())
 					{
-						Vec2 pos = mouse.lastRightClickPos;
+						int2 pos = mouse.lastRightClickPos;
 						TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
 						player.selectedUnit->Move(pos);
 					}
@@ -47,7 +47,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			{
 				if (!mouse.leftButtonPressed)
 				{
-					mouse.lastLeftClickPos = Vec2(parEvent.motion.x, parEvent.motion.y);
+					mouse.lastLeftClickPos = int2(parEvent.motion.x, parEvent.motion.y);
 					gCamera->StorePosOnLeftClick();
 				}
 				mouse.leftButtonPressed = true;
@@ -64,7 +64,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				HUD::Inst()->GridClickHandler();
 			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
 			{
-				Vec2 worldPos(mouse.lastLeftClickPos);
+				int2 worldPos(mouse.lastLeftClickPos);
 				TransformToWorldCoordinate(worldPos, gCamera->LastPosOnLeftClick());
 				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
 			}
@@ -75,7 +75,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		break;
 
 	case SDL_MOUSEMOTION:
-		mouse.pos = Vec2(parEvent.motion.x, parEvent.motion.y);
+		mouse.pos = int2(parEvent.motion.x, parEvent.motion.y);
 		// TODO: should disappears from here
 		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		{
@@ -122,8 +122,8 @@ void KeyboardEventHandler(const SDL_Event& parEvent)
 
 SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoordinate)
 {
-	Vec2 curPos = parMouse.pos;
-	Vec2 lastPos = parMouse.lastLeftClickPos;
+	int2 curPos = parMouse.pos;
+	int2 lastPos = parMouse.lastLeftClickPos;
 
 	if (parTransformToWorldCoordinate)
 	{

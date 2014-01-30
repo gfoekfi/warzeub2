@@ -48,18 +48,18 @@ class Order;
 class Unit
 {
 public:
-	Unit(const Vec2& parPos, EUnitType parType);
+	Unit(const int2& parPos, EUnitType parType);
 	virtual ~Unit();
 
 public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 	virtual bool Train(EUnitType parUnitTypeToTrain);
-	virtual bool Move(const Vec2& parTargetPos);
-	virtual bool Build(EUnitType parUnitTypeToBuild, const Vec2& parPos);
+	virtual bool Move(const int2& parTargetPos);
+	virtual bool Build(EUnitType parUnitTypeToBuild, const int2& parPos);
 	virtual bool CancelOrder();
 
 public:
-	const Vec2& Pos() const { return pos_; }
+	const int2& Pos() const { return pos_; }
 	EUnitType Type() const { return type_; }
 	EUnitState MoveState() const { return moveState_; }
 	EUnitState ActionState() const { return actionState_; }
@@ -70,7 +70,7 @@ public:
 	void SetMoveState(EUnitState parState) { moveState_ = parState; }
 	void SetActionState(EUnitState parState) { actionState_ = parState; }
 	void SetDir(EDir parDir) { dir_ = parDir; }
-	void SetPos(const Vec2& parPos) { pos_ = parPos; };
+	void SetPos(const int2& parPos) { pos_ = parPos; };
 
 public:
 	float OrderCompletionStatus() const; // used by hud (progress bar)
@@ -84,7 +84,7 @@ private:
 	void UpdateAnimation_(Uint32 parCurTime);
 
 protected:
-	Vec2 pos_;
+	int2 pos_;
 	EDir dir_;
 	EUnitType type_;
 	EUnitState moveState_;

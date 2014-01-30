@@ -12,9 +12,9 @@
 
 struct Mouse
 {
-	Vec2 pos;
-	Vec2 lastRightClickPos;
-	Vec2 lastLeftClickPos;
+	int2 pos;
+	int2 lastRightClickPos;
+	int2 lastLeftClickPos;
 
 	bool leftButtonPressed;
 	bool rightButtonPressed;
