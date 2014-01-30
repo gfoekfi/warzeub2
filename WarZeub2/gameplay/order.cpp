@@ -45,7 +45,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	{
 		float2 newUnitPos(hostUnit_->Pos());
 		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
-			unitTypeToUnitDesc[unitTypeToTrain_].height / 2;
+			unitTypeToUnitDesc[unitTypeToTrain_].height / 2 + 1; // +1 => to not stay stuck
 		trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_);
 
 		World::Inst()->AddUnit(trainedUnit_);
@@ -189,7 +189,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			// Make the building unit pop at the bottom of the created building
 			float2 newUnitPos(hostUnit_->Pos());
 			newUnitPos.y += unitTypeToUnitDesc[unitTypeToBuild_].height / 2 +
-				unitTypeToUnitDesc[hostUnit_->Type()].height / 2;
+				unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 1; // +1 => to not stay stuck
 			hostUnit_->SetPos(newUnitPos);
 
 			return true;

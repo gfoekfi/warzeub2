@@ -48,4 +48,5 @@
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling
 - Check collision before placing building
+- When unit pop after training or building, find a suitable location (no collision)
 ===============================================================================
