@@ -149,7 +149,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		completionStatus_ = 0.0f;
 
 		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
-		buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0);
+		buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0); // FIXME: Bad double setter
 		buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE0);
 
 		World::Inst()->AddUnit(buildingUnit_);
@@ -162,24 +162,21 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	{
 		completionStatus_ = float(parCurTime - buildingStartTime_) / float(unitTypeToUnitDesc[unitTypeToBuild_].buildTime);
 		completionStatus_ = Clamp(completionStatus_, 0.f, 1.f);
-		if (completionStatus_ < 0.3f)
+
+		if (completionStatus_ < 1.f)
 		{
-			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0); // FIXME: Bad double setter
-			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE0);
-		}
-		else if (completionStatus_ < 0.6f)
-		{
-			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE1); // FIXME: Bad double setter
-			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE1);
-		}
-		else if (completionStatus_ < 1.f)
-		{
-			buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE2); // FIXME: Bad double setter
-			buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE2);
+			assert(EUS_BEING_BUILD_STATE1 == (EUS_BEING_BUILD_STATE0 + 1));
+			assert(EUS_BEING_BUILD_STATE2 == (EUS_BEING_BUILD_STATE1 + 1));
+
+			EUnitState beingBuildState = EUnitState(EUS_BEING_BUILD_STATE0 +
+				int(completionStatus_ * (EUS_BEING_BUILD_STATE2 - EUS_BEING_BUILD_STATE0 + 1)));
+
+			buildingUnit_->SetMoveState(beingBuildState); // FIXME: Bad double setter
+			buildingUnit_->SetActionState(beingBuildState);
 		}
 		else
 		{
-			buildingUnit_->SetMoveState(EUS_IDLE); 
+			buildingUnit_->SetMoveState(EUS_IDLE); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(EUS_IDLE);
 			hostUnit_->SetActionState(EUS_IDLE);
 
