@@ -102,14 +102,13 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 	float2 nextPos(hostUnit_->Pos().x + velocity.x, hostUnit_->Pos().y + velocity.y);
 
-	float2 lastPos = hostUnit_->Pos();
-	hostUnit_->SetPos(nextPos);
-	SDL_Rect nextBoundinBox = hostUnit_->BoundingBox(); // FIXME: ugly !!
-	if (World::Inst()->Collides(hostUnit_, nextBoundinBox))
-	{
-		hostUnit_->SetPos(lastPos);
+	SDL_Rect nextBoundingBox = hostUnit_->BoundingBox();
+	nextBoundingBox.x = Sint16(nextPos.x) - nextBoundingBox.w / 2;
+	nextBoundingBox.y = Sint16(nextPos.y) - nextBoundingBox.h / 2;
+	if (World::Inst()->Collides(hostUnit_, nextBoundingBox))
 		targetPos_ = hostUnit_->Pos(); // will stop unit to move at next frame
-	}
+	else
+		hostUnit_->SetPos(nextPos);
 
 	return false;
 }

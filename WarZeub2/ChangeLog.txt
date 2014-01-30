@@ -12,6 +12,7 @@
 - FPS counter in window's title
 - All position related stuff is in 'float' type now instead of 'int'
 - Unit moves with speed defined in its UnitDesc
+- Basic collision check on unit move
 ===============================================================================
 
 ===============================================================================

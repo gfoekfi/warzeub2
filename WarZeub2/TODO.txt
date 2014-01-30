@@ -1,7 +1,6 @@
 ===============================================================================
 * FEATURE
 ===============================================================================
-- Collision unit / building
 - path finding
 - multiple unit selection
 - smart unit selection (unit > building)
@@ -48,4 +47,5 @@
 - Make compilation works in RELEASE
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling
+- Check collision before placing building
 ===============================================================================
