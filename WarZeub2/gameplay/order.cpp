@@ -78,8 +78,9 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	assert(hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT);
 
-	float2 deltaPos(targetPos_.x - hostUnit_->Pos().x, targetPos_.y - hostUnit_->Pos().y);
-
+	float2 deltaPos(
+		targetPos_.x - hostUnit_->Pos().x,
+		targetPos_.y - hostUnit_->Pos().y);
 	if (fabs(deltaPos.x) <= 1.f && fabs(deltaPos.y) <= 1.f)
 	{
 		targetPos_ = hostUnit_->Pos();
@@ -91,7 +92,8 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
 
 	const float moveSpeed = 0.02f * float(unitTypeToUnitDesc[hostUnit_->Type()].moveSpeed);
-	float2 velocity(moveSpeed * float(parElapsedTime) * dirs[hostUnit_->Dir()].x,
+	float2 velocity(
+		moveSpeed * float(parElapsedTime) * dirs[hostUnit_->Dir()].x,
 		moveSpeed * float(parElapsedTime) * dirs[hostUnit_->Dir()].y);
 	if (fabs(deltaPos.x) < fabs(velocity.x))
 		velocity.x = deltaPos.x;
@@ -100,9 +102,14 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 	float2 nextPos(hostUnit_->Pos().x + velocity.x, hostUnit_->Pos().y + velocity.y);
 
-	// TODO: Collision check
-
+	float2 lastPos = hostUnit_->Pos();
 	hostUnit_->SetPos(nextPos);
+	SDL_Rect nextBoundinBox = hostUnit_->BoundingBox(); // FIXME: ugly !!
+	if (World::Inst()->Collides(hostUnit_, nextBoundinBox))
+	{
+		hostUnit_->SetPos(lastPos);
+		targetPos_ = hostUnit_->Pos(); // will stop unit to move at next frame
+	}
 
 	return false;
 }

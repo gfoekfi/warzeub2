@@ -146,6 +146,7 @@ SDL_Rect Unit::BoundingBox() const
 
 // ============================================================================
 
+// TODO: Uses polymorphism
 bool Unit::IsMovable() const
 {
 	switch (type_)
@@ -153,9 +154,6 @@ bool Unit::IsMovable() const
 	case EUT_PEON:
 	case EUT_GRUNT:
 		return true;
-
-	default:
-		return false;
 	};
 
 	return false;

@@ -71,7 +71,7 @@ void World::RemoveUnit(Unit* parUnit)
 
 // ============================================================================
 
-Unit* World::BuilderOf(Unit* parUnit)
+Unit* World::BuilderOf(const Unit* parUnit) const
 {
 	assert(parUnit);
 	assert(parUnit->IsBeingConstructed());
@@ -81,6 +81,26 @@ Unit* World::BuilderOf(Unit* parUnit)
 			return units_[unit];
 
 	return 0;
+}
+
+// ============================================================================
+
+// TODO: Optimize search with Tree
+bool World::Collides(const Unit* parUnit, SDL_Rect& parSrc) const
+{
+	assert(parUnit);
+
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+	{
+		const Unit* otherUnit = units_[unit];
+		if (otherUnit == parUnit) // no self collision
+			continue;
+
+		if (DoesBBoxesCollide(&parSrc, &otherUnit->BoundingBox()))
+			return true;
+	}
+
+	return false;
 }
 
 // ============================================================================

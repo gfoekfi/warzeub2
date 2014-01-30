@@ -33,7 +33,10 @@ public:
 	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 	void AddUnit(Unit* parUnit); // Take the ownership
 	void RemoveUnit(Unit* parUnit);
-	Unit* BuilderOf(Unit* parUnit);
+
+public:
+	Unit* BuilderOf(const Unit* parUnit) const;
+	bool Collides(const Unit* parUnit, SDL_Rect& parSrc) const; // unit parameter to ignore self collision
 
 public:
 	const std::vector<Unit*>& Units() const { return units_; }
