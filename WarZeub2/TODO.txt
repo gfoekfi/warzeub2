@@ -20,6 +20,7 @@
 - Building placement should be tiles aligned
 - render minimap
 - move with minimap
+- write a README
 ===============================================================================
 
 
@@ -46,7 +47,9 @@
 ===============================================================================
 - Make compilation works in RELEASE
 - Force mouse to stay inside application screen in windowed mode
-- Diagonal scrolling
+- Diagonal scrolling (in windowed mode)
 - Check collision before placing building
-- When unit pop after training or building, find a suitable location (no collision)
+- When unit pop after training or building, find a suitable location (with no collision)
+- No scrolling on left side during 'selection mode'
+- When starting pos of selection square is out of screen, some bar should be truncated
 ===============================================================================

@@ -53,10 +53,18 @@ public:
 
 public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
+
 	virtual bool Train(EUnitType parUnitTypeToTrain);
 	virtual bool Move(const float2& parTargetPos);
 	virtual bool Build(EUnitType parUnitTypeToBuild, const float2& parPos);
 	virtual bool CancelOrder();
+
+public:
+	float OrderCompletionStatus() const; // used by hud (progress bar)
+	SDL_Rect BoundingBox() const;
+	bool IsMovable() const;
+	bool IsBeingConstructed() const;
+	bool IsBuilding(const Unit* parUnit) const;
 
 public:
 	const float2& Pos() const { return pos_; }
@@ -71,13 +79,6 @@ public:
 	void SetActionState(EUnitState parState) { actionState_ = parState; }
 	void SetDir(EDir parDir) { dir_ = parDir; }
 	void SetPos(const float2& parPos) { pos_ = parPos; };
-
-public:
-	float OrderCompletionStatus() const; // used by hud (progress bar)
-	SDL_Rect BoundingBox() const;
-	bool IsMovable() const;
-	bool IsBeingConstructed() const;
-	bool IsBuilding(const Unit* parUnit) const;
 
 private:
 	void UpdateOrder_(Uint32 parCurTime, Uint32 parElapsedTime);
