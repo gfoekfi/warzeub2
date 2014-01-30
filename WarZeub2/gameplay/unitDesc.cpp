@@ -9,10 +9,10 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 
 // ============================================================================
 
-UnitDesc peonUnitDesc(35, 45, 2000);
-UnitDesc gruntUnitDesc(45, 50, 5000);
-UnitDesc mineUnitDesc(110, 110, 0);
-UnitDesc townHallUnitDesc(130, 130, 10000);
+UnitDesc peonUnitDesc(35, 45, 2000, 5);
+UnitDesc gruntUnitDesc(45, 50, 5000, 7);
+UnitDesc mineUnitDesc(110, 110, 0, 0);
+UnitDesc townHallUnitDesc(130, 130, 10000, 0);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

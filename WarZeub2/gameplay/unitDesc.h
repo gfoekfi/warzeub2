@@ -26,23 +26,26 @@ enum EOrder
 
 struct UnitDesc
 {
-	UnitDesc(int parWidth, int parHeight, int parBuildTime) :
+	UnitDesc(int parWidth, int parHeight, int parBuildTime, int parMoveSpeed) :
 		width(parWidth),
 		height(parHeight),
-		buildTime(parBuildTime)
+		buildTime(parBuildTime),
+		moveSpeed(parMoveSpeed)
 	{
 	}
 
 	UnitDesc() :
 		width(0),
 		height(0),
-		buildTime(0)
+		buildTime(0),
+		moveSpeed(0)
 	{
 	}
 
 	int width;
 	int height;
 	int buildTime; // in ms
+	int moveSpeed;
 
 	std::map<EUnitState, std::set<EOrder> > unitStateToOrderSet;
 };

@@ -90,9 +90,9 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	hostUnit_->SetMoveState(EUS_MOVE);
 	hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
 
-	const float MOVE_SPEED = 0.2f;
-	float2 velocity(MOVE_SPEED * float(parElapsedTime) * dirs[hostUnit_->Dir()].x,
-		MOVE_SPEED * float(parElapsedTime) * dirs[hostUnit_->Dir()].y);
+	const float moveSpeed = 0.02f * float(unitTypeToUnitDesc[hostUnit_->Type()].moveSpeed);
+	float2 velocity(moveSpeed * float(parElapsedTime) * dirs[hostUnit_->Dir()].x,
+		moveSpeed * float(parElapsedTime) * dirs[hostUnit_->Dir()].y);
 	if (fabs(deltaPos.x) < fabs(velocity.x))
 		velocity.x = deltaPos.x;
 	if (fabs(deltaPos.y) < fabs(velocity.y))
