@@ -9,16 +9,15 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-Unit::Unit(const int2& parPos, EUnitType parType)
-:
-pos_(parPos),
-dir_(DIR_N),
-type_(parType),
-moveState_(EUS_IDLE),
-actionState_(EUS_IDLE),
-spriteStep_(0),
-spriteLastTime_(0),
-curOrder_(0)
+Unit::Unit(const float2& parPos, EUnitType parType)
+	: pos_(parPos),
+	dir_(DIR_N),
+	type_(parType),
+	moveState_(EUS_IDLE),
+	actionState_(EUS_IDLE),
+	spriteStep_(0),
+	spriteLastTime_(0),
+	curOrder_(0)
 {
 }
 
@@ -78,7 +77,7 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 
 // ============================================================================
 
-bool Unit::Move(const int2& parTargetPos)
+bool Unit::Move(const float2& parTargetPos)
 {
 	assert(IsMovable());
 
@@ -92,7 +91,7 @@ bool Unit::Move(const int2& parTargetPos)
 
 // ============================================================================
 
-bool Unit::Build(EUnitType parUnitTypeToBuild, const int2& parPos)
+bool Unit::Build(EUnitType parUnitTypeToBuild, const float2& parPos)
 {
 	if (curOrder_)
 		delete curOrder_;
@@ -136,8 +135,8 @@ SDL_Rect Unit::BoundingBox() const
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[type_];
 
 	SDL_Rect boundingBox = { 
-		pos_.x - unitDesc.width / 2,
-		pos_.y - unitDesc.height / 2, 
+		Sint16(pos_.x) - unitDesc.width / 2,	// FIXME: Sint16 might be too small in future
+		Sint16(pos_.y) - unitDesc.height / 2,
 		unitDesc.width, 
 		unitDesc.height 
 	};

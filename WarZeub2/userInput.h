@@ -12,9 +12,9 @@
 
 struct Mouse
 {
-	int2 pos;
-	int2 lastRightClickPos;
-	int2 lastLeftClickPos;
+	float2 pos;
+	float2 lastRightClickPos;
+	float2 lastLeftClickPos;
 
 	bool leftButtonPressed;
 	bool rightButtonPressed;

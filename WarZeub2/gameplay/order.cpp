@@ -4,6 +4,7 @@
 #include "unitDesc.h"
 #include "player.h"
 #include "../userInput.h"
+#include <math.h>
 
 
 // ============================================================================
@@ -42,7 +43,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 	if (!trainedUnit_)
 	{
-		int2 newUnitPos(hostUnit_->Pos());
+		float2 newUnitPos(hostUnit_->Pos());
 		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
 			unitTypeToUnitDesc[unitTypeToTrain_].height / 2;
 		trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_);
@@ -59,7 +60,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-MoveOrder::MoveOrder(Unit* parHostUnit, const int2& parTargetPos)
+MoveOrder::MoveOrder(Unit* parHostUnit, const float2& parTargetPos)
 	: Order(parHostUnit),
 	targetPos_(parTargetPos)
 {
@@ -75,18 +76,18 @@ MoveOrder::~MoveOrder()
 
 bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
-	int deltaPosX = targetPos_.x - hostUnit_->Pos().x;
-	int deltaPosY = targetPos_.y - hostUnit_->Pos().y;
+	float deltaPosX = targetPos_.x - hostUnit_->Pos().x;
+	float deltaPosY = targetPos_.y - hostUnit_->Pos().y;
 
 	// Hack to force the convergence to target
-	if (abs(deltaPosX) <= 3)
+	if (fabs(deltaPosX) <= 3.f)
 		targetPos_.x = hostUnit_->Pos().x;
-	if (abs(deltaPosY) <= 3)
+	if (fabs(deltaPosY) <= 3.f)
 		targetPos_.y = hostUnit_->Pos().y;
 
 	// Temporary hack that allows grunt and peon only to move
 	if (hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT)
-		hostUnit_->SetMoveState((abs(deltaPosX) > 3 || abs(deltaPosY) > 3) ? EUS_MOVE : EUS_IDLE);
+		hostUnit_->SetMoveState((fabs(deltaPosX) > 3.f || fabs(deltaPosY) > 3.f) ? EUS_MOVE : EUS_IDLE);
 	else
 		hostUnit_->SetMoveState(EUS_IDLE);
 
@@ -94,14 +95,14 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	{
 		hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
 
-		int velX = dirs[hostUnit_->Dir()].x * (parElapsedTime / 3);
-		int velY = dirs[hostUnit_->Dir()].y * (parElapsedTime / 3);
-		if (abs(velX) > abs(deltaPosX))
+		float velX = dirs[hostUnit_->Dir()].x * float(parElapsedTime) / 3.f;
+		float velY = dirs[hostUnit_->Dir()].y * float(parElapsedTime) / 3.f;
+		if (fabs(velX) > fabs(deltaPosX))
 			velX = deltaPosX;
-		if (abs(velY) > abs(deltaPosY))
+		if (fabs(velY) > fabs(deltaPosY))
 			velY = deltaPosY;
 		
-		int2 newPos = hostUnit_->Pos();
+		float2 newPos = hostUnit_->Pos();
 		newPos.x += velX;
 		newPos.y += velY;
 		hostUnit_->SetPos(newPos);
@@ -114,7 +115,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const int2 &parPos)
+BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const float2& parPos)
 	: Order(parHostUnit),
 	unitTypeToBuild_(parUnitTypeToBuild),
 	buildingUnit_(0),
@@ -187,7 +188,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			hostUnit_->SetActionState(EUS_IDLE);
 
 			// Make the building unit pop at the bottom of the created building
-			int2 newUnitPos(hostUnit_->Pos());
+			float2 newUnitPos(hostUnit_->Pos());
 			newUnitPos.y += unitTypeToUnitDesc[unitTypeToBuild_].height / 2 +
 				unitTypeToUnitDesc[hostUnit_->Type()].height / 2;
 			hostUnit_->SetPos(newUnitPos);

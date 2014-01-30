@@ -89,8 +89,8 @@ void DrawSelections()
 			unitTypeStateToSpriteDesc[player.selectedUnit->Type()][player.selectedUnit->MoveState()];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[player.selectedUnit->Type()];
 
-		SDL_Rect src = { player.selectedUnit->Pos().x - unitDesc.width / 2,
-			player.selectedUnit->Pos().y - unitDesc.height / 2, 0, 0 };
+		SDL_Rect src = { Sint16(player.selectedUnit->Pos().x) - unitDesc.width / 2,
+			Sint16(player.selectedUnit->Pos().y) - unitDesc.height / 2, 0, 0 };
 		SDL_Rect dst = { src.x + unitDesc.width, src.y + unitDesc.height, 0, 0 };
 
 		TransformToScreenCoordinate(src, gCamera->Pos());
@@ -99,15 +99,15 @@ void DrawSelections()
 		RenderSquare(src, dst, 0x0000ff00);
 	}
 
-	if (mouse.leftButtonPressed && (mouse.lastLeftClickPos.x > (screen->w / 5)))
+	if (mouse.leftButtonPressed && (Sint16(mouse.lastLeftClickPos.x) > (screen->w / 5)))
 	{
 		// sexy stuff ;)
-		int2 lastPos(mouse.lastLeftClickPos);
+		float2 lastPos(mouse.lastLeftClickPos);
 		TransformToWorldCoordinate(lastPos, gCamera->LastPosOnLeftClick());
 		TransformToScreenCoordinate(lastPos, gCamera->Pos());
 
-		SDL_Rect src = { lastPos.x, lastPos.y, 0, 0 };
-		SDL_Rect dst = { mouse.pos.x, mouse.pos.y, 0, 0 };
+		SDL_Rect src = { Sint16(lastPos.x), Sint16(lastPos.y), 0, 0 };
+		SDL_Rect dst = { Sint16(mouse.pos.x), Sint16(mouse.pos.y), 0, 0 };
 		RenderSquare(src, dst, 0x0000ff00);
 	}
 }

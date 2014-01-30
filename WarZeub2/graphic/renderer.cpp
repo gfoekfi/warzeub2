@@ -98,7 +98,8 @@ void Render(const Unit& parUnit)
 		spriteX += SpriteXOffsetFromDir(parUnit);
 	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
 
-	SDL_Rect dstRect = { parUnit.Pos().x - spriteDesc.width / 2, parUnit.Pos().y - spriteDesc.height / 2, 0, 0 };
+	SDL_Rect dstRect = { Sint16(parUnit.Pos().x) - spriteDesc.width / 2,
+		Sint16(parUnit.Pos().y) - spriteDesc.height / 2, 0, 0 };
 	TransformToScreenCoordinate(dstRect, gCamera->Pos());
 
 	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
@@ -109,12 +110,13 @@ void Render(const Unit& parUnit)
 
 // ============================================================================
 
-void Render(EUnitType parUnitType, const int2& parScreenPos)
+void Render(EUnitType parUnitType, const float2& parScreenPos)
 {
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnitType][EUS_IDLE];
 
 	SDL_Rect srcRect = { spriteDesc.offsetX, spriteDesc.offsetY, spriteDesc.width, spriteDesc.height };
-	SDL_Rect dstRect = { parScreenPos.x - spriteDesc.width / 2, parScreenPos.y - spriteDesc.height / 2, 0, 0 };
+	SDL_Rect dstRect = { Sint16(parScreenPos.x) - spriteDesc.width / 2,
+		Sint16(parScreenPos.y) - spriteDesc.height / 2, 0, 0 };
 
 	SDL_BlitSurface(unitTypeToImage[parUnitType], &srcRect, screen, &dstRect);
 }

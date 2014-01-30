@@ -20,13 +20,13 @@ public:
 	~HUD();
 
 public:
-	bool IsInHUDRegion(const int2& parPos) const;
+	bool IsInHUDRegion(const float2& parPos) const;
 
 public:
 	void GridClickHandler();
 	void Render();
 
-	void ApplyLastOrderAtPosition(Unit& parUnit, const int2& parPosition);
+	void ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition);
 
 private:
 	void InitOrderGridPosMapping_();
@@ -34,9 +34,9 @@ private:
 	void ApplyGridClick_(Unit& parUnit, int parGridClickPos);
 
 	void GenerateBackgroundSurface_();
-	void RenderHUDOrder_(EOrder parOrder, const int2& parGridRegionOffset);
-	void RenderSelectionInfos_(const int2& parInfoRegionOffset);
-	void RenderMinimap_(const int2& parMinimapRegionOffset);
+	void RenderHUDOrder_(EOrder parOrder, const float2& parGridRegionOffset);
+	void RenderSelectionInfos_(const float2& parInfoRegionOffset);
+	void RenderMinimap_(const float2& parMinimapRegionOffset);
 
 private:
 	std::map<EOrder, int> orderToGridPos_; // 0 to 8 (3 per line)

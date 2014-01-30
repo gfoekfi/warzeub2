@@ -38,6 +38,8 @@
 - SDL actually sucks when a lots of sprite have to be displayed, switch to
   OpenGL/DirectX or uses the OpenGL mode of SDL (or maybe SDL2.0?)
 - Clean not necessary header inclusions
+- All the 'Sint16()' type conversion looks crappy (might change if we don't uses
+  SDL anymore and its SDL_Rect)
 ===============================================================================
 
 
@@ -47,8 +49,6 @@
 - Right clicking very near a 'stopped' peon and the move animation continue or
   when a lag occurs (convergence issue?)
 - Make compilation works in RELEASE
-- All position stuff should be float instead of int to avoid *stuck* cases
-  because the delta to next position is lesser than 1
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling
 ===============================================================================

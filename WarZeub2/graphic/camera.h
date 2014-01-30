@@ -23,19 +23,19 @@ public:
 	void StorePosOnRightClick() { lastPosOnRightClick_ = pos_; }
 
 public:
-	const int2& Pos() const { return pos_; }
-	const int2& LastPosOnRightClick() const { return lastPosOnRightClick_; }
-	const int2& LastPosOnLeftClick() const { return lastPosOnLeftClick_; }
+	const float2& Pos() const { return pos_; }
+	const float2& LastPosOnRightClick() const { return lastPosOnRightClick_; }
+	const float2& LastPosOnLeftClick() const { return lastPosOnLeftClick_; }
 
-	void SetPos(const int2& parPos) { pos_ = parPos; }
-
-private:
-	int2 ScrollDirFromUserInput_() const;
+	void SetPos(const float2& parPos) { pos_ = parPos; }
 
 private:
-	int2 pos_;
-	int2 lastPosOnRightClick_;
-	int2 lastPosOnLeftClick_;
+	float2 ScrollDirFromUserInput_() const;
+
+private:
+	float2 pos_;
+	float2 lastPosOnRightClick_;
+	float2 lastPosOnLeftClick_;
 };
 
 

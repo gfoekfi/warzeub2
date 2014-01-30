@@ -3,6 +3,7 @@
 #include "../userInput.h"
 #include "../gameplay/world.h"
 #include <algorithm>
+#include <math.h> // fabs()
 
 
 // ============================================================================
@@ -10,9 +11,9 @@
 // ============================================================================
 
 Camera::Camera()
-	: pos_(int2(0, 0)),
-	lastPosOnRightClick_(int2(0, 0)),
-	lastPosOnLeftClick_(int2(0, 0))
+	: pos_(float2(0, 0)),
+	lastPosOnRightClick_(float2(0, 0)),
+	lastPosOnLeftClick_(float2(0, 0))
 {
 }
 
@@ -26,38 +27,39 @@ Camera::~Camera()
 
 void Camera::Update(int parLastTime, int parCurTime)
 {
-	int2 scrollDir = ScrollDirFromUserInput_();
-	if (scrollDir.x == 0 && scrollDir.y == 0)
+	float2 scrollDir = ScrollDirFromUserInput_();
+	if (fabs(scrollDir.x) <= FLOAT_PRECISION && fabs(scrollDir.y) <= FLOAT_PRECISION)
 		return; // no scrolling
 
-	const float SCROLL_SPEED = 1000.f;
-	int velocity = int(0.001f * float(parCurTime - parLastTime) * SCROLL_SPEED);
-	int2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
+	const float SCROLL_SPEED = 0.7f;
+	float velocity = SCROLL_SPEED * float(parCurTime - parLastTime);
+	float2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
 
-	int2 maxPos(
-		std::max<int>(0, World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w),
-		std::max<int>(0, World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h));
-	pos_.x = Clamp<int>(nextPos.x, 0, maxPos.x);
-	pos_.y = Clamp<int>(nextPos.y, 0, maxPos.y);
+	float2 maxPos(
+		std::max<float>(0.f, float(World::Inst()->GetMap().width * MAP_TILE_SIZE - viewport.w)),
+		std::max<float>(0.f, float(World::Inst()->GetMap().height * MAP_TILE_SIZE - viewport.h)));
+	pos_.x = Clamp<float>(nextPos.x, 0.f, maxPos.x);
+	pos_.y = Clamp<float>(nextPos.y, 0.f, maxPos.y);
 }
 
 // ============================================================================
 
-int2 Camera::ScrollDirFromUserInput_() const
+float2 Camera::ScrollDirFromUserInput_() const
 {
-	int2 scrollDir(0, 0);
+	float2 scrollDir(0.f, 0.f);
+	float2 screenDimensions = float2(float(SCREEN_WIDTH), float(SCREEN_HEIGHT));
 
 	if (keyboard.keysPressed[SDLK_LEFT] ||
-		(mouse.pos.x <= int(0.02f * float(SCREEN_WIDTH))))
+		(mouse.pos.x <= (0.02f * screenDimensions.w)))
 		scrollDir.x--;
 	if (keyboard.keysPressed[SDLK_RIGHT] ||
-		(mouse.pos.x >= (SCREEN_WIDTH - int(0.02f * float(SCREEN_WIDTH)))))
+		(mouse.pos.x >= (screenDimensions.w - 0.02f * screenDimensions.w)))
 		scrollDir.x++;
 	if (keyboard.keysPressed[SDLK_UP] ||
-		(mouse.pos.y <= int(0.02f * float(SCREEN_HEIGHT))))
+		(mouse.pos.y <= (0.02f * screenDimensions.h)))
 		scrollDir.y--;
 	if (keyboard.keysPressed[SDLK_DOWN] ||
-		(mouse.pos.y >= SCREEN_HEIGHT - int(0.02f * float(SCREEN_HEIGHT))))
+		(mouse.pos.y >= (screenDimensions.h - 0.02f * screenDimensions.h)))
 		scrollDir.y++;
 
 	return scrollDir;

@@ -7,6 +7,7 @@
 #include "gameplay/unitDesc.h"
 #include "gameplay/order.h"
 #include <assert.h>
+#include <math.h> // fabs()
 
 
 // ============================================================================
@@ -31,12 +32,12 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			{
 				if (!mouse.rightButtonPressed)
 				{
-					mouse.lastRightClickPos = int2(parEvent.motion.x, parEvent.motion.y);
+					mouse.lastRightClickPos = float2(parEvent.motion.x, parEvent.motion.y);
 					gCamera->StorePosOnRightClick();
 					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
 						&& player.selectedUnit->IsMovable())
 					{
-						int2 pos = mouse.lastRightClickPos;
+						float2 pos = mouse.lastRightClickPos;
 						TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
 						player.selectedUnit->Move(pos);
 					}
@@ -47,7 +48,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 			{
 				if (!mouse.leftButtonPressed)
 				{
-					mouse.lastLeftClickPos = int2(parEvent.motion.x, parEvent.motion.y);
+					mouse.lastLeftClickPos = float2(parEvent.motion.x, parEvent.motion.y);
 					gCamera->StorePosOnLeftClick();
 				}
 				mouse.leftButtonPressed = true;
@@ -64,7 +65,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				HUD::Inst()->GridClickHandler();
 			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
 			{
-				int2 worldPos(mouse.lastLeftClickPos);
+				float2 worldPos(mouse.lastLeftClickPos);
 				TransformToWorldCoordinate(worldPos, gCamera->LastPosOnLeftClick());
 				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
 			}
@@ -75,12 +76,12 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		break;
 
 	case SDL_MOUSEMOTION:
-		mouse.pos = int2(parEvent.motion.x, parEvent.motion.y);
+		mouse.pos = float2(parEvent.motion.x, parEvent.motion.y);
 		// TODO: should disappears from here
 		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		{
 			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
-				(screen->w / 5) : mouse.pos.x;
+				float(screen->w / 5) : mouse.pos.x;
 			UpdateSelection(player);
 		}
 		break;
@@ -97,7 +98,7 @@ void KeyboardScrollingHandler()
 		 keyboard.keysPressed[SDLK_UP] || keyboard.keysPressed[SDLK_DOWN]))
 	{
 			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
-				(screen->w / 5) : mouse.pos.x;
+				float(screen->w / 5) : mouse.pos.x;
 			UpdateSelection(player);
 	}
 }
@@ -122,8 +123,8 @@ void KeyboardEventHandler(const SDL_Event& parEvent)
 
 SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoordinate)
 {
-	int2 curPos = parMouse.pos;
-	int2 lastPos = parMouse.lastLeftClickPos;
+	float2 curPos = parMouse.pos;
+	float2 lastPos = parMouse.lastLeftClickPos;
 
 	if (parTransformToWorldCoordinate)
 	{
@@ -133,10 +134,10 @@ SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoo
 
 	SDL_Rect boundingBox =
 	{ 
-		(curPos.x < lastPos.x) ? curPos.x : lastPos.x,
-		(curPos.y < lastPos.y) ? curPos.y : lastPos.y,
-		abs(curPos.x - lastPos.x),
-		abs(curPos.y - lastPos.y)
+		Sint16((curPos.x < lastPos.x) ? curPos.x : lastPos.x),
+		Sint16((curPos.y < lastPos.y) ? curPos.y : lastPos.y),
+		Sint16(fabs(curPos.x - lastPos.x)),
+		Sint16(fabs(curPos.y - lastPos.y))
 	};
 
 	return boundingBox;

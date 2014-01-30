@@ -6,47 +6,46 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-int2 dirs[MAX_DIRS] =
+float2 dirs[MAX_DIRS] =
 {
-	int2(0, -1), // N
-	int2(1, -1),
-	int2(1, 0),	// E
-	int2(1, 1),
-	int2(0, 1),	// S
-	int2(-1, 1),
-	int2(-1, 0),	// W
-	int2(-1, -1)
+	float2(0.f, -1.f), // N
+	float2(1.f, -1.f),
+	float2(1.f, 0.f),	// E
+	float2(1.f, 1.f),
+	float2(0.f, 1.f),	// S
+	float2(-1.f, 1.f),
+	float2(-1.f, 0.f),	// W
+	float2(-1.f, -1.f)
 };
 
 // ============================================================================
 
-EDir DirectionToTarget(const int2& parSrc, const int2& parDst)
+EDir DirectionToTarget(const float2& parSrc, const float2& parDst)
 {
-	int deltaPosX = parDst.x - parSrc.x;
-	int deltaPosY = parDst.y - parSrc.y;
-	const int MOVE_STEP_TRESHOLD = 1;
+	float2 delta(parDst.x - parSrc.x, parDst.y - parSrc.y);
+	const float MOVE_STEP_TRESHOLD = 1.f;
 
-	if (deltaPosY >= MOVE_STEP_TRESHOLD)
+	if (delta.y >= MOVE_STEP_TRESHOLD)
 	{
-		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+		if (delta.x <= -MOVE_STEP_TRESHOLD)
 			return DIR_SW;
-		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+		else if (delta.x >= MOVE_STEP_TRESHOLD)
 			return DIR_SE;
 		else
 			return DIR_S;
 	}
-	else if (deltaPosY <= -MOVE_STEP_TRESHOLD)
+	else if (delta.y <= -MOVE_STEP_TRESHOLD)
 	{
-		if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+		if (delta.x <= -MOVE_STEP_TRESHOLD)
 			return DIR_NW;
-		else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+		else if (delta.x >= MOVE_STEP_TRESHOLD)
 			return DIR_NE;
 		else
 			return DIR_N;
 	}
-	else if (deltaPosX <= -MOVE_STEP_TRESHOLD)
+	else if (delta.x <= -MOVE_STEP_TRESHOLD)
 		return DIR_W;
-	else if (deltaPosX >= MOVE_STEP_TRESHOLD)
+	else if (delta.x >= MOVE_STEP_TRESHOLD)
 		return DIR_E;
 
 	return DIR_N;
@@ -56,7 +55,8 @@ EDir DirectionToTarget(const int2& parSrc, const int2& parDst)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-inline bool IsPointInSegment(int parValue, int parSrcValue, int parDstValue)
+template <typename T>
+inline bool IsPointInSegment(T parValue, T parSrcValue, T parDstValue)
 {
 	return (parValue >= parSrcValue) && (parValue <= parDstValue);
 }
@@ -71,23 +71,23 @@ bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB)
 	const SDL_Rect* bottom = (top == parBoxA) ? parBoxB : parBoxA;
 
 	return
-		(IsPointInSegment(left->x, right->x, right->x + right->w) ||
+		(IsPointInSegment<Sint16>(left->x, right->x, right->x + right->w) ||
 		((left->x + left->w) >= right->x)) &&
-		(IsPointInSegment(top->y, bottom->y, bottom->y + bottom->h) ||
+		(IsPointInSegment<Sint16>(top->y, bottom->y, bottom->y + bottom->h) ||
 		((top->y + top->h) >= bottom->y));
 }
 
 // ============================================================================
 
-void TransformToScreenCoordinate(SDL_Rect& parRect, const int2& parCameraPos)
+void TransformToScreenCoordinate(SDL_Rect& parRect, const float2& parCameraPos)
 {
-	parRect.x += viewport.x - parCameraPos.x;
-	parRect.y += viewport.y - parCameraPos.y;
+	parRect.x += viewport.x - Sint16(parCameraPos.x);
+	parRect.y += viewport.y - Sint16(parCameraPos.y);
 }
 
 // ============================================================================
 
-void TransformToScreenCoordinate(int2& parPos, const int2& parCameraPos)
+void TransformToScreenCoordinate(float2& parPos, const float2& parCameraPos)
 {
 	parPos.x += viewport.x - parCameraPos.x;
 	parPos.y += viewport.y - parCameraPos.y;
@@ -95,15 +95,15 @@ void TransformToScreenCoordinate(int2& parPos, const int2& parCameraPos)
 
 // ============================================================================
 
-void TransformToWorldCoordinate(SDL_Rect& parRect, const int2& parCameraPos)
+void TransformToWorldCoordinate(SDL_Rect& parRect, const float2& parCameraPos)
 {
-	parRect.x -= viewport.x - parCameraPos.x;
-	parRect.y -= viewport.y - parCameraPos.y;
+	parRect.x -= viewport.x - Sint16(parCameraPos.x);
+	parRect.y -= viewport.y - Sint16(parCameraPos.y);
 }
 
 // ============================================================================
 
-void TransformToWorldCoordinate(int2& parPos, const int2& parCameraPos)
+void TransformToWorldCoordinate(float2& parPos, const float2& parCameraPos)
 {
 	parPos.x -= viewport.x - parCameraPos.x;
 	parPos.y -= viewport.y - parCameraPos.y;

@@ -58,14 +58,14 @@ void HUD::GenerateBackgroundSurface_()
 
 // ============================================================================
 
-void HUD::RenderSelectionInfos_(const int2& parInfoRegionOffset)
+void HUD::RenderSelectionInfos_(const float2& parInfoRegionOffset)
 {
 	assert(player.selectedUnit);
 
-	SDL_Rect borderSrc = { parInfoRegionOffset.x,
-		parInfoRegionOffset.y + (backgroundSurface_->h / 3), 0, 0 };
-	SDL_Rect borderDst = { backgroundSurface_->w - (2 * parInfoRegionOffset.x),
-		(2*backgroundSurface_->h / 3) - parInfoRegionOffset.y, 0, 0 };
+	SDL_Rect borderSrc = { Sint16(parInfoRegionOffset.x),
+		Sint16(parInfoRegionOffset.y) + (backgroundSurface_->h / 3), 0, 0 };
+	SDL_Rect borderDst = { backgroundSurface_->w - (2 * Sint16(parInfoRegionOffset.x)),
+		(2*backgroundSurface_->h / 3) - Sint16(parInfoRegionOffset.y), 0, 0 };
 	RenderSquare(borderSrc, borderDst, 0x00ffffff);
 
 	const SpriteDesc& unitIconSpriteDesc = unitTypeToIconSpriteDesc[player.selectedUnit->Type()];
@@ -74,8 +74,8 @@ void HUD::RenderSelectionInfos_(const int2& parInfoRegionOffset)
 	SDL_Rect dst = { borderSrc.x + 1, borderSrc.y + 1, 0, 0 };
 	SDL_BlitSurface(iconsSurface_, &src, screen, &dst);
 
-	SDL_Rect progressBarRect = { 2*parInfoRegionOffset.x, borderSrc.y + 60,
-			backgroundSurface_->w - (5 * parInfoRegionOffset.x), 15 };
+	SDL_Rect progressBarRect = { 2*Sint16(parInfoRegionOffset.x), borderSrc.y + 60,
+			backgroundSurface_->w - (5 * Sint16(parInfoRegionOffset.x)), 15 };
 	if (player.selectedUnit->ActionState() == EUS_TRAINING)
 		RenderProgressBar(progressBarRect, player.selectedUnit->OrderCompletionStatus());
 	else if (player.selectedUnit->IsBeingConstructed())
@@ -87,11 +87,12 @@ void HUD::RenderSelectionInfos_(const int2& parInfoRegionOffset)
 
 // ============================================================================
 
-void HUD::RenderMinimap_(const int2& parMinimapRegionOffset)
+void HUD::RenderMinimap_(const float2& parMinimapRegionOffset)
 {
-	static SDL_Rect miniMapRect = {parMinimapRegionOffset.x, parMinimapRegionOffset.y,
-		backgroundSurface_->w - (2 * parMinimapRegionOffset.x),
-		(backgroundSurface_->h / 3) - (2 * parMinimapRegionOffset.y)};
+	static SDL_Rect miniMapRect = {Sint16(parMinimapRegionOffset.x),
+		Sint16(parMinimapRegionOffset.y),
+		backgroundSurface_->w - Sint16(2.f * parMinimapRegionOffset.x),
+		(backgroundSurface_->h / 3) - Sint16(2.f * parMinimapRegionOffset.y)};
 	SDL_FillRect(screen, &miniMapRect, 0);
 }
 
@@ -110,18 +111,20 @@ void HUD::Render()
 
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
-	int2 minimapRegionOffset(backgroundSurface_->w / 20, (backgroundSurface_->h / 3 ) / 20);
+	float2 minimapRegionOffset(float(backgroundSurface_->w) / 20.f,
+		(float(backgroundSurface_->h) / 3.f ) / 20.f);
 	RenderMinimap_(minimapRegionOffset);
 
 	if (player.selectedUnit)
 	{
 		// Selection info
-		int2 infoRegionOffset(backgroundSurface_->w / 50, (backgroundSurface_->h / 3) / 50);
+		float2 infoRegionOffset(float(backgroundSurface_->w) / 50.f,
+			(float(backgroundSurface_->h) / 3.f) / 50.f);
 		RenderSelectionInfos_(infoRegionOffset);
 
 		// Grid
-		int2 orderHudOffset(infoRegionOffset.x,
-			(2*backgroundSurface_->h / 3) + infoRegionOffset.y);
+		float2 orderHudOffset(infoRegionOffset.x,
+			(2.f * float(backgroundSurface_->h) / 3.f) + infoRegionOffset.y);
 		const std::set<EOrder>& unitOrders =
 			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToOrderSet[player.selectedUnit->ActionState()];
 		for (std::set<EOrder>::const_iterator order = unitOrders.begin();
@@ -134,7 +137,7 @@ void HUD::Render()
 
 // ============================================================================
 
-void HUD::RenderHUDOrder_(EOrder parOrder, const int2& parGridRegionOffset)
+void HUD::RenderHUDOrder_(EOrder parOrder, const float2& parGridRegionOffset)
 {
 	if (parOrder == EO_NONE)
 		return;
@@ -144,8 +147,8 @@ void HUD::RenderHUDOrder_(EOrder parOrder, const int2& parGridRegionOffset)
 		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
 
 	int gridPos = orderToGridPos_[parOrder];
-	SDL_Rect orderIconDst = { parGridRegionOffset.x + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
-		parGridRegionOffset.y + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
+	SDL_Rect orderIconDst = { Sint16(parGridRegionOffset.x) + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
+		Sint16(parGridRegionOffset.y) + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
 	SDL_BlitSurface(iconsSurface_, &orderIconSrc, screen, &orderIconDst);
 }
 
@@ -169,9 +172,9 @@ void HUD::InitOrderGridPosMapping_()
 
 // ============================================================================
 
-bool HUD::IsInHUDRegion(const int2& parPos) const
+bool HUD::IsInHUDRegion(const float2& parPos) const
 {
-	return (parPos.x <= (screen->w / 5));
+	return (parPos.x <= float(screen->w / 5));
 }
 
 // ============================================================================
@@ -240,7 +243,7 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 
 // ============================================================================
 
-void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const int2& parPosition)
+void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition)
 {
 	switch (lastOrder_)
 	{
