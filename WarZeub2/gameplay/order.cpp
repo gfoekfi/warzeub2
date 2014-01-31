@@ -203,23 +203,59 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-GatherOrder::GatherOrder(Unit* parHostUnit, Unit* parDstUnit)
+GatherOrder::GatherOrder(Unit* parHostUnit, Unit* parReceiverUnit, Unit* parDstUnit)
 	: Order(parHostUnit),
-	dstUnit_(parDstUnit)
+	receiverUnit_(parReceiverUnit),
+	dstUnit_(parDstUnit),
+	hasResource_(false)
 {
+	assert(parHostUnit && parHostUnit->Type() == EUT_PEON);
+	assert(parReceiverUnit && parReceiverUnit->Type() == EUT_TOWN_HALL);
+	assert(parDstUnit && parDstUnit->Type() == EUT_MINE);
+
+	moveOrder_ = new MoveOrder(hostUnit_, hostUnit_->Pos());
 }
 
 // ============================================================================
 
 GatherOrder::~GatherOrder()
 {
+	if (moveOrder_)
+		delete moveOrder_;
 }
 
 // ============================================================================
 
 bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 {
-	// FIXME
+	assert(moveOrder_);
+
+	moveOrder_->Update(parCurTime, parElapsed);
+
+	SDL_Rect hostBoundingBox = hostUnit_->BoundingBox();
+	// Hack: Enlarge host boundingbox to check collision on destination unit
+	// as current position of an unit can never be in collision with another
+	Sint16 COLLISION_THRESHOLD = 3;
+	hostBoundingBox.x -= COLLISION_THRESHOLD;
+	hostBoundingBox.y -= COLLISION_THRESHOLD;
+	hostBoundingBox.w += 2 * COLLISION_THRESHOLD;
+	hostBoundingBox.h += 2 * COLLISION_THRESHOLD;
+
+	// TODO: Factorize me (repetition)
+	if (!hasResource_)
+	{
+		moveOrder_->SetTargetPos(dstUnit_->Pos());
+		if (DoesBBoxesCollide(&hostBoundingBox, &dstUnit_->BoundingBox()))
+			hasResource_ = true;
+	}
+
+	// TODO: Factorize me (repetition)
+	if (hasResource_)
+	{
+		moveOrder_->SetTargetPos(receiverUnit_->Pos());
+		if (DoesBBoxesCollide(&hostBoundingBox, &receiverUnit_->BoundingBox()))
+			hasResource_ = false;
+	}
 
 	return false; // never ends (until mine is consumed)
 }

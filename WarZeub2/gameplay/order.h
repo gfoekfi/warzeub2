@@ -44,6 +44,9 @@ public:
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
+public:
+	void SetTargetPos(const float2& parTargetPos) { targetPos_ = parTargetPos; }
+
 private:
 	float2 targetPos_;
 };
@@ -92,15 +95,17 @@ private:
 class GatherOrder : public Order
 {
 public:
-	GatherOrder(Unit* parHostUnit, Unit* parDstUnit);
+	GatherOrder(Unit* parHostUnit, Unit* parReceiverUnit, Unit* parDstUnit);
 	virtual ~GatherOrder();
 
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsed) override;
 
 private:
+	Unit* receiverUnit_; // townhall only ATM
 	Unit* dstUnit_; // mine only ATM
 	MoveOrder* moveOrder_;
+	bool hasResource_; // TODO: Should be a unit attribute
 };
 
 // ============================================================================

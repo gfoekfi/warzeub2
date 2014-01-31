@@ -40,6 +40,7 @@
 - Clean not necessary header inclusions
 - All the 'Sint16()' type conversion looks crappy (might change if we don't uses
   SDL anymore and its SDL_Rect)
+- Uses bounding sphere instead of bounding box
 ===============================================================================
 
 

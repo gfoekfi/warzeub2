@@ -1,6 +1,7 @@
 #include "unit.h"
 #include "order.h"
 #include "unitDesc.h"
+#include "world.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -73,7 +74,8 @@ bool Unit::Gather(Unit* parMineUnit)
 	if (curOrder_)
 		delete curOrder_;
 
-	curOrder_ = new GatherOrder(this, parMineUnit);
+	Unit* nearestReceiver = World::Inst()->NearestUnitOf(parMineUnit, EUT_TOWN_HALL);
+	curOrder_ = new GatherOrder(this, nearestReceiver, parMineUnit);
 
 	return true;
 }
