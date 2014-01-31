@@ -28,6 +28,7 @@
 * REFACTOR
 ===============================================================================
 - unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
+- event handling delegates to unit (ex: 'onRightClick(...)')
 - unit order => polymorphism (read below)
 - split *real* unit and building unit hierarchy (polymorphism)
 - UserInput start to get messy again
@@ -51,7 +52,7 @@
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling (in windowed mode)
 - Check collision before placing building
-- When unit pop after training or building, find a suitable location (with no collision)
+- When unit pop-up after training or building, find a suitable location (with no collision)
 - No scrolling on left side during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
 ===============================================================================

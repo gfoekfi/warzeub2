@@ -233,8 +233,10 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 	moveOrder_->Update(parCurTime, parElapsed);
 
 	SDL_Rect hostBoundingBox = hostUnit_->BoundingBox();
-	// Hack: Enlarge host boundingbox to check collision on destination unit
-	// as current position of an unit can never be in collision with another
+	// Hack: increase host unit boundingbox size to check collision with destination
+	// unit. Currently, no unit can actually be in collision with another (except
+	// unit popping at the wrong place).
+	// TODO: refactor
 	Sint16 COLLISION_THRESHOLD = 3;
 	hostBoundingBox.x -= COLLISION_THRESHOLD;
 	hostBoundingBox.y -= COLLISION_THRESHOLD;
@@ -257,7 +259,7 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 			hasResource_ = false;
 	}
 
-	return false; // never ends (until mine is consumed)
+	return false; // never ends (until destination is consumed)
 }
 
 // ============================================================================

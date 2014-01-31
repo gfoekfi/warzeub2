@@ -50,7 +50,7 @@ T Clamp(T parValue, T parMin, T parMax)
 
 // ============================================================================
 
-bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB);
+bool DoesBBoxesCollide(const SDL_Rect* parBoxA, const SDL_Rect* parBoxB); // FIXME: rename it
 
 void TransformToScreenCoordinate(SDL_Rect& parRect, const float2& parCameraPos);
 void TransformToScreenCoordinate(float2& parPos, const float2& parCameraPos);

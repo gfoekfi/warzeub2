@@ -86,7 +86,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 		// TODO: should disappears from here
 		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		{
-			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
+			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
 				float(screen->w / 5) : mouse.pos.x;
 			UpdateSelection(player);
 		}
@@ -96,6 +96,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 
 // ============================================================================
 
+// FIXME: Remove me
 void KeyboardScrollingHandler()
 {
 	// TODO: Move it to another place
@@ -103,7 +104,7 @@ void KeyboardScrollingHandler()
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||
 		 keyboard.keysPressed[SDLK_UP] || keyboard.keysPressed[SDLK_DOWN]))
 	{
-			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ?
+			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
 				float(screen->w / 5) : mouse.pos.x;
 			UpdateSelection(player);
 	}
@@ -127,6 +128,7 @@ void KeyboardEventHandler(const SDL_Event& parEvent)
 
 // ============================================================================
 
+// TODO: refactor, this is a Mouse method
 SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoordinate)
 {
 	float2 curPos = parMouse.pos;

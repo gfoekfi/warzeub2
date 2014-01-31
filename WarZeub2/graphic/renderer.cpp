@@ -34,6 +34,7 @@ void InitRenderer()
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 	gCamera = new Camera();
+	gCamera->SetPos(float2(100.f, 100.f));
 }
 
 // ============================================================================
@@ -161,6 +162,7 @@ void Render(const Map& parMap)
 
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor)
 {
+	// FIXME: Square might need to be truncated (ex: selection square)
 	parSrc.x = Clamp<int>(parSrc.x, 0, SCREEN_WIDTH - 1);
 	parSrc.y = Clamp<int>(parSrc.y, 0, SCREEN_HEIGHT - 1);
 	parDst.x = Clamp<int>(parDst.x, 0, SCREEN_WIDTH - 1);
