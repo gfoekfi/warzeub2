@@ -86,6 +86,44 @@ Unit* World::BuilderOf(const Unit* parUnit) const
 // ============================================================================
 
 // TODO: Optimize search with Tree
+Unit* World::NearestUnitOf(const Unit* parUnit, EUnitType parUnitType)
+{
+	assert(parUnit);
+
+	// FIXME: Get the nearest with manhattan distance
+
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+		if (units_[unit]->Type() == parUnitType)
+			return units_[unit];
+
+	return 0;
+}
+
+// ============================================================================
+
+// TODO: Optimize search with Tree
+Unit* World::GetUnitAt(const float2& parPos)
+{
+	// TODO: assert on 'map dimension' and 'parPos'
+
+	Unit* dstUnit = 0;
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+	{
+		Unit* otherUnit = units_[unit];
+		SDL_Rect dstBoundingBox = { Sint16(parPos.x) - 1, Sint16(parPos.y) - 1, 3, 3 };
+		if (DoesBBoxesCollide(&dstBoundingBox, &otherUnit->BoundingBox()))
+		{
+			assert(dstUnit == 0); // units should never be stacked
+			dstUnit = otherUnit;
+		}
+	}
+
+	return dstUnit;
+}
+
+// ============================================================================
+
+// TODO: Optimize search with Tree
 bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 {
 	assert(parUnit);

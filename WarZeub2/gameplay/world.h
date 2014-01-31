@@ -35,6 +35,8 @@ public:
 	void RemoveUnit(Unit* parUnit);
 
 public:
+	Unit* GetUnitAt(const float2& parPos);
+	Unit* NearestUnitOf(const Unit* parUnit, EUnitType parUnitType);
 	Unit* BuilderOf(const Unit* parUnit) const;
 	bool Collides(const Unit* parUnit, SDL_Rect& parDst) const; // unit parameter to ignore self collision
 
