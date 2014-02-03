@@ -89,6 +89,28 @@ void Unit::UpdateAnimation_(Uint32 parCurTime)
 
 // ============================================================================
 
+// TODO: use polymorphism
+void Unit::RightClick(Unit* parTargetUnit)
+{
+	assert(parTargetUnit);
+
+	if (type_ == EUT_PEON && parTargetUnit->Type() == EUT_MINE)
+		Gather(parTargetUnit);
+	else if (IsMovable())
+		Move(parTargetUnit->Pos());
+}
+
+// ============================================================================
+
+// TODO: use polymorphism
+void Unit::RightClick(const float2& parTargetpos)
+{
+	if (IsMovable())
+		Move(parTargetpos);
+}
+
+// ============================================================================
+
 bool Unit::Gather(Unit* parMineUnit)
 {
 	assert(parMineUnit && parMineUnit->Type() == EUT_MINE);

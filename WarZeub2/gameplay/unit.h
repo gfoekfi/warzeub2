@@ -60,6 +60,9 @@ public:
 	virtual bool Build(EUnitType parUnitTypeToBuild, const float2& parPos);
 	virtual bool CancelOrder();
 
+	virtual void RightClick(Unit* parTargetUnit);
+	virtual void RightClick(const float2& parTargetpos);
+
 public:
 	float OrderCompletionStatus() const; // used by hud (progress bar)
 	SDL_Rect BoundingBox() const;

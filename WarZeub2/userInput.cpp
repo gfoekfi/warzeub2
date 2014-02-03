@@ -34,18 +34,18 @@ void MouseEventHandler(const SDL_Event& parEvent)
 				{
 					mouse.lastRightClickPos = float2(parEvent.motion.x, parEvent.motion.y);
 					gCamera->StorePosOnRightClick();
+
 					// TODO: Refactor (it's getting messy)
-					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos)
-						&& player.selectedUnit->IsMovable())
+					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos))
 					{
 						float2 pos = mouse.lastRightClickPos;
 						TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
 
 						Unit* pointedUnit = World::Inst()->GetUnitAt(pos);
-						if (pointedUnit && pointedUnit->Type() == EUT_MINE && player.selectedUnit->Type() == EUT_PEON)
-							player.selectedUnit->Gather(pointedUnit);
+						if (pointedUnit)
+							player.selectedUnit->RightClick(pointedUnit);
 						else
-							player.selectedUnit->Move(pos);
+							player.selectedUnit->RightClick(pos);
 					}
 				}
 				mouse.rightButtonPressed = true;
