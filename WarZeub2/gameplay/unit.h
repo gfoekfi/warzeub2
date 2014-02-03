@@ -14,7 +14,6 @@ enum EUnitType
 {
 	EUT_PEON = 0,
 	EUT_GRUNT,
-	EUT_AXE_THROWER,
 	EUT_MINE,
 	EUT_TOWN_HALL,
 };
