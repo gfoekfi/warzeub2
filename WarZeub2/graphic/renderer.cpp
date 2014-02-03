@@ -88,12 +88,13 @@ void Render(SDL_Surface* parSrcSurface,
 				EDir parDir,
 				int parSpriteStep)
 {
-	assert(parSpriteStep >= 0 && parSpriteStep < parSpriteDesc.maxStep);
+	if (parSpriteDesc.maxStep == 1)
+		parDir = DIR_N; // All idle animations is oriented to north
 
 	SDL_Rect srcRect =
 	{
 		parSpriteDesc.offsetX + OffsetXFromDirection(parDir) * parSpriteDesc.width,
-		parSpriteDesc.offsetY + parSpriteStep * parSpriteDesc.height,
+		parSpriteDesc.offsetY + (parSpriteStep % parSpriteDesc.maxStep) * parSpriteDesc.height,
 		parSpriteDesc.width,
 		parSpriteDesc.height
 	};
