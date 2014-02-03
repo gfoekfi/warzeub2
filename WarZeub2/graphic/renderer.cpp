@@ -62,6 +62,60 @@ void EndScene()
 
 // ============================================================================
 
+int OffsetXFromDirection(EDir parDir)
+{
+	switch (parDir)
+	{
+	case DIR_N:		return 0;
+	case DIR_NE:	return 1;
+	case DIR_E:		return 2;
+	case DIR_SE:	return 3;
+	case DIR_S:		return 4;
+
+	case DIR_SW:	return 1; // FIXME: symetry from sprite (Moon Walk Style ATM!)
+	case DIR_W:		return 2;
+	case DIR_NW:	return 3;
+	}
+
+	return 0;
+}
+
+// ============================================================================
+
+void Render(SDL_Surface* parSrcSurface,
+				const SpriteDesc& parSpriteDesc,
+				const float2& parWorldPos,
+				EDir parDir,
+				int parSpriteStep)
+{
+	assert(parSpriteStep >= 0 && parSpriteStep < parSpriteDesc.maxStep);
+
+	SDL_Rect srcRect =
+	{
+		parSpriteDesc.offsetX + OffsetXFromDirection(parDir) * parSpriteDesc.width,
+		parSpriteDesc.offsetY + parSpriteStep * parSpriteDesc.height,
+		parSpriteDesc.width,
+		parSpriteDesc.height
+	};
+
+	float2 screenPos(parWorldPos);
+	TransformToScreenCoordinate(screenPos, gCamera->Pos());
+
+	// TODO: Visibility check
+
+	SDL_Rect dstRect =
+	{
+		Sint16(screenPos.x) - parSpriteDesc.width / 2,
+		Sint16(screenPos.y) - parSpriteDesc.height / 2,
+		0,
+		0
+	};
+
+	SDL_BlitSurface(parSrcSurface, &srcRect, screen, &dstRect);
+}
+
+// ============================================================================
+
 int SpriteXOffsetFromDir(const Unit& parUnit)
 {
 	assert(parUnit.IsMovable());

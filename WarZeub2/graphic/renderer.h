@@ -6,6 +6,7 @@
 #include "../gameplay/unit.h"
 #include "../gameplay/world.h"
 #include "camera.h"
+#include "spriteDesc.h"
 
 
 // ============================================================================
@@ -37,6 +38,12 @@ void InitRenderer();
 void ReleaseRenderer();
 void BeginScene();
 void EndScene();
+
+void Render(SDL_Surface* parSrcSurface,
+				const SpriteDesc& parSpriteDesc,
+				const float2& parWorldPos,
+				EDir parDir,
+				int parSpriteStep);
 
 void Render(const Unit& parUnit);
 void Render(EUnitType parUnitType, const float2& parScreenPos); // used by building placement
