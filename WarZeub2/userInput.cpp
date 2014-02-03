@@ -21,75 +21,102 @@ Keyboard keyboard;
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-// TODO: Implement a better event handler
+void OnMouseRightButtonPressed(const SDL_Event& parEvent)
+{
+	assert(!mouse.rightButtonPressed);
+	mouse.rightButtonPressed = true;
+
+	mouse.lastRightClickPos = float2(parEvent.motion.x, parEvent.motion.y);
+	gCamera->StorePosOnRightClick();
+
+	if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos))
+	{
+		float2 pos = mouse.lastRightClickPos;
+		TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
+
+		Unit* pointedUnit = World::Inst()->GetUnitAt(pos);
+		if (pointedUnit)
+			player.selectedUnit->RightClick(pointedUnit);
+		else
+			player.selectedUnit->RightClick(pos);
+	}
+}
+
+// ============================================================================
+
+void OnMouseRightButtonReleased(const SDL_Event& parEvent)
+{
+	assert(mouse.rightButtonPressed);
+	mouse.rightButtonPressed = false;
+}
+
+// ============================================================================
+
+void OnMouseLeftButtonPressed(const SDL_Event& parEvent)
+{
+	assert(!mouse.leftButtonPressed);
+	mouse.leftButtonPressed = true;
+
+	mouse.lastLeftClickPos = float2(parEvent.motion.x, parEvent.motion.y);
+	gCamera->StorePosOnLeftClick();
+}
+
+// ============================================================================
+
+void OnMouseLeftButtonReleased(const SDL_Event& parEvent)
+{
+	assert(mouse.leftButtonPressed);
+	mouse.leftButtonPressed = false;
+
+	if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
+		HUD::Inst()->GridClickHandler();
+	else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
+	{
+		float2 worldPos(mouse.lastLeftClickPos);
+		TransformToWorldCoordinate(worldPos, gCamera->LastPosOnLeftClick());
+		HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
+	}
+	else
+		UpdateSelection(player);
+}
+
+// ============================================================================
+
+void OnMouseMotion(const SDL_Event& parEvent)
+{
+	mouse.pos = float2(parEvent.motion.x, parEvent.motion.y);
+
+	// TODO: should disappears from here
+	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
+	{
+		mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
+			float(screen->w / 5) : mouse.pos.x;
+		UpdateSelection(player);
+	}
+}
+
+// ============================================================================
+
 void MouseEventHandler(const SDL_Event& parEvent)
 {
 	switch (parEvent.type)
 	{
 	case SDL_MOUSEBUTTONDOWN:
-		{
-			if (parEvent.button.button == SDL_BUTTON_RIGHT)
-			{
-				if (!mouse.rightButtonPressed)
-				{
-					mouse.lastRightClickPos = float2(parEvent.motion.x, parEvent.motion.y);
-					gCamera->StorePosOnRightClick();
-
-					// TODO: Refactor (it's getting messy)
-					if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos))
-					{
-						float2 pos = mouse.lastRightClickPos;
-						TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
-
-						Unit* pointedUnit = World::Inst()->GetUnitAt(pos);
-						if (pointedUnit)
-							player.selectedUnit->RightClick(pointedUnit);
-						else
-							player.selectedUnit->RightClick(pos);
-					}
-				}
-				mouse.rightButtonPressed = true;
-			}
-			else if (parEvent.button.button == SDL_BUTTON_LEFT)
-			{
-				if (!mouse.leftButtonPressed)
-				{
-					mouse.lastLeftClickPos = float2(parEvent.motion.x, parEvent.motion.y);
-					gCamera->StorePosOnLeftClick();
-				}
-				mouse.leftButtonPressed = true;
-			}
-		}
+		if (parEvent.button.button == SDL_BUTTON_RIGHT && !mouse.rightButtonPressed)
+			OnMouseRightButtonPressed(parEvent);
+		else if (parEvent.button.button == SDL_BUTTON_LEFT && !mouse.leftButtonPressed)
+			OnMouseLeftButtonPressed(parEvent);
 		break;
 
 	case SDL_MOUSEBUTTONUP:
-		if (parEvent.button.button == SDL_BUTTON_RIGHT)
-			mouse.rightButtonPressed = false;
+		if (parEvent.button.button == SDL_BUTTON_RIGHT && mouse.rightButtonPressed)
+			OnMouseRightButtonReleased(parEvent);
 		else if (parEvent.button.button == SDL_BUTTON_LEFT && mouse.leftButtonPressed)
-		{ // prevents SDL send 'up' events multiple times
-			if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
-				HUD::Inst()->GridClickHandler();
-			else if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
-			{
-				float2 worldPos(mouse.lastLeftClickPos);
-				TransformToWorldCoordinate(worldPos, gCamera->LastPosOnLeftClick());
-				HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
-			}
-			else
-				UpdateSelection(player);
-			mouse.leftButtonPressed = false;
-		}
+			OnMouseLeftButtonReleased(parEvent);
 		break;
 
 	case SDL_MOUSEMOTION:
-		mouse.pos = float2(parEvent.motion.x, parEvent.motion.y);
-		// TODO: should disappears from here
-		if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
-		{
-			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
-				float(screen->w / 5) : mouse.pos.x;
-			UpdateSelection(player);
-		}
+		OnMouseMotion(parEvent);
 		break;
 	}
 }

@@ -30,7 +30,6 @@
 - unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear
 - unit order => polymorphism (read below)
 - split *real* unit and building unit hierarchy (polymorphism)
-- UserInput start to get messy again
 - UpdateSelection() might need to be moved somewhere else
 - Map rendering should be done only on the viewport region
 - It should be a state to specified when the user is in selecting mode
