@@ -44,14 +44,6 @@ void OnMouseRightButtonPressed(const SDL_Event& parEvent)
 
 // ============================================================================
 
-void OnMouseRightButtonReleased(const SDL_Event& parEvent)
-{
-	assert(mouse.rightButtonPressed);
-	mouse.rightButtonPressed = false;
-}
-
-// ============================================================================
-
 void OnMouseLeftButtonPressed(const SDL_Event& parEvent)
 {
 	assert(!mouse.leftButtonPressed);
@@ -59,14 +51,6 @@ void OnMouseLeftButtonPressed(const SDL_Event& parEvent)
 
 	mouse.lastLeftClickPos = float2(parEvent.motion.x, parEvent.motion.y);
 	gCamera->StorePosOnLeftClick();
-}
-
-// ============================================================================
-
-void OnMouseLeftButtonReleased(const SDL_Event& parEvent)
-{
-	assert(mouse.leftButtonPressed);
-	mouse.leftButtonPressed = false;
 
 	if (HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
 		HUD::Inst()->GridClickHandler();
@@ -78,6 +62,22 @@ void OnMouseLeftButtonReleased(const SDL_Event& parEvent)
 	}
 	else
 		UpdateSelection(player);
+}
+
+// ============================================================================
+
+void OnMouseRightButtonReleased(const SDL_Event& parEvent)
+{
+	assert(mouse.rightButtonPressed);
+	mouse.rightButtonPressed = false;
+}
+
+// ============================================================================
+
+void OnMouseLeftButtonReleased(const SDL_Event& parEvent)
+{
+	assert(mouse.leftButtonPressed);
+	mouse.leftButtonPressed = false;
 }
 
 // ============================================================================

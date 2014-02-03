@@ -10,7 +10,6 @@
 - alert system (not enough resource, under-attack...)
 - sprite mirroring
 - right click cancel a 'choose destination' order
-- make most events effective on 'click down' instead of 'click up'
 - keyboard shortcut (grid / first letter)
 - tree handling
 - group selection save/restore handling
