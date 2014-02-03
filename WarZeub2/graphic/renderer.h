@@ -45,7 +45,6 @@ void Render(SDL_Surface* parSrcSurface,
 				EDir parDir,
 				int parSpriteStep);
 
-void Render(const Unit& parUnit);
 void Render(EUnitType parUnitType, const float2& parScreenPos); // used by building placement
 void Render(const Map& parMap);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);

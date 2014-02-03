@@ -114,55 +114,6 @@ void Render(SDL_Surface* parSrcSurface,
 
 // ============================================================================
 
-int SpriteXOffsetFromDir(const Unit& parUnit)
-{
-	assert(parUnit.IsMovable());
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
-
-	switch (parUnit.Dir())
-	{
-	case DIR_N:		return spriteDesc.width * 0;
-	case DIR_NE:	return spriteDesc.width * 1;
-	case DIR_E:		return spriteDesc.width * 2;
-	case DIR_SE:	return spriteDesc.width * 3;
-	case DIR_S:		return spriteDesc.width * 4;
-
-	case DIR_SW:	return spriteDesc.width * 1; // FIXME: symetry from sprite (Moon Walk Style ATM!)
-	case DIR_W:		return spriteDesc.width * 2;
-	case DIR_NW:	return spriteDesc.width * 3;
-	}
-
-	return 0;
-}
-
-// ============================================================================
-
-void Render(const Unit& parUnit)
-{
-	if (parUnit.ActionState() == EUS_BUILDING) // don't render unit that are building
-		return;
-
-	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
-
-	int curStep = (parUnit.SpriteStep() % spriteDesc.maxStep);
-	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
-	int spriteX = spriteDesc.offsetX;
-	if (parUnit.IsMovable() && (parUnit.MoveState() != EUS_DEAD))
-		spriteX += SpriteXOffsetFromDir(parUnit);
-	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
-
-	SDL_Rect dstRect = { Sint16(parUnit.Pos().x) - spriteDesc.width / 2,
-		Sint16(parUnit.Pos().y) - spriteDesc.height / 2, 0, 0 };
-	TransformToScreenCoordinate(dstRect, gCamera->Pos());
-
-	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
-		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
-	else
-		SDL_BlitSurface(unitTypeToImage[parUnit.Type()], &srcRect, screen, &dstRect);
-}
-
-// ============================================================================
-
 void Render(EUnitType parUnitType, const float2& parScreenPos)
 {
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnitType][EUS_IDLE];
