@@ -41,25 +41,24 @@ void Unit::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 // ============================================================================
 
+// TODO: Use polymorphism
 void Unit::Render() const
 {
 	if (actionState_ == EUS_BUILDING)  // don't render unit that are building
 		return;
+	if (actionState_ == EUS_BEING_BUILD_STATE0 || actionState_ == EUS_BEING_BUILD_STATE1)
+	{
+		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][actionState_];
+		::Render(unitTypeToImage[EUT_MINE], spriteDesc, pos_, dir_, spriteStep_);
+		return;
+	}
 
 	EUnitState animState = EUS_IDLE;
 	if (moveState_ == EUS_MOVE)
 		animState = EUS_MOVE;
 
-	if (actionState_ == EUS_BEING_BUILD_STATE0 || actionState_ == EUS_BEING_BUILD_STATE1)
-	{
-		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][actionState_];
-		::Render(unitTypeToImage[EUT_MINE], spriteDesc, pos_, dir_, spriteStep_);
-	}
-	else
-	{
-		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
-		::Render(unitTypeToImage[type_], spriteDesc, pos_, dir_, spriteStep_);
-	}
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
+	::Render(unitTypeToImage[type_], spriteDesc, pos_, dir_, spriteStep_);
 }
 
 // ============================================================================

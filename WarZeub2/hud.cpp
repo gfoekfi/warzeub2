@@ -218,7 +218,7 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 
 	if (intersectSet.size() > 0)
 	{
-		assert(intersectSet.size() == 1);
+		assert(intersectSet.size() == 1); // otherwise, there is a conflict
 		EOrder order = *intersectSet.begin();
 		switch (order)
 		{
@@ -230,12 +230,12 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 			break;
 		case EO_STOP: parUnit.CancelOrder(); break;
 		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
-		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break;
+		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break; // TODO: It shouldn't modified unit action state
 		// orders with destination
 		case EO_MOVE:
 		case EO_BUILD_TOWN_HALL:
 			lastOrder_ = order;
-			parUnit.SetActionState(EUS_CHOOSE_DESTINATION);
+			parUnit.SetActionState(EUS_CHOOSE_DESTINATION); // TODO: It shouldn't modified unit action state
 			break;
 		};
 	}
@@ -252,6 +252,7 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition)
 	};
 
 	lastOrder_ = EO_NONE;
+	// TODO: It shouldn't modified unit action state
 	parUnit.SetActionState(EUS_IDLE); // used to reset the 'hud state' of the unit
 }
 
