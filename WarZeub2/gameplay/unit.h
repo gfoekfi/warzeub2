@@ -70,7 +70,6 @@ public:
 public:
 	const float2& Pos() const { return pos_; }
 	EUnitType Type() const { return type_; }
-	EUnitState MoveState() const { return moveState_; }
 	EUnitState ActionState() const { return actionState_; }
 	EDir Dir() const { return dir_; }
 	int SpriteStep() const { return spriteStep_; }

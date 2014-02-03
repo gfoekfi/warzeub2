@@ -1,6 +1,5 @@
 #include "userInput.h"
 #include "hud.h"
-#include "graphic/spriteDesc.h"
 #include "graphic/renderer.h"
 #include "gameplay/unitDesc.h"
 #include "gameplay/unit.h"
@@ -86,7 +85,6 @@ void DrawSelections()
 	for (size_t unit = 0; unit < World::Inst()->Units().size(); ++unit)
 	{
 		const Unit* curUnit = World::Inst()->Units()[unit];
-		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[curUnit->Type()][curUnit->MoveState()];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[curUnit->Type()];
 
 		SDL_Rect src = {
