@@ -15,12 +15,12 @@ Player player;
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-void UpdateSelection(Player& player)
+void Player::UpdateSelection()
 {
 	SDL_Rect selectionBoundingBox = BoundingBoxFromMouse(mouse, true);
 
-	if (player.selectedUnit && player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
-		player.selectedUnit->SetActionState(EUS_IDLE);
+	if (selectedUnit && selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
+		selectedUnit->SetActionState(EUS_IDLE);
 	
 	const std::vector<Unit*>& units = World::Inst()->Units();
 	for (size_t unit = 0; unit < units.size(); ++unit)
@@ -33,12 +33,12 @@ void UpdateSelection(Player& player)
 
 		if (DoesBBoxesCollide(&selectionBoundingBox, &unitBoundingBox))
 		{
-			player.selectedUnit = units[unit];
+			selectedUnit = units[unit];
 			return;
 		}
 	}
 
-	player.selectedUnit = 0;
+	selectedUnit = 0;
 }
 
 // ============================================================================

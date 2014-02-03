@@ -61,7 +61,11 @@ void OnMouseLeftButtonPressed(const SDL_Event& parEvent)
 		HUD::Inst()->ApplyLastOrderAtPosition(*player.selectedUnit, worldPos);
 	}
 	else
-		UpdateSelection(player);
+	{
+		assert(!player.selectionMode);
+		player.selectionMode = true;
+		player.UpdateSelection();
+	}
 }
 
 // ============================================================================
@@ -78,6 +82,8 @@ void OnMouseLeftButtonReleased(const SDL_Event& parEvent)
 {
 	assert(mouse.leftButtonPressed);
 	mouse.leftButtonPressed = false;
+
+	player.selectionMode = false;
 }
 
 // ============================================================================
@@ -86,12 +92,11 @@ void OnMouseMotion(const SDL_Event& parEvent)
 {
 	mouse.pos = float2(parEvent.motion.x, parEvent.motion.y);
 
-	// TODO: should disappears from here
-	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos))
+	if (player.selectionMode)
 	{
 		mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
 			float(screen->w / 5) : mouse.pos.x;
-		UpdateSelection(player);
+		player.UpdateSelection();
 	}
 }
 
@@ -127,13 +132,13 @@ void MouseEventHandler(const SDL_Event& parEvent)
 void KeyboardScrollingHandler()
 {
 	// TODO: Move it to another place
-	if (mouse.leftButtonPressed && !HUD::Inst()->IsInHUDRegion(mouse.lastLeftClickPos) &&
+	if (player.selectionMode &&
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||
 		 keyboard.keysPressed[SDLK_UP] || keyboard.keysPressed[SDLK_DOWN]))
 	{
 			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
 				float(screen->w / 5) : mouse.pos.x;
-			UpdateSelection(player);
+			player.UpdateSelection();
 	}
 }
 

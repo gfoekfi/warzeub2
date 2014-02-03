@@ -8,8 +8,13 @@
 
 class Unit;
 
-struct Player
+class Player
 {
+public:
+	void UpdateSelection();
+
+public: // FIXME: viva abstraction!
+	bool selectionMode;
 	Unit* selectedUnit;
 };
 
