@@ -64,7 +64,7 @@ public:
 
 private:
 	EUnitType unitTypeToTrain_;
-	Unit* trainedUnit_; // only 1 unit is train by train order
+	Unit* trainedUnit_; // only 1 unit is train per train order
 	Uint32 startTime_;
 };
 

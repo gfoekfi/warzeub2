@@ -155,12 +155,13 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		completionStatus_ = 0.0f;
 
 		buildingUnit_ = new Unit(buildingPos_, unitTypeToBuild_);
-		buildingUnit_->SetMoveState(EUS_BEING_BUILD_STATE0); // FIXME: Bad double setter
 		buildingUnit_->SetActionState(EUS_BEING_BUILD_STATE0);
 
 		World::Inst()->AddUnit(buildingUnit_);
 
 		hostUnit_->SetActionState(EUS_BUILDING);
+
+		// TODO: Move it to another place
 		if (player.selectedUnit == hostUnit_)
 			player.selectedUnit = buildingUnit_; // force the selection change if necessary
 	}
@@ -177,12 +178,10 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			EUnitState beingBuildState = EUnitState(EUS_BEING_BUILD_STATE0 +
 				int(completionStatus_ * (EUS_BEING_BUILD_STATE2 - EUS_BEING_BUILD_STATE0 + 1)));
 
-			buildingUnit_->SetMoveState(beingBuildState); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(beingBuildState);
 		}
 		else
 		{
-			buildingUnit_->SetMoveState(EUS_IDLE); // FIXME: Bad double setter
 			buildingUnit_->SetActionState(EUS_IDLE);
 			hostUnit_->SetActionState(EUS_IDLE);
 
