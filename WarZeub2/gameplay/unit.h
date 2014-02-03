@@ -52,6 +52,7 @@ public:
 
 public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
+	virtual void Render() const;
 
 	virtual bool Gather(Unit* parMineUnit);
 	virtual bool Train(EUnitType parUnitTypeToTrain);

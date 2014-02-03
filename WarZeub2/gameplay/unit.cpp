@@ -2,6 +2,7 @@
 #include "order.h"
 #include "unitDesc.h"
 #include "world.h"
+#include "../graphic/renderer.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -36,6 +37,42 @@ void Unit::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	UpdateOrder_(parCurTime, parElapsedTime);
 	UpdateAnimation_(parCurTime);
+}
+
+// ============================================================================
+
+void Unit::Render() const
+{
+#if 0
+	if (parUnit.ActionState() == EUS_BUILDING) // don't render unit that are building
+		return;
+
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[parUnit.Type()][parUnit.MoveState()];
+
+	int curStep = (parUnit.SpriteStep() % spriteDesc.maxStep);
+	int spriteY = curStep * spriteDesc.height + spriteDesc.offsetY;
+	int spriteX = spriteDesc.offsetX;
+	if (parUnit.IsMovable() && (parUnit.MoveState() != EUS_DEAD))
+		spriteX += SpriteXOffsetFromDir(parUnit);
+	SDL_Rect srcRect = { spriteX, spriteY, spriteDesc.width, spriteDesc.height };
+
+	SDL_Rect dstRect = { Sint16(parUnit.Pos().x) - spriteDesc.width / 2,
+		Sint16(parUnit.Pos().y) - spriteDesc.height / 2, 0, 0 };
+	TransformToScreenCoordinate(dstRect, gCamera->Pos());
+
+	if ((parUnit.ActionState() == EUS_BEING_BUILD_STATE0) || (parUnit.ActionState() == EUS_BEING_BUILD_STATE1))
+		SDL_BlitSurface(unitTypeToImage[EUT_MINE], &srcRect, screen, &dstRect);
+	else
+		SDL_BlitSurface(unitTypeToImage[parUnit.Type()], &srcRect, screen, &dstRect);
+#endif
+
+	if (actionState_ == EUS_BUILDING)  // don't render unit that are building
+		return;
+
+	EUnitState animState = EUS_IDLE;
+	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
+
+	::Render(unitTypeToImage[type_], spriteDesc, pos_, dir_, spriteStep_);
 }
 
 // ============================================================================
