@@ -88,8 +88,7 @@ void Render(SDL_Surface* parSrcSurface,
 				EDir parDir,
 				int parSpriteStep)
 {
-	if (parSpriteDesc.maxStep == 1)
-		parDir = DIR_N; // All idle animations is oriented to north
+	// TODO: Visibility check
 
 	SDL_Rect srcRect =
 	{
@@ -101,8 +100,6 @@ void Render(SDL_Surface* parSrcSurface,
 
 	float2 screenPos(parWorldPos);
 	TransformToScreenCoordinate(screenPos, gCamera->Pos());
-
-	// TODO: Visibility check
 
 	SDL_Rect dstRect =
 	{
