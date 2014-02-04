@@ -43,7 +43,6 @@
 ===============================================================================
 * BUG
 ===============================================================================
-- Make compilation works in RELEASE
 - Force mouse to stay inside application screen in windowed mode
 - Diagonal scrolling (in windowed mode)
 - Check collision before placing building

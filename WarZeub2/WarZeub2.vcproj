@@ -136,7 +136,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib"
-				AdditionalDependencies="SDL"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

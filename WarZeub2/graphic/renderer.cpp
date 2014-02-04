@@ -26,7 +26,7 @@ SDL_Surface* summerTilesSurface = 0;
 void InitRenderer()
 {
 	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT,
-#if 1
+#ifdef _DEBUG
 		32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 #else
 		32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
