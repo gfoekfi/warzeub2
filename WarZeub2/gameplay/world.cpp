@@ -135,6 +135,10 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 		if (otherUnit == parUnit) // no self collision
 			continue;
 
+		// no collision on units ATM
+		if (otherUnit->Type() == EUT_PEON ||otherUnit->Type() == EUT_GRUNT)
+			continue;
+
 		if (DoesBBoxesCollide(&parDst, &otherUnit->BoundingBox()))
 			return true;
 	}
