@@ -84,6 +84,11 @@ void DrawSelections()
 {
 	for (size_t unit = 0; unit < World::Inst()->Units().size(); ++unit)
 	{
+#if 1
+		if (World::Inst()->Units()[unit] != player.selectedUnit) // only display selection bbox
+			continue;
+#endif
+
 		const Unit* curUnit = World::Inst()->Units()[unit];
 		const UnitDesc& unitDesc = unitTypeToUnitDesc[curUnit->Type()];
 
