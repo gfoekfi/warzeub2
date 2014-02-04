@@ -20,33 +20,33 @@ UnitDesc townHallUnitDesc(130, 130, 10000, 0);
 
 void InitUnitDesc()
 {
-	std::set<EOrder> moveOrderSet;
-	moveOrderSet.insert(EO_MOVE);
-	moveOrderSet.insert(EO_STOP);
+	std::set<ECommand> moveCommandSet;
+	moveCommandSet.insert(EC_MOVE);
+	moveCommandSet.insert(EC_STOP);
 
-	gruntUnitDesc.unitStateToOrderSet[EUS_IDLE] = moveOrderSet;
-	gruntUnitDesc.unitStateToOrderSet[EUS_MOVING] = moveOrderSet;
-	gruntUnitDesc.unitStateToOrderSet[EUS_CHOOSE_DESTINATION].insert(EO_CANCEL);
+	gruntUnitDesc.unitStateToCommandSet[EUS_IDLE] = moveCommandSet;
+	gruntUnitDesc.unitStateToCommandSet[EUS_MOVING] = moveCommandSet;
+	gruntUnitDesc.unitStateToCommandSet[EUS_CHOOSE_DESTINATION].insert(EC_CANCEL);
 
-	peonUnitDesc.unitStateToOrderSet = gruntUnitDesc.unitStateToOrderSet;
-	peonUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_BUILD);
-	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_CANCEL);
-	peonUnitDesc.unitStateToOrderSet[EUS_SELECT_BUILDING].insert(EO_BUILD_TOWN_HALL);
-
-	// ---
-
-	mineUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_NONE);
+	peonUnitDesc.unitStateToCommandSet = gruntUnitDesc.unitStateToCommandSet;
+	peonUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_BUILD);
+	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_CANCEL);
+	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_TOWN_HALL);
 
 	// ---
 
-	std::map<EUnitState, std::set<EOrder> > buildingStateToOrderSet;
-	buildingStateToOrderSet[EUS_BEING_BUILD_STATE0].insert(EO_CANCEL);
-	buildingStateToOrderSet[EUS_BEING_BUILD_STATE1].insert(EO_CANCEL);
-	buildingStateToOrderSet[EUS_BEING_BUILD_STATE2].insert(EO_CANCEL);
+	mineUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
 
-	townHallUnitDesc.unitStateToOrderSet = buildingStateToOrderSet;
-	townHallUnitDesc.unitStateToOrderSet[EUS_IDLE].insert(EO_TRAIN_PEON);
-	townHallUnitDesc.unitStateToOrderSet[EUS_TRAINING].insert(EO_CANCEL);
+	// ---
+
+	std::map<EUnitState, std::set<ECommand> > buildingStateToCommandSet;
+	buildingStateToCommandSet[EUS_BEING_BUILD_STATE0].insert(EC_CANCEL);
+	buildingStateToCommandSet[EUS_BEING_BUILD_STATE1].insert(EC_CANCEL);
+	buildingStateToCommandSet[EUS_BEING_BUILD_STATE2].insert(EC_CANCEL);
+
+	townHallUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
+	townHallUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_TRAIN_PEON);
+	townHallUnitDesc.unitStateToCommandSet[EUS_TRAINING].insert(EC_CANCEL);
 
 	// ---
 

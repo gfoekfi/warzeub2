@@ -9,7 +9,7 @@
 std::map<EUnitType, std::map<EUnitState, SpriteDesc> > unitTypeStateToSpriteDesc;
 std::map<EUnitType, SDL_Surface*> unitTypeToImage;
 std::map<EUnitType, SpriteDesc> unitTypeToIconSpriteDesc;
-std::map<EOrder, SpriteDesc> orderToIconSpriteDesc;
+std::map<ECommand, SpriteDesc> commandToIconSpriteDesc;
 
 // ============================================================================
 
@@ -88,12 +88,12 @@ void InitSpriteDesc()
 	
 	// ---
 
-	orderToIconSpriteDesc[EO_MOVE] = moveIcon;
-	orderToIconSpriteDesc[EO_STOP] = stopIcon;
-	orderToIconSpriteDesc[EO_CANCEL] = cancelIcon;
-	orderToIconSpriteDesc[EO_TRAIN_PEON] = peonIcon;
-	orderToIconSpriteDesc[EO_BUILD] = buildIcon;
-	orderToIconSpriteDesc[EO_BUILD_TOWN_HALL] = townHallIcon;
+	commandToIconSpriteDesc[EC_MOVE] = moveIcon;
+	commandToIconSpriteDesc[EC_STOP] = stopIcon;
+	commandToIconSpriteDesc[EC_CANCEL] = cancelIcon;
+	commandToIconSpriteDesc[EC_TRAIN_PEON] = peonIcon;
+	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
+	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
 }
 
 // ============================================================================

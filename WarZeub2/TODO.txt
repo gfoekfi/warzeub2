@@ -26,7 +26,6 @@
 ===============================================================================
 * REFACTOR
 ===============================================================================
-- Rename EOrder enum to ECommand
 - unit 'actionState' is ambiguous
 - unit order => polymorphism (read below)
 - split *real* unit and building unit hierarchy (polymorphism)

@@ -13,9 +13,9 @@
 // ============================================================================
 
 HUD::HUD() :
-	lastOrder_(EO_NONE)
+	lastCommand_(EC_NONE)
 {
-	InitOrderGridPosMapping_();
+	InitCommandGridPosMapping_();
 
 	iconsSurface_ = IMG_Load("../Data/orc_icons.png");
 	assert(iconsSurface_);
@@ -103,9 +103,9 @@ void HUD::Render()
 	// Building placement
 	if (player.selectedUnit && (player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION))
 	{
-		switch (lastOrder_)
+		switch (lastCommand_)
 		{
-		case EO_BUILD_TOWN_HALL: ::Render(EUT_TOWN_HALL, mouse.pos); break;
+		case EC_BUILD_TOWN_HALL: ::Render(EUT_TOWN_HALL, mouse.pos); break;
 		};
 	}
 
@@ -123,50 +123,50 @@ void HUD::Render()
 		RenderSelectionInfos_(infoRegionOffset);
 
 		// Grid
-		float2 orderHudOffset(infoRegionOffset.x,
+		float2 commandHudOffset(infoRegionOffset.x,
 			(2.f * float(backgroundSurface_->h) / 3.f) + infoRegionOffset.y);
-		const std::set<EOrder>& unitOrders =
-			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToOrderSet[player.selectedUnit->ActionState()];
-		for (std::set<EOrder>::const_iterator order = unitOrders.begin();
-			order != unitOrders.end(); ++order)
+		const std::set<ECommand>& unitCommands =
+			unitTypeToUnitDesc[player.selectedUnit->Type()].unitStateToCommandSet[player.selectedUnit->ActionState()];
+		for (std::set<ECommand>::const_iterator command = unitCommands.begin();
+			command != unitCommands.end(); ++command)
 		{
-			RenderHUDOrder_(*order, orderHudOffset);
+			RenderHUDCommand_(*command, commandHudOffset);
 		}
 	}
 }
 
 // ============================================================================
 
-void HUD::RenderHUDOrder_(EOrder parOrder, const float2& parGridRegionOffset)
+void HUD::RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset)
 {
-	if (parOrder == EO_NONE)
+	if (parCommand == EC_NONE)
 		return;
 
-	const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[parOrder];
-	SDL_Rect orderIconSrc = { orderIconSpriteDesc.offsetX, orderIconSpriteDesc.offsetY,
-		orderIconSpriteDesc.width, orderIconSpriteDesc.height };
+	const SpriteDesc& commandIconSpriteDesc = commandToIconSpriteDesc[parCommand];
+	SDL_Rect commandIconSrc = { commandIconSpriteDesc.offsetX, commandIconSpriteDesc.offsetY,
+		commandIconSpriteDesc.width, commandIconSpriteDesc.height };
 
-	int gridPos = orderToGridPos_[parOrder];
-	SDL_Rect orderIconDst = { Sint16(parGridRegionOffset.x) + (gridPos % 3) * (orderIconSpriteDesc.width + 5),
-		Sint16(parGridRegionOffset.y) + (gridPos / 3) * (orderIconSpriteDesc.height + 5), 0, 0};
-	SDL_BlitSurface(iconsSurface_, &orderIconSrc, screen, &orderIconDst);
+	int gridPos = commandToGridPos_[parCommand];
+	SDL_Rect commandIconDst = { Sint16(parGridRegionOffset.x) + (gridPos % 3) * (commandIconSpriteDesc.width + 5),
+		Sint16(parGridRegionOffset.y) + (gridPos / 3) * (commandIconSpriteDesc.height + 5), 0, 0};
+	SDL_BlitSurface(iconsSurface_, &commandIconSrc, screen, &commandIconDst);
 }
 
 // ============================================================================
 
-void HUD::InitOrderGridPosMapping_()
+void HUD::InitCommandGridPosMapping_()
 {
-	orderToGridPos_[EO_MOVE] = 0;
-	orderToGridPos_[EO_STOP] = 1;
-	orderToGridPos_[EO_CANCEL] = 8;
-	orderToGridPos_[EO_TRAIN_PEON] = 0;
-	orderToGridPos_[EO_BUILD] = 6;
-	orderToGridPos_[EO_BUILD_TOWN_HALL] = 0;
+	commandToGridPos_[EC_MOVE] = 0;
+	commandToGridPos_[EC_STOP] = 1;
+	commandToGridPos_[EC_CANCEL] = 8;
+	commandToGridPos_[EC_TRAIN_PEON] = 0;
+	commandToGridPos_[EC_BUILD] = 6;
+	commandToGridPos_[EC_BUILD_TOWN_HALL] = 0;
 
-	for (std::map<EOrder, int>::iterator it = orderToGridPos_.begin();
-			it != orderToGridPos_.end(); ++it)
+	for (std::map<ECommand, int>::iterator it = commandToGridPos_.begin();
+			it != commandToGridPos_.end(); ++it)
 	{
-		gridPosToOrders_[it->second].insert(it->first);
+		gridPosToCommands_[it->second].insert(it->first);
 	}
 }
 
@@ -182,15 +182,15 @@ bool HUD::IsInHUDRegion(const float2& parPos) const
 int HUD::GridClickPositionFromMouse_()
 {
 	SDL_Rect mouseRect = BoundingBoxFromMouse(mouse, false);
-	const SpriteDesc& orderIconSpriteDesc = orderToIconSpriteDesc[EO_CANCEL];
+	const SpriteDesc& commandIconSpriteDesc = commandToIconSpriteDesc[EC_CANCEL];
 
 	for (int line = 0; line < 3; ++line)
 	{
 		for (int col = 0; col < 3; ++col)
 		{
-			int iconOffsetX = (screen->w / 5) / 50 + col * (orderIconSpriteDesc.width + 5);
-			int iconOffsetY = (2 * screen->h / 3) + ((screen->h / 3) / 50) + line * (orderIconSpriteDesc.height + 5);
-			SDL_Rect iconRect = {iconOffsetX, iconOffsetY, orderIconSpriteDesc.width, orderIconSpriteDesc.height};
+			int iconOffsetX = (screen->w / 5) / 50 + col * (commandIconSpriteDesc.width + 5);
+			int iconOffsetY = (2 * screen->h / 3) + ((screen->h / 3) / 50) + line * (commandIconSpriteDesc.height + 5);
+			SDL_Rect iconRect = {iconOffsetX, iconOffsetY, commandIconSpriteDesc.width, commandIconSpriteDesc.height};
 
 			if (DoesBBoxesCollide(&mouseRect, &iconRect))
 				return (line*3 + col);
@@ -206,35 +206,35 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 {
 	assert(parGridClickPos >= 0 && parGridClickPos <= 8); // grid is 3x3
 
-	const std::set<EOrder>& ordersOnGridPos = gridPosToOrders_[parGridClickPos];
+	const std::set<ECommand>& commandsOnGridPos = gridPosToCommands_[parGridClickPos];
 	UnitDesc& unitDesc = unitTypeToUnitDesc[parUnit.Type()];
-	const std::set<EOrder>& ordersFromUnitState =
-		unitDesc.unitStateToOrderSet[parUnit.ActionState()];
+	const std::set<ECommand>& commandsFromUnitState =
+		unitDesc.unitStateToCommandSet[parUnit.ActionState()];
 
-	std::set<EOrder> intersectSet;
-	std::set_intersection(ordersOnGridPos.begin(), ordersOnGridPos.end(),
-		ordersFromUnitState.begin(), ordersFromUnitState.end(),
+	std::set<ECommand> intersectSet;
+	std::set_intersection(commandsOnGridPos.begin(), commandsOnGridPos.end(),
+		commandsFromUnitState.begin(), commandsFromUnitState.end(),
 		std::inserter(intersectSet, intersectSet.begin()));
 
 	if (intersectSet.size() > 0)
 	{
 		assert(intersectSet.size() == 1); // otherwise, there is a conflict
-		EOrder order = *intersectSet.begin();
+		ECommand order = *intersectSet.begin();
 		switch (order)
 		{
-		case EO_CANCEL:
+		case EC_CANCEL:
 			if (parUnit.IsBeingConstructed())
 				World::Inst()->RemoveUnit(&parUnit);
 			else
 				parUnit.CancelOrder();
 			break;
-		case EO_STOP: parUnit.CancelOrder(); break;
-		case EO_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
-		case EO_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break; // TODO: It shouldn't modified unit action state
+		case EC_STOP: parUnit.CancelOrder(); break;
+		case EC_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
+		case EC_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break; // TODO: It shouldn't modified unit action state
 		// orders with destination
-		case EO_MOVE:
-		case EO_BUILD_TOWN_HALL:
-			lastOrder_ = order;
+		case EC_MOVE:
+		case EC_BUILD_TOWN_HALL:
+			lastCommand_ = order;
 			parUnit.SetActionState(EUS_CHOOSE_DESTINATION); // TODO: It shouldn't modified unit action state
 			break;
 		};
@@ -245,13 +245,13 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 
 void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition)
 {
-	switch (lastOrder_)
+	switch (lastCommand_)
 	{
-	case EO_MOVE: parUnit.Move(parPosition); break;
-	case EO_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
+	case EC_MOVE: parUnit.Move(parPosition); break;
+	case EC_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
 	};
 
-	lastOrder_ = EO_NONE;
+	lastCommand_ = EC_NONE;
 	// TODO: It shouldn't modified unit action state
 	parUnit.SetActionState(EUS_IDLE); // used to reset the 'hud state' of the unit
 }

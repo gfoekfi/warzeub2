@@ -29,21 +29,22 @@ public:
 	void ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition);
 
 private:
-	void InitOrderGridPosMapping_();
+	void InitCommandGridPosMapping_();
 	int GridClickPositionFromMouse_();
 	void ApplyGridClick_(Unit& parUnit, int parGridClickPos);
 
 	void GenerateBackgroundSurface_();
-	void RenderHUDOrder_(EOrder parOrder, const float2& parGridRegionOffset);
+	void RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset);
 	void RenderSelectionInfos_(const float2& parInfoRegionOffset);
 	void RenderMinimap_(const float2& parMinimapRegionOffset);
 
 private:
-	std::map<EOrder, int> orderToGridPos_; // 0 to 8 (3 per line)
-	std::map<int, std::set<EOrder> > gridPosToOrders_;
 	SDL_Surface* iconsSurface_;
 	SDL_Surface* backgroundSurface_;
-	EOrder lastOrder_;
+
+	std::map<ECommand, int> commandToGridPos_; // 0 to 8 (3 per line)
+	std::map<int, std::set<ECommand> > gridPosToCommands_;
+	ECommand lastCommand_;
 };
 
 // ============================================================================

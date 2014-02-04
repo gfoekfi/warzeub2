@@ -11,15 +11,15 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-enum EOrder
+enum ECommand
 {
-	EO_NONE			= 0,
-	EO_STOP			= 1 << 0,
-	EO_CANCEL		= 1 << 1,
-	EO_TRAIN_PEON	= 1 << 2,
-	EO_MOVE			= 1 << 3,
-	EO_BUILD			= 1 << 4,
-	EO_BUILD_TOWN_HALL = 1 << 5,
+	EC_NONE			= 0,
+	EC_STOP			= 1 << 0,
+	EC_CANCEL		= 1 << 1,
+	EC_TRAIN_PEON	= 1 << 2,
+	EC_MOVE			= 1 << 3,
+	EC_BUILD			= 1 << 4,
+	EC_BUILD_TOWN_HALL = 1 << 5,
 };
 
 // ============================================================================
@@ -47,7 +47,7 @@ struct UnitDesc
 	int buildTime; // in ms
 	int moveSpeed;
 
-	std::map<EUnitState, std::set<EOrder> > unitStateToOrderSet;
+	std::map<EUnitState, std::set<ECommand> > unitStateToCommandSet;
 };
 
 // ============================================================================

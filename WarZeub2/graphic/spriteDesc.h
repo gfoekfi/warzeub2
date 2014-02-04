@@ -49,7 +49,7 @@ void ReleaseSpriteDesc();
 extern std::map<EUnitType, std::map<EUnitState, SpriteDesc> > unitTypeStateToSpriteDesc;
 extern std::map<EUnitType, SDL_Surface*> unitTypeToImage;
 extern std::map<EUnitType, SpriteDesc> unitTypeToIconSpriteDesc;
-extern std::map<EOrder, SpriteDesc> orderToIconSpriteDesc;
+extern std::map<ECommand, SpriteDesc> commandToIconSpriteDesc;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
