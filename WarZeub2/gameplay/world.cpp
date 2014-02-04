@@ -15,9 +15,14 @@ World::World()
 {
 	units_.push_back(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	units_.push_back(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
-	// FIXME: Building should be tile aligned
-	units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
-	units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
+
+	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
+	TileAlign(minePos);
+	units_.push_back(new Unit(minePos, EUT_MINE));
+
+	float2 townhallPos(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
+	TileAlign(townhallPos);
+	units_.push_back(new Unit(townhallPos, EUT_TOWN_HALL));
 
 #if 0
 	// used to kill performance
