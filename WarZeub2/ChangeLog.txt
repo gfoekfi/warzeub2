@@ -1,7 +1,12 @@
 ===============================================================================
 * v0.7
 ===============================================================================
--
+- World: new methods GetUnitAt() and NearestUnitOf()
+- GatheringOrder: move back and forth between mine and townhall
+- Animation rendering is splitted: Unit has Render() method and calls renderer
+- States like "move/holdingGold" are Unit attributes
+- Rename EOrder to ECommand
+- New class "WorkerUnit" (inherit from Unit)
 ===============================================================================
 
 ===============================================================================
