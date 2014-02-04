@@ -1,4 +1,5 @@
 #include "world.h"
+#include "workerUnit.h"
 #include "../graphic/renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 #include <algorithm> // std::find
 #include <assert.h>
@@ -14,7 +15,7 @@ World::World()
 	map_->width = 30;
 	map_->height = 30;
 
-	units_.push_back(new Unit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
+	units_.push_back(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	units_.push_back(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 	units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_MINE));
 	units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));

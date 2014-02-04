@@ -56,7 +56,6 @@ public:
 
 public:
 	virtual void Update(Uint32 parCurTime, Uint32 parElapsedTime);
-	virtual void Render() const;
 
 	virtual bool Gather(Unit* parMineUnit);
 	virtual bool Train(EUnitType parUnitTypeToTrain);
@@ -64,6 +63,7 @@ public:
 	virtual bool Build(EUnitType parUnitTypeToBuild, const float2& parPos);
 	virtual bool CancelOrder();
 
+	virtual void Render() const;
 	virtual void RightClick(Unit* parTargetUnit);
 	virtual void RightClick(const float2& parTargetpos);
 
@@ -93,7 +93,7 @@ public:
 	void SetDir(EDir parDir) { dir_ = parDir; }
 	void SetPos(const float2& parPos) { pos_ = parPos; };
 
-private:
+protected:
 	void UpdateOrder_(Uint32 parCurTime, Uint32 parElapsedTime);
 	void UpdateAnimation_(Uint32 parCurTime);
 

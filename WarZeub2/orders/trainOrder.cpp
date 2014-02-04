@@ -1,5 +1,6 @@
 #include "trainOrder.h"
 #include "../gameplay/world.h"
+#include "../gameplay/workerUnit.h"
 
 
 // ============================================================================
@@ -41,7 +42,13 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		float2 newUnitPos(hostUnit_->Pos());
 		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
 			unitTypeToUnitDesc[unitTypeToTrain_].height / 2 + 1; // +1 => to not stay stuck
-		trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_);
+
+		// TODO: Use factory
+		switch (unitTypeToTrain_)
+		{
+		case EUT_PEON: trainedUnit_ = new WorkerUnit(newUnitPos, unitTypeToTrain_); break;
+		default: trainedUnit_ = new Unit(newUnitPos, unitTypeToTrain_); break;
+		}
 
 		World::Inst()->AddUnit(trainedUnit_);
 	}

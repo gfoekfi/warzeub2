@@ -249,6 +249,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\gameplay\workerUnit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\workerUnit.h"
+					>
+				</File>
+				<File
 					RelativePath=".\gameplay\world.cpp"
 					>
 				</File>

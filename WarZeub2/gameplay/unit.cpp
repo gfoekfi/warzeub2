@@ -49,8 +49,6 @@ void Unit::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 // TODO: Use polymorphism
 void Unit::Render() const
 {
-	if (actionState_ == EUS_BUILDING)  // don't render unit that are building
-		return;
 	if (actionState_ == EUS_BEING_BUILD_STATE0 || actionState_ == EUS_BEING_BUILD_STATE1)
 	{
 		const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][actionState_];
@@ -59,14 +57,7 @@ void Unit::Render() const
 	}
 
 	EUnitState animState = EUS_IDLE;
-	if (type_ == EUT_PEON)
-	{
-		if (moving_)
-			animState = holdingGold_ ? EUS_MOVING_WITH_GOLD : EUS_MOVING;
-		else
-			animState = holdingGold_ ? EUS_IDLE_WITH_GOLD : EUS_IDLE;
-	}
-	else if (moving_)
+	if (moving_)
 	{
 		assert(type_ == EUT_GRUNT);
 		animState = EUS_MOVING;
@@ -74,6 +65,26 @@ void Unit::Render() const
 
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
 	::Render(unitTypeToImage[type_], spriteDesc, pos_, dir_, spriteStep_);
+}
+
+// ============================================================================
+
+// TODO: Should be empty (use polymorphism)
+void Unit::RightClick(Unit* parTargetUnit)
+{
+	assert(parTargetUnit);
+
+	if (CanMove())
+		Move(parTargetUnit->Pos());
+}
+
+// ============================================================================
+
+// TODO: Should be empty (use polymorphism)
+void Unit::RightClick(const float2& parTargetpos)
+{
+	if (CanMove())
+		Move(parTargetpos);
 }
 
 // ============================================================================
@@ -100,28 +111,6 @@ void Unit::UpdateAnimation_(Uint32 parCurTime)
 		spriteStep_++;
 		spriteLastTime_ = parCurTime;
 	}
-}
-
-// ============================================================================
-
-// TODO: use polymorphism
-void Unit::RightClick(Unit* parTargetUnit)
-{
-	assert(parTargetUnit);
-
-	if (type_ == EUT_PEON && parTargetUnit->Type() == EUT_MINE)
-		Gather(parTargetUnit);
-	else if (CanMove())
-		Move(parTargetUnit->Pos());
-}
-
-// ============================================================================
-
-// TODO: use polymorphism
-void Unit::RightClick(const float2& parTargetpos)
-{
-	if (CanMove())
-		Move(parTargetpos);
 }
 
 // ============================================================================
