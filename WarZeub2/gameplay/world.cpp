@@ -13,16 +13,16 @@ World::World()
 	: width_(30),
 	height_(30)
 {
-	units_.push_back(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
-	units_.push_back(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
+	AddUnit(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
+	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 
 	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
 	TileAlign(minePos);
-	units_.push_back(new Unit(minePos, EUT_MINE));
+	AddUnit(new Unit(minePos, EUT_MINE));
 
 	float2 townhallPos(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
 	TileAlign(townhallPos);
-	units_.push_back(new Unit(townhallPos, EUT_TOWN_HALL));
+	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
 #if 0
 	// used to kill performance
