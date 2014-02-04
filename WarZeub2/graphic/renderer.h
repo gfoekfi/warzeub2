@@ -46,7 +46,7 @@ void Render(SDL_Surface* parSrcSurface,
 				int parSpriteStep);
 
 void Render(EUnitType parUnitType, const float2& parScreenPos); // used by building placement
-void Render(const Map& parMap);
+void Render(const World& parWorld);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
 void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);
 

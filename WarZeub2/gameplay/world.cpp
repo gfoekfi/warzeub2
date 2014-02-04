@@ -1,5 +1,4 @@
 #include "world.h"
-#include "map.h"
 #include "workerUnit.h"
 #include "../graphic/renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 #include <algorithm> // std::find
@@ -11,9 +10,9 @@
 // ============================================================================
 
 World::World()
+	: width_(30),
+	height_(30)
 {
-	map_ = new Map(30, 30);
-
 	units_.push_back(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	units_.push_back(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 	// FIXME: Building should be tile aligned
@@ -46,6 +45,14 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	for (size_t unit = 0; unit < units_.size(); ++unit)
 		units_[unit]->Update(parCurTime, parElapsedTime);
+}
+
+// ============================================================================
+
+void World::TileAlign(float2& parPos)
+{
+	parPos.x = float(size_t(parPos.x) / MAP_TILE_SIZE) * MAP_TILE_SIZE + 0.5f * MAP_TILE_SIZE;
+	parPos.y = float(size_t(parPos.y) / MAP_TILE_SIZE) * MAP_TILE_SIZE + 0.5f * MAP_TILE_SIZE;
 }
 
 // ============================================================================

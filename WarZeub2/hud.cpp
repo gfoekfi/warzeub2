@@ -2,7 +2,6 @@
 #include "graphic/renderer.h"
 #include "graphic/spriteDesc.h"
 #include "gameplay/player.h"
-#include "gameplay/map.h"
 #include "userInput.h"
 #include <assert.h>
 #include <algorithm>
@@ -111,7 +110,7 @@ void HUD::RenderBuildingPlacement_() const
 
 	float2 pos(mouse.pos);
 	TransformToWorldCoordinate(pos, gCamera->Pos());
-	Map::TileAlign(pos);
+	World::TileAlign(pos);
 	TransformToScreenCoordinate(pos, gCamera->Pos());
 
 	::Render(unitType, pos);

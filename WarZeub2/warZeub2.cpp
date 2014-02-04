@@ -124,7 +124,7 @@ void Render()
 {
 	BeginScene();
 	{
-		Render(World::Inst()->GetMap());
+		Render(*World::Inst());
 
 		const std::vector<Unit*>& units = World::Inst()->Units();
 		for (size_t unit = 0; unit < units.size(); ++unit)
