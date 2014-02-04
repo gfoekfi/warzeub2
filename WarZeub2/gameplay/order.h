@@ -105,7 +105,6 @@ private:
 	Unit* receiverUnit_; // townhall only ATM
 	Unit* dstUnit_; // mine only ATM
 	MoveOrder* moveOrder_;
-	bool hasResource_; // TODO: Should be a unit attribute
 };
 
 // ============================================================================

@@ -71,6 +71,8 @@ public:
 	bool IsBeingConstructed() const;
 	bool IsBuilding(const Unit* parUnit) const;
 
+	bool IsHoldingGold() const { return holdingGold_; }
+
 public:
 	const float2& Pos() const { return pos_; }
 	EUnitType Type() const { return type_; }
@@ -79,7 +81,11 @@ public:
 	int SpriteStep() const { return spriteStep_; }
 	Uint32 SpriteLastTime() const { return spriteLastTime_; }
 
+	// TODO: Might need to be deleted and make Orders class friend
 	void SetMoving(bool parMoving) { moving_ = parMoving; }
+	void SetHoldingGold(bool parHoldingGold) { holdingGold_ = parHoldingGold; }
+	//
+
 	void SetActionState(EUnitState parState) { actionState_ = parState; }
 	void SetDir(EDir parDir) { dir_ = parDir; }
 	void SetPos(const float2& parPos) { pos_ = parPos; };
@@ -92,7 +98,10 @@ protected:
 	float2 pos_;
 	EDir dir_;
 	EUnitType type_;
+
 	bool moving_;
+	bool holdingGold_;
+
 	EUnitState actionState_;
 	int spriteStep_;
 	Uint32 spriteLastTime_;

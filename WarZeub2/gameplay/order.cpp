@@ -205,8 +205,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 GatherOrder::GatherOrder(Unit* parHostUnit, Unit* parReceiverUnit, Unit* parDstUnit)
 	: Order(parHostUnit),
 	receiverUnit_(parReceiverUnit),
-	dstUnit_(parDstUnit),
-	hasResource_(false)
+	dstUnit_(parDstUnit)
 {
 	assert(parHostUnit && parHostUnit->Type() == EUT_PEON);
 	assert(parReceiverUnit && parReceiverUnit->Type() == EUT_TOWN_HALL);
@@ -242,21 +241,10 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 	hostBoundingBox.w += 2 * COLLISION_THRESHOLD;
 	hostBoundingBox.h += 2 * COLLISION_THRESHOLD;
 
-	// TODO: Factorize me (repetition)
-	if (!hasResource_)
-	{
-		moveOrder_->SetTargetPos(dstUnit_->Pos());
-		if (DoesBBoxesCollide(&hostBoundingBox, &dstUnit_->BoundingBox()))
-			hasResource_ = true;
-	}
-
-	// TODO: Factorize me (repetition)
-	if (hasResource_)
-	{
-		moveOrder_->SetTargetPos(receiverUnit_->Pos());
-		if (DoesBBoxesCollide(&hostBoundingBox, &receiverUnit_->BoundingBox()))
-			hasResource_ = false;
-	}
+	Unit* targetUnit = hostUnit_->IsHoldingGold() ? receiverUnit_ : dstUnit_;
+	moveOrder_->SetTargetPos(targetUnit->Pos());
+	if (DoesBBoxesCollide(&hostBoundingBox, &targetUnit->BoundingBox()))
+		hostUnit_->SetHoldingGold(!hostUnit_->IsHoldingGold());
 
 	return false; // never ends (until destination is consumed)
 }

@@ -16,6 +16,7 @@ Unit::Unit(const float2& parPos, EUnitType parType)
 	dir_(DIR_N),
 	type_(parType),
 	moving_(false),
+	holdingGold_(false),
 	actionState_(EUS_IDLE),
 	spriteStep_(0),
 	spriteLastTime_(0),
