@@ -55,8 +55,18 @@ void Unit::Render() const
 	}
 
 	EUnitState animState = EUS_IDLE;
-	if (moving_)
-		animState = EUS_MOVE;
+	if (type_ == EUT_PEON)
+	{
+		if (moving_)
+			animState = holdingGold_ ? EUS_MOVING_WITH_GOLD : EUS_MOVING;
+		else
+			animState = holdingGold_ ? EUS_IDLE_WITH_GOLD : EUS_IDLE;
+	}
+	else if (moving_)
+	{
+		assert(type_ == EUT_GRUNT);
+		animState = EUS_MOVING;
+	}
 
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
 	::Render(unitTypeToImage[type_], spriteDesc, pos_, dir_, spriteStep_);

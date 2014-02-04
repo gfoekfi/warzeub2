@@ -25,7 +25,7 @@ void InitUnitDesc()
 	moveOrderSet.insert(EO_STOP);
 
 	gruntUnitDesc.unitStateToOrderSet[EUS_IDLE] = moveOrderSet;
-	gruntUnitDesc.unitStateToOrderSet[EUS_MOVE] = moveOrderSet;
+	gruntUnitDesc.unitStateToOrderSet[EUS_MOVING] = moveOrderSet;
 	gruntUnitDesc.unitStateToOrderSet[EUS_CHOOSE_DESTINATION].insert(EO_CANCEL);
 
 	peonUnitDesc.unitStateToOrderSet = gruntUnitDesc.unitStateToOrderSet;
