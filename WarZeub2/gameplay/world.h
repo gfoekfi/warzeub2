@@ -46,10 +46,14 @@ public:
 	size_t Height() const { return height_; }
 
 private:
+	void DumpAccessibleTile_() const;
+
+private:
 	std::vector<Unit*> units_;
 
 	size_t width_; // in # of tiles
 	size_t height_; // in # of tiles
+	bool accessibleTile_[MAX_NB_TILES][MAX_NB_TILES]; // Use C-style for performance (security warning)
 };
 
 // ============================================================================

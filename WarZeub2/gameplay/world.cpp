@@ -11,8 +11,12 @@
 
 World::World()
 	: width_(30),
-	height_(30)
+	height_(20)
 {
+	for (size_t x = 0; x < width_; ++x)
+		for (size_t y = 0; y < height_; ++y)
+			accessibleTile_[x][y] = true;
+
 	AddUnit(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 
@@ -64,7 +68,40 @@ void World::TileAlign(float2& parPos)
 
 void World::AddUnit(Unit* parUnit)
 {
+	fprintf(stdout, "[WORLD] Adding unit\n");
+
 	units_.push_back(parUnit);
+
+	if (parUnit->CanMove())
+		return; // no collision with movable unit right now
+
+	// mark inaccessible all tiles where unit bounding box collides
+	SDL_Rect bbox = parUnit->BoundingBox();
+	for (size_t x = (bbox.x / MAP_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_TILE_SIZE); ++x)
+	{
+		for (size_t y = (bbox.y / MAP_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_TILE_SIZE); ++y)
+		{
+			assert(accessibleTile_[x][y]);
+			accessibleTile_[x][y] = false;
+		}
+	}
+
+#if 0
+	DumpAccessibleTile_();
+#endif
+}
+
+// ============================================================================
+
+void World::DumpAccessibleTile_() const
+{
+	fprintf(stdout, "[WORLD] accessibleTile_:\n");
+	for (size_t y = 0; y < height_; ++y)
+	{
+		for (size_t x = 0; x < width_; ++x)
+			fprintf(stdout, "%d", accessibleTile_[x][y] ? 0 : 1);
+		fprintf(stdout, "\n");
+	}
 }
 
 // ============================================================================
