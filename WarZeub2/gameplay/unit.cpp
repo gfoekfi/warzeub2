@@ -97,7 +97,7 @@ void Unit::RightClick(Unit* parTargetUnit)
 
 	if (type_ == EUT_PEON && parTargetUnit->Type() == EUT_MINE)
 		Gather(parTargetUnit);
-	else if (IsMovable())
+	else if (CanMove())
 		Move(parTargetUnit->Pos());
 }
 
@@ -106,7 +106,7 @@ void Unit::RightClick(Unit* parTargetUnit)
 // TODO: use polymorphism
 void Unit::RightClick(const float2& parTargetpos)
 {
-	if (IsMovable())
+	if (CanMove())
 		Move(parTargetpos);
 }
 
@@ -142,7 +142,7 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 
 bool Unit::Move(const float2& parTargetPos)
 {
-	assert(IsMovable());
+	assert(CanMove());
 
 	if (curOrder_)
 		delete curOrder_;
@@ -212,7 +212,7 @@ SDL_Rect Unit::BoundingBox() const
 // ============================================================================
 
 // TODO: Uses polymorphism
-bool Unit::IsMovable() const
+bool Unit::CanMove() const
 {
 	switch (type_)
 	{

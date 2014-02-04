@@ -67,7 +67,7 @@ public:
 public:
 	float OrderCompletionStatus() const; // used by hud (progress bar)
 	SDL_Rect BoundingBox() const;
-	bool IsMovable() const;
+	bool CanMove() const;
 	bool IsBeingConstructed() const;
 	bool IsBuilding(const Unit* parUnit) const;
 
