@@ -2,6 +2,9 @@
 #define MAP_H_
 
 
+#include "../utils/vecTypes.h"
+
+
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
@@ -17,6 +20,9 @@ class Map
 public:
 	Map(size_t parWidth, size_t parHeight);
 	~Map();
+
+public:
+	static void TileAlign(float2& parPos); // center pos to current tile
 
 public:
 	size_t Width() const { return width_; }

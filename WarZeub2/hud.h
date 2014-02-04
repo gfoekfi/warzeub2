@@ -37,6 +37,7 @@ private:
 	void RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset);
 	void RenderSelectionInfos_(const float2& parInfoRegionOffset);
 	void RenderMinimap_(const float2& parMinimapRegionOffset);
+	void RenderBuildingPlacement_() const;
 
 private:
 	SDL_Surface* iconsSurface_;

@@ -2,6 +2,7 @@
 #include "moveOrder.h"
 #include "../gameplay/player.h"
 #include "../gameplay/world.h"
+#include "../gameplay/map.h"
 
 
 // ============================================================================
@@ -13,9 +14,10 @@ BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const fl
 	unitTypeToBuild_(parUnitTypeToBuild),
 	buildingUnit_(0),
 	buildingStartTime_(-1),
-	buildingPos_(parPos),
 	moveOrder_(0)
 {
+	buildingPos_ = parPos;
+	Map::TileAlign(buildingPos_);
 }
 
 // ============================================================================

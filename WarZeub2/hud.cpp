@@ -99,16 +99,31 @@ void HUD::RenderMinimap_(const float2& parMinimapRegionOffset)
 
 // ============================================================================
 
+void HUD::RenderBuildingPlacement_() const
+{
+	assert(player.selectedUnit && (player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION));
+
+	EUnitType unitType;
+	switch (lastCommand_)
+	{
+	case EC_BUILD_TOWN_HALL: unitType = EUT_TOWN_HALL; break;
+	};
+
+	float2 pos(mouse.pos);
+	TransformToWorldCoordinate(pos, gCamera->Pos());
+	Map::TileAlign(pos);
+	TransformToScreenCoordinate(pos, gCamera->Pos());
+
+	::Render(unitType, pos);
+}
+
+// ============================================================================
+
 void HUD::Render()
 {
 	// Building placement
 	if (player.selectedUnit && (player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION))
-	{
-		switch (lastCommand_)
-		{
-		case EC_BUILD_TOWN_HALL: ::Render(EUT_TOWN_HALL, mouse.pos); break;
-		};
-	}
+		RenderBuildingPlacement_();
 
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
