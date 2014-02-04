@@ -1,36 +1,28 @@
-#ifndef ORDER_H_
-#define ORDER_H_
+#ifndef MOVE_ORDER_H_
+#define MOVE_ORDER_H_
 
 
-#include "../utils/util.h"
-#include "../gameplay/unitDesc.h"
-#include <SDL.h>
-#include <map>
-#include <set>
+#include "order.h"
 
 
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-class Unit;
-enum EUnitType;
-
-class Order
+class MoveOrder : public Order
 {
 public:
-	Order(Unit* parHostUnit) : hostUnit_(parHostUnit), completionStatus_(-1.0f) {}
-	virtual ~Order() {}
+	MoveOrder(Unit* parHostUnit, const float2& parTargetPos);
+	virtual ~MoveOrder();
 
 public:
-	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) = 0; // Return true if the order is complete
+	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 public:
-	float CompletionStatus() const { return completionStatus_; }
+	void SetTargetPos(const float2& parTargetPos) { targetPos_ = parTargetPos; }
 
-protected:
-	Unit* hostUnit_;
-	float completionStatus_;
+private:
+	float2 targetPos_;
 };
 
 // ============================================================================

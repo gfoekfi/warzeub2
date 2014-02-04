@@ -281,11 +281,43 @@
 				Name="orders"
 				>
 				<File
+					RelativePath=".\orders\buildOrder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\buildOrder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\gatherOrder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\gatherOrder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\moveOrder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\moveOrder.h"
+					>
+				</File>
+				<File
 					RelativePath=".\orders\order.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\orders\order.h"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\trainOrder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\trainOrder.h"
 					>
 				</File>
 			</Filter>

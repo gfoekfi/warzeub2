@@ -27,8 +27,7 @@
 * REFACTOR
 ===============================================================================
 - Rename EOrder enum to ECommand
-- Split Orders into multiple files
-- unit 'moveState' / 'actionState' (/ 'hud state'), design is not clear enough
+- unit 'actionState' is ambiguous
 - unit order => polymorphism (read below)
 - split *real* unit and building unit hierarchy (polymorphism)
 - Map rendering should be done only on the viewport region
