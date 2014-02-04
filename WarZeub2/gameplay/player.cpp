@@ -17,6 +17,7 @@ Player player;
 
 void Player::UpdateSelection()
 {
+	// FIXME: Cut selection box to not consider units behind HUD
 	SDL_Rect selectionBoundingBox = BoundingBoxFromMouse(mouse, true);
 
 	if (selectedUnit && selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)

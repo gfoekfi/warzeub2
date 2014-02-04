@@ -48,6 +48,6 @@
 - Diagonal scrolling (in windowed mode)
 - Check collision before placing building
 - When unit pop-up after training or building, find a suitable location (with no collision)
-- No scrolling on left side during 'selection mode'
+- Ignore units behind HUD during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
 ===============================================================================

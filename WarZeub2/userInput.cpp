@@ -93,11 +93,7 @@ void OnMouseMotion(const SDL_Event& parEvent)
 	mouse.pos = float2(parEvent.motion.x, parEvent.motion.y);
 
 	if (player.selectionMode)
-	{
-		mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
-			float(screen->w / 5) : mouse.pos.x;
 		player.UpdateSelection();
-	}
 }
 
 // ============================================================================
@@ -136,8 +132,6 @@ void KeyboardScrollingHandler()
 		(keyboard.keysPressed[SDLK_RIGHT] || keyboard.keysPressed[SDLK_LEFT] ||
 		 keyboard.keysPressed[SDLK_UP] || keyboard.keysPressed[SDLK_DOWN]))
 	{
-			mouse.pos.x = (HUD::Inst()->IsInHUDRegion(mouse.pos)) ? // FIXME: Buggy
-				float(screen->w / 5) : mouse.pos.x;
 			player.UpdateSelection();
 	}
 }

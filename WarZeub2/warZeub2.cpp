@@ -103,7 +103,6 @@ void DrawSelections()
 
 	if (mouse.leftButtonPressed && (Sint16(mouse.lastLeftClickPos.x) > (screen->w / 5)))
 	{
-		// sexy stuff ;)
 		float2 lastPos(mouse.lastLeftClickPos);
 		TransformToWorldCoordinate(lastPos, gCamera->LastPosOnLeftClick());
 		TransformToScreenCoordinate(lastPos, gCamera->Pos());
