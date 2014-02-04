@@ -2,6 +2,7 @@
 #include "spriteDesc.h"
 #include "../gameplay/unitDesc.h"
 #include "../gameplay/player.h"
+#include "../gameplay/map.h"
 #include "../orders/order.h"
 #include "../hud.h"
 #include <SDL.h>
@@ -134,17 +135,17 @@ void Render(const Map& parMap)
 	static SDL_Surface* mapSurface = 0;
 	if (!mapSurface)
 	{
-		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parMap.width * MAP_TILE_SIZE,
-			parMap.height * MAP_TILE_SIZE, screen->format->BitsPerPixel,
+		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parMap.Width() * MAP_TILE_SIZE,
+			parMap.Height() * MAP_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
 
 		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 14, (MAP_TILE_SIZE + 1) * 18, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (14, 18) = grass
 		SDL_Rect dst = { 0, 0, 0, 0 };
 
-		for (int x = 0; x < parMap.width; ++x)
+		for (size_t x = 0; x < parMap.Width(); ++x)
 		{
-			for (int y = 0; y < parMap.height; ++y)
+			for (size_t y = 0; y < parMap.Height(); ++y)
 			{
 				dst.x = x * MAP_TILE_SIZE;
 				dst.y = y * MAP_TILE_SIZE;

@@ -2,6 +2,7 @@
 #include "graphic/renderer.h"
 #include "graphic/spriteDesc.h"
 #include "gameplay/player.h"
+#include "gameplay/map.h"
 #include "userInput.h"
 #include <assert.h>
 #include <algorithm>
