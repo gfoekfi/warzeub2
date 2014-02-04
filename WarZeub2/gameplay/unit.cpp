@@ -57,6 +57,8 @@ void Unit::Render() const
 	}
 
 	EUnitState animState = EUS_IDLE;
+	if (actionState_ == EUS_BEING_BUILD_STATE2)
+		animState = EUS_BEING_BUILD_STATE2; // building only
 	if (moving_)
 	{
 		assert(type_ == EUT_GRUNT);
