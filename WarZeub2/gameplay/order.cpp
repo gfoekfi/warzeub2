@@ -84,11 +84,11 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	if (fabs(deltaPos.x) <= 1.f && fabs(deltaPos.y) <= 1.f)
 	{
 		targetPos_ = hostUnit_->Pos();
-		hostUnit_->SetMoveState(EUS_IDLE);
+		hostUnit_->SetMoving(false);
 		return true;
 	}
 
-	hostUnit_->SetMoveState(EUS_MOVE);
+	hostUnit_->SetMoving(true);
 	hostUnit_->SetDir(DirectionToTarget(hostUnit_->Pos(), targetPos_));
 
 	const float moveSpeed = 0.02f * float(unitTypeToUnitDesc[hostUnit_->Type()].moveSpeed);
@@ -106,7 +106,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	nextBoundingBox.x = Sint16(nextPos.x) - nextBoundingBox.w / 2;
 	nextBoundingBox.y = Sint16(nextPos.y) - nextBoundingBox.h / 2;
 	if (World::Inst()->Collides(hostUnit_, nextBoundingBox))
-		hostUnit_->SetMoveState(EUS_IDLE);
+		hostUnit_->SetMoving(false);
 	else
 		hostUnit_->SetPos(nextPos);
 

@@ -4,6 +4,7 @@
 
 #include "../utils/util.h"
 #include <SDL.h>
+#include <assert.h>
 
 
 // ============================================================================
@@ -78,7 +79,7 @@ public:
 	int SpriteStep() const { return spriteStep_; }
 	Uint32 SpriteLastTime() const { return spriteLastTime_; }
 
-	void SetMoveState(EUnitState parState) { moveState_ = parState; }
+	void SetMoving(bool parMoving) { moving_ = parMoving; }
 	void SetActionState(EUnitState parState) { actionState_ = parState; }
 	void SetDir(EDir parDir) { dir_ = parDir; }
 	void SetPos(const float2& parPos) { pos_ = parPos; };
@@ -91,7 +92,7 @@ protected:
 	float2 pos_;
 	EDir dir_;
 	EUnitType type_;
-	EUnitState moveState_;
+	bool moving_;
 	EUnitState actionState_;
 	int spriteStep_;
 	Uint32 spriteLastTime_;

@@ -15,7 +15,7 @@ Unit::Unit(const float2& parPos, EUnitType parType)
 	: pos_(parPos),
 	dir_(DIR_N),
 	type_(parType),
-	moveState_(EUS_IDLE),
+	moving_(false),
 	actionState_(EUS_IDLE),
 	spriteStep_(0),
 	spriteLastTime_(0),
@@ -54,7 +54,7 @@ void Unit::Render() const
 	}
 
 	EUnitState animState = EUS_IDLE;
-	if (moveState_ == EUS_MOVE)
+	if (moving_)
 		animState = EUS_MOVE;
 
 	const SpriteDesc& spriteDesc = unitTypeStateToSpriteDesc[type_][animState];
@@ -173,7 +173,7 @@ bool Unit::CancelOrder()
 		curOrder_ = 0;
 	}
 
-	moveState_ = EUS_IDLE;
+	moving_ = false;
 	actionState_ = EUS_IDLE;
 
 	spriteStep_ = 0;
