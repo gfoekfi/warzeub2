@@ -1,8 +1,7 @@
 #include "order.h"
-#include "unit.h"
-#include "world.h"
-#include "unitDesc.h"
-#include "player.h"
+#include "../gameplay/unit.h"
+#include "../gameplay/world.h"
+#include "../gameplay/player.h"
 #include "../userInput.h"
 #include <math.h>
 

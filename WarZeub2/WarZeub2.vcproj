@@ -225,14 +225,6 @@
 				Name="gameplay"
 				>
 				<File
-					RelativePath=".\gameplay\order.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\gameplay\order.h"
-					>
-				</File>
-				<File
 					RelativePath=".\gameplay\player.cpp"
 					>
 				</File>
@@ -282,6 +274,18 @@
 				</File>
 				<File
 					RelativePath=".\utils\vecTypes.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="orders"
+				>
+				<File
+					RelativePath=".\orders\order.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\orders\order.h"
 					>
 				</File>
 			</Filter>

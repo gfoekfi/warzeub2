@@ -5,7 +5,7 @@
 #include "gameplay/player.h"
 #include "gameplay/world.h"
 #include "gameplay/unitDesc.h"
-#include "gameplay/order.h"
+#include "orders/order.h"
 #include <assert.h>
 #include <math.h> // fabs()
 
