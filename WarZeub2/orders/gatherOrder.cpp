@@ -15,7 +15,8 @@ GatherOrder::GatherOrder(Unit* parHostUnit, Unit* parReceiverUnit, Unit* parDstU
 	assert(parReceiverUnit && parReceiverUnit->Type() == EUT_TOWN_HALL);
 	assert(parDstUnit && parDstUnit->Type() == EUT_MINE);
 
-	moveOrder_ = new MoveOrder(hostUnit_, hostUnit_->Pos());
+	Unit* targetUnit = hostUnit_->IsHoldingGold() ? receiverUnit_ : dstUnit_;
+	moveOrder_ = new MoveOrder(hostUnit_, targetUnit->Pos());
 }
 
 // ============================================================================

@@ -9,6 +9,7 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+class Path;
 class MoveOrder : public Order
 {
 public:
@@ -19,10 +20,12 @@ public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 public:
-	void SetTargetPos(const float2& parTargetPos) { targetPos_ = parTargetPos; }
+	void SetTargetPos(const float2& parTargetPos); // Warning: force pathfinding computation
 
 private:
 	float2 targetPos_;
+	Path* path_;
+	size_t curWaypoint_;
 };
 
 // ============================================================================

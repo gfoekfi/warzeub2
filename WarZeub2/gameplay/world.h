@@ -47,6 +47,8 @@ public:
 	size_t Width() const { return width_; }
 	size_t Height() const { return height_; }
 	bool IsTileAccessible(const int2& parTilePos) const { return accessibleTile_[parTilePos.x][parTilePos.y]; }
+	// Is tile accessible in each point for an object with dimensions 'parDimensions' ?
+	bool IsTileAccessible(const int2& parTilePos, const int2& parDimensions) const;
 
 private:
 	void DumpAccessibleTile_() const;

@@ -152,6 +152,12 @@ bool Unit::Move(const float2& parTargetPos)
 	if (curOrder_)
 		delete curOrder_;
 
+	if (int2(int(parTargetPos.x / MAP_TILE_SIZE), int(parTargetPos.y / MAP_TILE_SIZE)) ==
+		 int2(int(pos_.x / MAP_TILE_SIZE), int(pos_.y / MAP_TILE_SIZE)))
+	{
+		return true; // unit already at this position, don't send move order
+	}
+
 	curOrder_ = new MoveOrder(this, parTargetPos);
 
 	return true;

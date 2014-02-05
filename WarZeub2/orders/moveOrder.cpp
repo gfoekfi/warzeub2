@@ -1,5 +1,6 @@
 #include "moveOrder.h"
 #include "../gameplay/world.h"
+#include "../gameplay/path.h"
 #include <math.h>
 
 
@@ -9,14 +10,21 @@
 
 MoveOrder::MoveOrder(Unit* parHostUnit, const float2& parTargetPos)
 	: Order(parHostUnit),
-	targetPos_(parTargetPos)
+	targetPos_(parTargetPos),
+	path_(),
+	curWaypoint_(0)
 {
+	assert(parHostUnit);
+
+	SetTargetPos(parTargetPos);
 }
 
 // ============================================================================
 
 MoveOrder::~MoveOrder()
 {
+	if (path_)
+		delete path_;
 }
 
 // ============================================================================
@@ -24,15 +32,33 @@ MoveOrder::~MoveOrder()
 bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	assert(hostUnit_->Type() == EUT_PEON || hostUnit_->Type() == EUT_GRUNT);
+	assert(path_);
+
+	if (!path_->HasPath())
+	{
+		hostUnit_->SetMoving(false);
+		return false;
+	}
 
 	float2 deltaPos(
 		targetPos_.x - hostUnit_->Pos().x,
 		targetPos_.y - hostUnit_->Pos().y);
 	if (fabs(deltaPos.x) <= 1.f && fabs(deltaPos.y) <= 1.f)
 	{
-		targetPos_ = hostUnit_->Pos();
-		hostUnit_->SetMoving(false);
-		return true;
+		if (curWaypoint_ < (path_->PathSize() - 1))
+		{ // next Target position
+			curWaypoint_++;
+			const int2& nextTargetTile = path_->NextTile(curWaypoint_);
+			targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
+									  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
+			return false;
+		}
+		else
+		{ // move order complete
+			targetPos_ = hostUnit_->Pos();
+			hostUnit_->SetMoving(false);
+			return true;
+		}
 	}
 
 	hostUnit_->SetMoving(true);
@@ -58,6 +84,32 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		hostUnit_->SetPos(nextPos);
 
 	return false;
+}
+
+// ============================================================================
+
+void MoveOrder::SetTargetPos(const float2& parTargetPos)
+{
+	if (path_)
+		delete path_;
+
+	const UnitDesc& unitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
+	int2 unitDimensions(unitDesc.width, unitDesc.height);
+	path_ = new Path(hostUnit_->Pos(), parTargetPos, unitDimensions);
+	curWaypoint_ = 0;
+	assert(path_);
+
+	if (path_->HasPath())
+	{
+		const int2& nextTargetTile = path_->NextTile(0);
+		targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
+								  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
+	}
+	else
+	{
+		// TODO: alert("Can't move there");
+		targetPos_ = hostUnit_->Pos();
+	}
 }
 
 // ============================================================================

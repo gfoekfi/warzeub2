@@ -3,6 +3,7 @@
 
 
 #include "../utils/vecTypes.h"
+#include <vector>
 
 
 // ============================================================================
@@ -12,15 +13,24 @@
 class Path
 {
 public:
-	Path(const float2& parStartPos, const float2& parGoalPos);
+	Path(const float2& parStartPos, const float2& parGoalPos, const int2& parEntityDimensions = int2(0,0));
 	~Path();
 
+public:
+	const int2& NextTile(size_t parWaypoint) const;
+	size_t PathSize() const { return tilePath_.size(); }
+	bool HasPath() const { return hasPath_; }
+
 private:
-	void Compute_();
+	void ComputeShortestPath_();
+	void DumpPath_();
 
 private:
 	float2 startPos_;
 	float2 goalPos_;
+	int2 entityDimensions_;
+	std::vector<int2> tilePath_;
+	bool hasPath_;
 };
 
 // ============================================================================

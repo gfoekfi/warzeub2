@@ -13,6 +13,7 @@
 
 enum EDir
 {
+	// DO NOT REORDER
 	DIR_N = 0,
 	DIR_NE,
 	DIR_E,
