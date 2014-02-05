@@ -25,9 +25,9 @@ public:
 private:
 	void ComputeShortestPath_();
 	void DumpPath_();
-	void RetrieveTilePathFromParents_(std::map<int2, int2>& parParentOf, // TODO: should be const
-												 const int2& parStartTile,
-												 const int2& parGoalTile);
+	void RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf, // TODO: should be const
+														const int2& parStartBuildTile,
+														const int2& parGoalBuildTile);
 
 private:
 	float2 startPos_;

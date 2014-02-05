@@ -31,19 +31,19 @@ Path::~Path()
 // Breadth first search algorithm
 void Path::ComputeShortestPath_()
 {
-	const int2 startTile(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE));
-	const int2 goalTile(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE));
+	const int2 startBuildTile(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE));
+	const int2 goalBuildTile(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE));
 
-	std::list<int2> unvisitedTiles;
+	std::list<int2> unvisitedBuildTiles;
 	std::map<int2, int2> parentTile;
-	unvisitedTiles.push_back(startTile);
-	parentTile[startTile] = startTile;
-	while (!unvisitedTiles.empty())
+	unvisitedBuildTiles.push_back(startBuildTile);
+	parentTile[startBuildTile] = startBuildTile;
+	while (!unvisitedBuildTiles.empty())
 	{
-		int2 curTile = unvisitedTiles.front();
-		unvisitedTiles.pop_front();
+		int2 curBuildTile = unvisitedBuildTiles.front();
+		unvisitedBuildTiles.pop_front();
 
-		if (curTile == goalTile)
+		if (curBuildTile == goalBuildTile)
 		{
 			hasPath_ = true;
 			break; // Shortest path found
@@ -56,43 +56,43 @@ void Path::ComputeShortestPath_()
 				continue;
 
 			int2 curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			int2 nextTile = curTile + curDir;
+			int2 nextBuildTile = curBuildTile + curDir;
 
-			if (nextTile.x >= 0 && nextTile.x < int(World::Inst()->Width()) &&
-				nextTile.y >= 0 && nextTile.y < int(World::Inst()->Height()) &&
-				World::Inst()->IsTileAccessible(nextTile, entityDimensions_) &&
-				(parentTile.count(nextTile) == 0))
+			if (nextBuildTile.x >= 0 && nextBuildTile.x < int(World::Inst()->Width()) &&
+				nextBuildTile.y >= 0 && nextBuildTile.y < int(World::Inst()->Height()) &&
+				World::Inst()->IsTileAccessible(nextBuildTile, entityDimensions_) &&
+				(parentTile.count(nextBuildTile) == 0))
 			{
-				parentTile[nextTile] = curTile;
-				unvisitedTiles.push_back(nextTile);
+				parentTile[nextBuildTile] = curBuildTile;
+				unvisitedBuildTiles.push_back(nextBuildTile);
 			}
 		}
 	}
 
-	RetrieveTilePathFromParents_(parentTile, startTile, goalTile);
+	RetrieveBuildTilePathFromParents_(parentTile, startBuildTile, goalBuildTile);
 }
 
 // =======================================================================
 
-void Path::RetrieveTilePathFromParents_(std::map<int2, int2>& parParentOf,
-													 const int2& parStartTile,
-													 const int2& parGoalTile)
+void Path::RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf,
+															const int2& parStartBuildTile,
+															const int2& parGoalBuildTile)
 {
-	if (parParentOf.count(parGoalTile) == 0)
+	if (parParentOf.count(parGoalBuildTile) == 0)
 	{
 		assert(!hasPath_);
 		fprintf(stdout, "[PATH] No valid path as been found between (%d, %d) and (%d, %d)\n",
-			parStartTile.x, parStartTile.y, parGoalTile.x, parGoalTile.y);
+			parStartBuildTile.x, parStartBuildTile.y, parGoalBuildTile.x, parGoalBuildTile.y);
 		return;
 	}
 
-	int2 curTile = parGoalTile;
+	int2 curBuildTile = parGoalBuildTile;
 	std::vector<int2> reversePath;
-	while (curTile != parStartTile)
+	while (curBuildTile != parStartBuildTile)
 	{
-		reversePath.push_back(curTile);
-		assert(parParentOf.count(curTile) > 0);
-		curTile = parParentOf[curTile];
+		reversePath.push_back(curBuildTile);
+		assert(parParentOf.count(curBuildTile) > 0);
+		curBuildTile = parParentOf[curBuildTile];
 	}
 
 	for (std::vector<int2>::reverse_iterator tile = reversePath.rbegin();
@@ -102,7 +102,7 @@ void Path::RetrieveTilePathFromParents_(std::map<int2, int2>& parParentOf,
 	}
 
 	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
-		parStartTile.x, parStartTile.y, parGoalTile.x, parGoalTile.y);
+		parStartBuildTile.x, parStartBuildTile.y, parGoalBuildTile.x, parGoalBuildTile.y);
 	DumpPath_();
 }
 
