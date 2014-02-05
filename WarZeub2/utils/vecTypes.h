@@ -46,6 +46,11 @@ union vec2
 		return (x == parRhs.x && y == parRhs.y);
 	}
 
+	bool operator!=(const vec2& parRhs) const // FIXME: Dangerous for floating type
+	{
+		return !(*this == parRhs);
+	}
+
 	bool operator<(const vec2& parRhs) const
 	{
 		if (x < parRhs.x)
@@ -58,7 +63,7 @@ union vec2
 		else if (y > parRhs.y)
 			return false;
 
-		return true;
+		return false;
 	}
 
    struct { T x, y; };
