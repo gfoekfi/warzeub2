@@ -36,8 +36,8 @@ void Camera::Update(int parLastTime, int parCurTime)
 	float2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
 
 	float2 maxPos(
-		std::max<float>(0.f, float(World::Inst()->Width() * MAP_TILE_SIZE - viewport.w)),
-		std::max<float>(0.f, float(World::Inst()->Height() * MAP_TILE_SIZE - viewport.h)));
+		std::max<float>(0.f, float(World::Inst()->Width() * MAP_BUILD_TILE_SIZE - viewport.w)),
+		std::max<float>(0.f, float(World::Inst()->Height() * MAP_BUILD_TILE_SIZE - viewport.h)));
 	pos_.x = Clamp<float>(nextPos.x, 0.f, maxPos.x);
 	pos_.y = Clamp<float>(nextPos.y, 0.f, maxPos.y);
 }

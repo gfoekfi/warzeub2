@@ -42,15 +42,15 @@ void HUD::GenerateBackgroundSurface_()
 		screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 	assert(backgroundSurface_);
 
-	SDL_Rect src = { (MAP_TILE_SIZE + 1) * 11, (MAP_TILE_SIZE + 1) * 17, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (11, 17) = mud
+	SDL_Rect src = { (MAP_BUILD_TILE_SIZE + 1) * 11, (MAP_BUILD_TILE_SIZE + 1) * 17, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE }; // (11, 17) = mud
 	SDL_Rect dst = { 0, 0, 0, 0 };
 
-	for (size_t line = 0; line < (1 + screen->h / MAP_TILE_SIZE); ++line)
+	for (size_t line = 0; line < (1 + screen->h / MAP_BUILD_TILE_SIZE); ++line)
 	{
-		for (size_t col = 0; col < (1 + backgroundSurface_->w / MAP_TILE_SIZE); ++col)
+		for (size_t col = 0; col < (1 + backgroundSurface_->w / MAP_BUILD_TILE_SIZE); ++col)
 		{
-			dst.x = col * MAP_TILE_SIZE;
-			dst.y = line * MAP_TILE_SIZE;
+			dst.x = col * MAP_BUILD_TILE_SIZE;
+			dst.y = line * MAP_BUILD_TILE_SIZE;
 			SDL_BlitSurface(summerTilesSurface, &src, backgroundSurface_, &dst);
 		}
 	}

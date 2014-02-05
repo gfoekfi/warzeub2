@@ -49,8 +49,8 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		{ // next Target position
 			curWaypoint_++;
 			const int2& nextTargetTile = path_->TileFromWaypoint(curWaypoint_);
-			targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
-									  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
+			targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_BUILD_TILE_SIZE,
+									  (0.5f + float(nextTargetTile.y)) * MAP_BUILD_TILE_SIZE);
 			return false;
 		}
 		else
@@ -104,8 +104,8 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 	{
 		curWaypoint_ = 0;
 		const int2& nextTargetTile = path_->TileFromWaypoint(curWaypoint_);
-		targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
-								  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
+		targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_BUILD_TILE_SIZE,
+								  (0.5f + float(nextTargetTile.y)) * MAP_BUILD_TILE_SIZE);
 	}
 	else
 	{

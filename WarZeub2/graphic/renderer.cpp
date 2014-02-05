@@ -134,20 +134,20 @@ void Render(const World& parWorld)
 	static SDL_Surface* mapSurface = 0;
 	if (!mapSurface)
 	{
-		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_TILE_SIZE,
-			parWorld.Height() * MAP_TILE_SIZE, screen->format->BitsPerPixel,
+		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_BUILD_TILE_SIZE,
+			parWorld.Height() * MAP_BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
 
-		SDL_Rect src = { (MAP_TILE_SIZE + 1) * 14, (MAP_TILE_SIZE + 1) * 18, MAP_TILE_SIZE, MAP_TILE_SIZE }; // (14, 18) = grass
+		SDL_Rect src = { (MAP_BUILD_TILE_SIZE + 1) * 14, (MAP_BUILD_TILE_SIZE + 1) * 18, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE }; // (14, 18) = grass
 		SDL_Rect dst = { 0, 0, 0, 0 };
 
 		for (size_t x = 0; x < parWorld.Width(); ++x)
 		{
 			for (size_t y = 0; y < parWorld.Height(); ++y)
 			{
-				dst.x = x * MAP_TILE_SIZE;
-				dst.y = y * MAP_TILE_SIZE;
+				dst.x = x * MAP_BUILD_TILE_SIZE;
+				dst.y = y * MAP_BUILD_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
 			}
 		}

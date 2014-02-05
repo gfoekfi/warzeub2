@@ -60,8 +60,8 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 void World::TileAlign(float2& parPos)
 {
-	parPos.x = float(size_t(parPos.x) / MAP_TILE_SIZE) * MAP_TILE_SIZE + 0.5f * MAP_TILE_SIZE;
-	parPos.y = float(size_t(parPos.y) / MAP_TILE_SIZE) * MAP_TILE_SIZE + 0.5f * MAP_TILE_SIZE;
+	parPos.x = float(size_t(parPos.x) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE + 0.5f * MAP_BUILD_TILE_SIZE;
+	parPos.y = float(size_t(parPos.y) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE + 0.5f * MAP_BUILD_TILE_SIZE;
 }
 
 // ============================================================================
@@ -77,9 +77,9 @@ void World::AddUnit(Unit* parUnit)
 
 	// mark inaccessible all tiles where unit bounding box collides
 	SDL_Rect bbox = parUnit->BoundingBox();
-	for (size_t x = (bbox.x / MAP_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_TILE_SIZE); ++x)
+	for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
 	{
-		for (size_t y = (bbox.y / MAP_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_TILE_SIZE); ++y)
+		for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
 		{
 			// FIXME: Bound checking (security warning)
 			assert(accessibleTile_[x][y]);
@@ -109,9 +109,9 @@ void World::RemoveUnit(Unit* parUnit)
 	if (!parUnit->CanMove())
 	{
 		SDL_Rect bbox = parUnit->BoundingBox();
-		for (size_t x = (bbox.x / MAP_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_TILE_SIZE); ++x)
+		for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
 		{
-			for (size_t y = (bbox.y / MAP_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_TILE_SIZE); ++y)
+			for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
 			{
 				// FIXME: Bound checking (security warning)
 				assert(!accessibleTile_[x][y]);
@@ -228,11 +228,11 @@ bool World::IsTileAccessible(const int2& parTilePos, const int2& parDimensions) 
 		return false;
 
 	const int2& minTile = int2(
-		parTilePos.x - (parDimensions.w / MAP_TILE_SIZE),
-		parTilePos.y - (parDimensions.h / MAP_TILE_SIZE));
+		parTilePos.x - (parDimensions.w / MAP_BUILD_TILE_SIZE),
+		parTilePos.y - (parDimensions.h / MAP_BUILD_TILE_SIZE));
 	const int2& maxTile = int2(
-		parTilePos.x + (parDimensions.w / MAP_TILE_SIZE),
-		parTilePos.y + (parDimensions.h / MAP_TILE_SIZE));
+		parTilePos.x + (parDimensions.w / MAP_BUILD_TILE_SIZE),
+		parTilePos.y + (parDimensions.h / MAP_BUILD_TILE_SIZE));
 	for (int x = minTile.x; x <= maxTile.x; ++x)
 		for (int y = minTile.y; y <= maxTile.y; ++y)
 			if (x < 0 || x >= int(width_) || y < 0 || y >= int(height_) || !accessibleTile_[x][y])

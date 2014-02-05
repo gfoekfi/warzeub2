@@ -31,8 +31,8 @@ Path::~Path()
 // Breadth first search algorithm
 void Path::ComputeShortestPath_()
 {
-	const int2 startTile(int(startPos_.x / MAP_TILE_SIZE), int(startPos_.y / MAP_TILE_SIZE));
-	const int2 goalTile(int(goalPos_.x / MAP_TILE_SIZE), int(goalPos_.y / MAP_TILE_SIZE));
+	const int2 startTile(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE));
+	const int2 goalTile(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE));
 
 	std::list<int2> unvisitedTiles;
 	std::map<int2, int2> parentTile;
@@ -120,9 +120,9 @@ void Path::DumpPath_()
 			char c = '.';
 			int2 tile(x, y);
 
-			if (tile == int2(int(startPos_.x / MAP_TILE_SIZE), int(startPos_.y / MAP_TILE_SIZE)))
+			if (tile == int2(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE)))
 				c = 'S';
-			else if (tile == int2(int(goalPos_.x / MAP_TILE_SIZE), int(goalPos_.y / MAP_TILE_SIZE)))
+			else if (tile == int2(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE)))
 				c = 'E';
 			else if (!World::Inst()->IsTileAccessible(tile))
 				c = '#';
