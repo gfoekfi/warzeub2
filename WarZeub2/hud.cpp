@@ -115,7 +115,7 @@ void HUD::RenderBuildingPlacementIFN_() const
 
 	float2 pos(mouse.pos);
 	TransformToWorldCoordinate(pos, gCamera->Pos());
-	World::TileAlign(pos);
+	World::BuildTileAlign(pos);
 	TransformToScreenCoordinate(pos, gCamera->Pos());
 
 	::Render(unitType, pos);

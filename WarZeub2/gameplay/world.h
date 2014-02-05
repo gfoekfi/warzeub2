@@ -26,7 +26,7 @@ public:
 	~World();
 
 public:
-	static void TileAlign(float2& parPos); // center pos to current tile
+	static void BuildTileAlign(float2& parPos); // center pos to current tile
 
 public:
 	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
@@ -46,9 +46,9 @@ public:
 
 	size_t Width() const { return width_; }
 	size_t Height() const { return height_; }
-	bool IsTileAccessible(const int2& parTilePos) const { return accessibleTile_[parTilePos.x][parTilePos.y]; }
+	bool IsBuildTileAccessible(const int2& parTilePos) const { return accessibleTile_[parTilePos.x][parTilePos.y]; }
 	// Is tile accessible in each point for an object with dimensions 'parDimensions' ?
-	bool IsTileAccessible(const int2& parTilePos, const int2& parDimensions) const;
+	bool IsBuildTileAccessible(const int2& parTilePos, const int2& parDimensions) const;
 
 private:
 	void DumpAccessibleTile_() const;

@@ -21,11 +21,11 @@ World::World()
 	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 
 	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
-	TileAlign(minePos);
+	BuildTileAlign(minePos);
 	AddUnit(new Unit(minePos, EUT_MINE));
 
 	float2 townhallPos(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
-	TileAlign(townhallPos);
+	BuildTileAlign(townhallPos);
 	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
 #if 0
@@ -58,7 +58,7 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 // ============================================================================
 
-void World::TileAlign(float2& parPos)
+void World::BuildTileAlign(float2& parPos)
 {
 	parPos.x = float(size_t(parPos.x) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE + 0.5f * MAP_BUILD_TILE_SIZE;
 	parPos.y = float(size_t(parPos.y) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE + 0.5f * MAP_BUILD_TILE_SIZE;
@@ -219,7 +219,7 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 
 // ============================================================================
 
-bool World::IsTileAccessible(const int2& parTilePos, const int2& parDimensions) const
+bool World::IsBuildTileAccessible(const int2& parTilePos, const int2& parDimensions) const
 {
 	assert(parTilePos.x >= 0 && parTilePos.x < int(width_));
 	assert(parTilePos.y >= 0 && parTilePos.y < int(height_));

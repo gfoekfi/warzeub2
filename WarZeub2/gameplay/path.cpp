@@ -60,7 +60,7 @@ void Path::ComputeShortestPath_()
 
 			if (nextBuildTile.x >= 0 && nextBuildTile.x < int(World::Inst()->Width()) &&
 				nextBuildTile.y >= 0 && nextBuildTile.y < int(World::Inst()->Height()) &&
-				World::Inst()->IsTileAccessible(nextBuildTile, entityDimensions_) &&
+				World::Inst()->IsBuildTileAccessible(nextBuildTile, entityDimensions_) &&
 				(parentTile.count(nextBuildTile) == 0))
 			{
 				parentTile[nextBuildTile] = curBuildTile;
@@ -124,7 +124,7 @@ void Path::DumpPath_()
 				c = 'S';
 			else if (tile == int2(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE)))
 				c = 'E';
-			else if (!World::Inst()->IsTileAccessible(tile))
+			else if (!World::Inst()->IsBuildTileAccessible(tile))
 				c = '#';
 			else
 			{
