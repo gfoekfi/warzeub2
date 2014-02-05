@@ -11,7 +11,8 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-const size_t MAX_NB_TILES = 64;
+#define MAX_NB_TILES 64
+
 const size_t MAP_TILE_SIZE = 32;
 
 // ============================================================================
@@ -42,8 +43,10 @@ public:
 
 public:
 	const std::vector<Unit*>& Units() const { return units_; }
+
 	size_t Width() const { return width_; }
 	size_t Height() const { return height_; }
+	bool IsTileAccessible(const int2& parTilePos) const { return accessibleTile_[parTilePos.x][parTilePos.y]; }
 
 private:
 	void DumpAccessibleTile_() const;
