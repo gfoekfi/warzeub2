@@ -69,34 +69,42 @@ void Path::ComputeShortestPath_()
 		}
 	}
 
-	// Get the tile path from 'parentTile'
-	if (parentTile.count(goalTile) == 0)
+	RetrieveTilePathFromParents_(parentTile, startTile, goalTile);
+}
+
+// =======================================================================
+
+void Path::RetrieveTilePathFromParents_(std::map<int2, int2>& parParentOf,
+													 const int2& parStartTile,
+													 const int2& parGoalTile)
+{
+	if (parParentOf.count(parGoalTile) == 0)
 	{
+		assert(!hasPath_);
 		fprintf(stdout, "[PATH] No valid path as been found between (%d, %d) and (%d, %d)\n",
-			startTile.x, startTile.y, goalTile.x, goalTile.y);
+			parStartTile.x, parStartTile.y, parGoalTile.x, parGoalTile.y);
+		return;
 	}
-	else
+
+	int2 curTile = parGoalTile;
+	std::vector<int2> reversePath;
+	while (curTile != parStartTile)
 	{
-		int2 curTile = goalTile;
-		std::vector<int2> reversePath;
-		while (curTile != startTile)
-		{
-			reversePath.push_back(curTile);
-			assert(parentTile.count(curTile) > 0);
-			curTile = parentTile[curTile];
-		}
-		reversePath.push_back(startTile);
-
-		for (std::vector<int2>::reverse_iterator tile = reversePath.rbegin();
-			tile != reversePath.rend(); ++tile)
-		{
-			tilePath_.push_back(*tile);
-		}
-
-		fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
-			startTile.x, startTile.y, goalTile.x, goalTile.y);
-		DumpPath_();
+		reversePath.push_back(curTile);
+		assert(parParentOf.count(curTile) > 0);
+		curTile = parParentOf[curTile];
 	}
+	reversePath.push_back(parStartTile);
+
+	for (std::vector<int2>::reverse_iterator tile = reversePath.rbegin();
+		tile != reversePath.rend(); ++tile)
+	{
+		tilePath_.push_back(*tile);
+	}
+
+	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
+		parStartTile.x, parStartTile.y, parGoalTile.x, parGoalTile.y);
+	DumpPath_();
 }
 
 // ============================================================================

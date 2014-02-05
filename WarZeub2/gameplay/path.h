@@ -4,6 +4,7 @@
 
 #include "../utils/vecTypes.h"
 #include <vector>
+#include <map>
 
 
 // ============================================================================
@@ -25,6 +26,9 @@ public:
 private:
 	void ComputeShortestPath_();
 	void DumpPath_();
+	void RetrieveTilePathFromParents_(std::map<int2, int2>& parParentOf, // TODO: should be const
+												 const int2& parStartTile,
+												 const int2& parGoalTile);
 
 private:
 	float2 startPos_;
