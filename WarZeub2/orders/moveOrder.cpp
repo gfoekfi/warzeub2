@@ -102,12 +102,7 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 
 	if (path_->HasPath())
 	{
-		// Hack: force to go to the next closest waypoint (no step backward)
-		// FIXME: This is buggy since closest waypoint might be the next valid waypoint
-		// TODO: remember waypoints reached
-		curWaypoint_ = path_->ClosestWaypoint(hostUnit_->Pos());
-		if (curWaypoint_ < (path_->PathSize() - 1))
-			curWaypoint_++;
+		curWaypoint_ = 0;
 		const int2& nextTargetTile = path_->TileFromWaypoint(curWaypoint_);
 		targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
 								  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);

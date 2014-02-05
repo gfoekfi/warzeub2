@@ -52,5 +52,4 @@
 - Ignore units behind HUD during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
 - Makes clicking on building works again
-- Path: ClosestWaypoint() might bug in certain conditions
 ===============================================================================
