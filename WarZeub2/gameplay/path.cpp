@@ -120,9 +120,9 @@ void Path::DumpPath_()
 			char c = '.';
 			int2 tile(x, y);
 
-			if (tile == int2(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE)))
+			if (tile == World::ToBuildTile(startPos_))
 				c = 'S';
-			else if (tile == int2(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE)))
+			else if (tile == World::ToBuildTile(goalPos_))
 				c = 'E';
 			else if (!World::Inst()->IsBuildTileAccessible(tile))
 				c = '#';

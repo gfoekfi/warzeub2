@@ -219,20 +219,22 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 
 // ============================================================================
 
-bool World::IsBuildTileAccessible(const int2& parTilePos, const int2& parDimensions) const
+bool World::IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDimensions) const
 {
-	assert(parTilePos.x >= 0 && parTilePos.x < int(width_));
-	assert(parTilePos.y >= 0 && parTilePos.y < int(height_));
+	assert(parBuildTilePos.x >= 0 && parBuildTilePos.x < int(width_));
+	assert(parBuildTilePos.y >= 0 && parBuildTilePos.y < int(height_));
 
-	if (!accessibleTile_[parTilePos.x][parTilePos.y])
+	if (!accessibleTile_[parBuildTilePos.x][parBuildTilePos.y])
 		return false;
 
+	BuildTile dimensionInBuildTile(World::ToBuildTile(parDimensions));
 	const int2& minTile = int2(
-		parTilePos.x - (parDimensions.w / MAP_BUILD_TILE_SIZE),
-		parTilePos.y - (parDimensions.h / MAP_BUILD_TILE_SIZE));
+		parBuildTilePos.x - dimensionInBuildTile.w,
+		parBuildTilePos.y - dimensionInBuildTile.h);
 	const int2& maxTile = int2(
-		parTilePos.x + (parDimensions.w / MAP_BUILD_TILE_SIZE),
-		parTilePos.y + (parDimensions.h / MAP_BUILD_TILE_SIZE));
+		parBuildTilePos.x + dimensionInBuildTile.w,
+		parBuildTilePos.y + dimensionInBuildTile.h);
+
 	for (int x = minTile.x; x <= maxTile.x; ++x)
 		for (int y = minTile.y; y <= maxTile.y; ++y)
 			if (x < 0 || x >= int(width_) || y < 0 || y >= int(height_) || !accessibleTile_[x][y])

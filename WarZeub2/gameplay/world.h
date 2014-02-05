@@ -13,7 +13,11 @@
 
 #define MAX_NB_TILES 64
 
-const size_t MAP_BUILD_TILE_SIZE = 32;
+const size_t MAP_BUILD_TILE_SIZE = 32; // in pixel
+
+// ============================================================================
+
+typedef int2 BuildTile;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -26,7 +30,17 @@ public:
 	~World();
 
 public:
-	static void BuildTileAlign(float2& parPos); // center pos to current tile
+	static void BuildTileAlign(float2& parPos); // center pos to current build tile
+
+	template <typename T>
+	static BuildTile ToBuildTile(const T& parPos)
+	{
+		BuildTile buildTile(
+			int(parPos.x / MAP_BUILD_TILE_SIZE),
+			int(parPos.y / MAP_BUILD_TILE_SIZE));
+
+		return buildTile;
+	}
 
 public:
 	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
@@ -46,9 +60,9 @@ public:
 
 	size_t Width() const { return width_; }
 	size_t Height() const { return height_; }
-	bool IsBuildTileAccessible(const int2& parTilePos) const { return accessibleTile_[parTilePos.x][parTilePos.y]; }
+	bool IsBuildTileAccessible(const int2& parBuildTilePos) const { return accessibleTile_[parBuildTilePos.x][parBuildTilePos.y]; }
 	// Is tile accessible in each point for an object with dimensions 'parDimensions' ?
-	bool IsBuildTileAccessible(const int2& parTilePos, const int2& parDimensions) const;
+	bool IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDimensions) const;
 
 private:
 	void DumpAccessibleTile_() const;
