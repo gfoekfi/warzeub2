@@ -27,9 +27,38 @@ union vec2
 		return *this;
 	}
 
-	bool operator==(const vec2& parRhs) const
+	vec2& operator+=(const vec2& parRhs)
+	{
+		x += parRhs.x;
+		y += parRhs.y;
+
+		return *this;
+	}
+
+	vec2 operator+(const vec2& parRhs)
+	{
+		vec2 result(x + parRhs.x, y + parRhs.y);
+		return result;
+	}
+
+	bool operator==(const vec2& parRhs) const // FIXME: Dangerous for floating type
 	{
 		return (x == parRhs.x && y == parRhs.y);
+	}
+
+	bool operator<(const vec2& parRhs) const
+	{
+		if (x < parRhs.x)
+			return true;
+		else if (x > parRhs.x)
+			return false;
+
+		if (y < parRhs.y)
+			return true;
+		else if (y > parRhs.y)
+			return false;
+
+		return true;
 	}
 
    struct { T x, y; };
