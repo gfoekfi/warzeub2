@@ -48,7 +48,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		if (curWaypoint_ < (path_->PathSize() - 1))
 		{ // next Target position
 			curWaypoint_++;
-			const int2& nextTargetTile = path_->NextTile(curWaypoint_);
+			const int2& nextTargetTile = path_->TileFromWaypoint(curWaypoint_);
 			targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
 									  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
 			return false;
@@ -90,6 +90,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 void MoveOrder::SetTargetPos(const float2& parTargetPos)
 {
+	// TODO: assert parTargetPos is different from old path
 	if (path_)
 		delete path_;
 
@@ -101,13 +102,19 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 
 	if (path_->HasPath())
 	{
-		const int2& nextTargetTile = path_->NextTile(0);
+		// Hack: force to go to the next closest waypoint (no step backward)
+		// FIXME: This is buggy since closest waypoint might be the next valid waypoint
+		// TODO: remember waypoints reached
+		curWaypoint_ = path_->ClosestWaypoint(hostUnit_->Pos());
+		if (curWaypoint_ < (path_->PathSize() - 1))
+			curWaypoint_++;
+		const int2& nextTargetTile = path_->TileFromWaypoint(curWaypoint_);
 		targetPos_ = float2((0.5f + float(nextTargetTile.x)) * MAP_TILE_SIZE,
 								  (0.5f + float(nextTargetTile.y)) * MAP_TILE_SIZE);
 	}
 	else
 	{
-		// TODO: alert("Can't move there");
+		// TODO: alert("Can't move here");
 		targetPos_ = hostUnit_->Pos();
 	}
 }

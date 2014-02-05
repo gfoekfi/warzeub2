@@ -46,6 +46,7 @@ void WorkerUnit::RightClick(Unit* parTargetUnit)
 	else
 	{
 		assert(CanMove());
+		fprintf(stdout, "[WORKER_UNIT] RightClick (target)\n");
 		Move(parTargetUnit->Pos());
 	}
 }
@@ -55,6 +56,7 @@ void WorkerUnit::RightClick(Unit* parTargetUnit)
 void WorkerUnit::RightClick(const float2& parTargetpos)
 {
 	assert(CanMove());
+	fprintf(stdout, "[WORKER_UNIT] RightClick (pos)\n");
 	Move(parTargetpos);
 }
 

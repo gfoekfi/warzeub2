@@ -137,12 +137,35 @@ void Path::DumpPath_()
 
 // ============================================================================
 
-const int2& Path::NextTile(size_t parWaypoint) const
+const int2& Path::TileFromWaypoint(size_t parWaypoint) const
 {
 	assert(hasPath_);
 	assert(parWaypoint < tilePath_.size());
 
 	return tilePath_[parWaypoint];
+}
+
+// ============================================================================
+
+// FIXME: manhattan distance is buggy
+size_t Path::ClosestWaypoint(const float2& parPos) const
+{
+	size_t minWaypoint = 0;
+	size_t minDist = MAX_NB_TILES * MAX_NB_TILES;
+
+	for (size_t waypoint = 0; waypoint < tilePath_.size(); ++waypoint)
+	{
+		size_t dist = abs((int(parPos.x) / MAP_TILE_SIZE) - tilePath_[waypoint].x);
+		dist += abs((int(parPos.y) / MAP_TILE_SIZE) - tilePath_[waypoint].y);
+
+		if (dist < minDist)
+		{
+			minDist = dist;
+			minWaypoint = waypoint;
+		}
+	}
+
+	return minWaypoint;
 }
 
 // ============================================================================

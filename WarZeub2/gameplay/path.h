@@ -17,7 +17,8 @@ public:
 	~Path();
 
 public:
-	const int2& NextTile(size_t parWaypoint) const;
+	size_t ClosestWaypoint(const float2& parPos) const;
+	const int2& TileFromWaypoint(size_t parWaypoint) const;
 	size_t PathSize() const { return tilePath_.size(); }
 	bool HasPath() const { return hasPath_; }
 
