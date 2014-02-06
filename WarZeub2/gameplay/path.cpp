@@ -31,16 +31,16 @@ Path::~Path()
 // Breadth first search algorithm
 void Path::ComputeShortestPath_()
 {
-	const int2 startBuildTile(int(startPos_.x / MAP_BUILD_TILE_SIZE), int(startPos_.y / MAP_BUILD_TILE_SIZE));
-	const int2 goalBuildTile(int(goalPos_.x / MAP_BUILD_TILE_SIZE), int(goalPos_.y / MAP_BUILD_TILE_SIZE));
+	const BuildTile startBuildTile(startPos_);
+	const BuildTile goalBuildTile(goalPos_);
 
-	std::list<int2> unvisitedBuildTiles;
-	std::map<int2, int2> parentTile;
+	std::list<BuildTile> unvisitedBuildTiles;
+	std::map<BuildTile, BuildTile> parentTile;
 	unvisitedBuildTiles.push_back(startBuildTile);
 	parentTile[startBuildTile] = startBuildTile;
 	while (!unvisitedBuildTiles.empty())
 	{
-		int2 curBuildTile = unvisitedBuildTiles.front();
+		BuildTile curBuildTile = unvisitedBuildTiles.front();
 		unvisitedBuildTiles.pop_front();
 
 		if (curBuildTile == goalBuildTile)
@@ -55,13 +55,13 @@ void Path::ComputeShortestPath_()
 			if (dir & 1)
 				continue;
 
-			int2 curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			int2 nextBuildTile = curBuildTile + curDir;
+			BuildTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
+			BuildTile nextBuildTile(curBuildTile + curDir);
 
-			if (nextBuildTile.x >= 0 && nextBuildTile.x < int(World::Inst()->Width()) &&
-				nextBuildTile.y >= 0 && nextBuildTile.y < int(World::Inst()->Height()) &&
-				World::Inst()->IsBuildTileAccessible(nextBuildTile, entityDimensions_) &&
-				(parentTile.count(nextBuildTile) == 0))
+			if (nextBuildTile.x() >= 0 && nextBuildTile.x() < int(World::Inst()->Width()) &&
+				 nextBuildTile.y() >= 0 && nextBuildTile.y() < int(World::Inst()->Height()) &&
+				 World::Inst()->IsBuildTileAccessible(nextBuildTile, entityDimensions_) &&
+				 parentTile.count(nextBuildTile) == 0)
 			{
 				parentTile[nextBuildTile] = curBuildTile;
 				unvisitedBuildTiles.push_back(nextBuildTile);
@@ -74,20 +74,20 @@ void Path::ComputeShortestPath_()
 
 // =======================================================================
 
-void Path::RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf,
-															const int2& parStartBuildTile,
-															const int2& parGoalBuildTile)
+void Path::RetrieveBuildTilePathFromParents_(std::map<BuildTile, BuildTile>& parParentOf,
+															const BuildTile& parStartBuildTile,
+															const BuildTile& parGoalBuildTile)
 {
 	if (parParentOf.count(parGoalBuildTile) == 0)
 	{
 		assert(!hasPath_);
 		fprintf(stdout, "[PATH] No valid path as been found between (%d, %d) and (%d, %d)\n",
-			parStartBuildTile.x, parStartBuildTile.y, parGoalBuildTile.x, parGoalBuildTile.y);
+			parStartBuildTile.x(), parStartBuildTile.y(), parGoalBuildTile.x(), parGoalBuildTile.y());
 		return;
 	}
 
-	int2 curBuildTile = parGoalBuildTile;
-	std::vector<int2> reversePath;
+	BuildTile curBuildTile(parGoalBuildTile);
+	std::vector<BuildTile> reversePath;
 	while (curBuildTile != parStartBuildTile)
 	{
 		reversePath.push_back(curBuildTile);
@@ -95,14 +95,14 @@ void Path::RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf,
 		curBuildTile = parParentOf[curBuildTile];
 	}
 
-	for (std::vector<int2>::reverse_iterator tile = reversePath.rbegin();
+	for (std::vector<BuildTile>::reverse_iterator tile = reversePath.rbegin();
 		tile != reversePath.rend(); ++tile)
 	{
-		tilePath_.push_back(*tile);
+		buildTilePath_.push_back(*tile);
 	}
 
 	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
-		parStartBuildTile.x, parStartBuildTile.y, parGoalBuildTile.x, parGoalBuildTile.y);
+		parStartBuildTile.x(), parStartBuildTile.y(), parGoalBuildTile.x(), parGoalBuildTile.y());
 	DumpPath_();
 }
 
@@ -111,25 +111,28 @@ void Path::RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf,
 void Path::DumpPath_()
 {
 	assert(hasPath_);
-	assert(tilePath_.size() >= 1);
+	assert(buildTilePath_.size() >= 1);
+
+	BuildTile startBuildTile(startPos_);
+	BuildTile goalBuildTile(goalPos_);
 
 	for (size_t y = 0; y < World::Inst()->Height(); ++y)
 	{
 		for (size_t x = 0; x < World::Inst()->Width(); ++x)
 		{
 			char c = '.';
-			int2 tile(x, y);
+			BuildTile tile(x, y);
 
-			if (tile == World::ToBuildTile(startPos_))
+			if (tile == startBuildTile)
 				c = 'S';
-			else if (tile == World::ToBuildTile(goalPos_))
+			else if (tile == goalBuildTile)
 				c = 'E';
 			else if (!World::Inst()->IsBuildTileAccessible(tile))
 				c = '#';
 			else
 			{
-				for (size_t waypoint = 0; waypoint < tilePath_.size(); ++waypoint)
-					if (tilePath_[waypoint] == int2(x, y))
+				for (size_t waypoint = 0; waypoint < buildTilePath_.size(); ++waypoint)
+					if (buildTilePath_[waypoint] == BuildTile(x, y))
 					{
 						c = '*';
 						break;
@@ -144,12 +147,12 @@ void Path::DumpPath_()
 
 // ============================================================================
 
-const int2& Path::TileFromWaypoint(size_t parWaypoint) const
+const BuildTile& Path::BuildTileFromWaypoint(size_t parWaypoint) const
 {
 	assert(hasPath_);
-	assert(parWaypoint < tilePath_.size());
+	assert(parWaypoint < buildTilePath_.size());
 
-	return tilePath_[parWaypoint];
+	return buildTilePath_[parWaypoint];
 }
 
 // ============================================================================

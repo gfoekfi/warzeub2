@@ -12,7 +12,7 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 
 #ifdef _DEBUG
 UnitDesc peonUnitDesc(35, 45, 2000, 8);
-UnitDesc gruntUnitDesc(45, 50, 5000, 12);
+UnitDesc gruntUnitDesc(70, 70, 5000, 12); // 45, 50
 #else
 UnitDesc peonUnitDesc(35, 45, 2000, 4);
 UnitDesc gruntUnitDesc(45, 50, 5000, 6);

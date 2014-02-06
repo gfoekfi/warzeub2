@@ -224,6 +224,14 @@
 				Name="gameplay"
 				>
 				<File
+					RelativePath=".\gameplay\buildTile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\buildTile.h"
+					>
+				</File>
+				<File
 					RelativePath=".\gameplay\path.cpp"
 					>
 				</File>

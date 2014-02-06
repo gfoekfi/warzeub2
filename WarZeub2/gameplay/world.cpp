@@ -60,17 +60,16 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 void World::BuildTileAlign(float2& parPos, EUnitType parUnitType)
 {
-	parPos.x = float(size_t(parPos.x) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE;
-	parPos.y = float(size_t(parPos.y) / MAP_BUILD_TILE_SIZE) * MAP_BUILD_TILE_SIZE;
+	parPos = BuildTile(parPos).ToWorldPos();
 
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[parUnitType];
 	float2 dimensions(float(unitDesc.width), float(unitDesc.height));
-	BuildTile buildTile = ToBuildTile(dimensions);
+	BuildTile buildTile(dimensions);
 
-	if (buildTile.x & 1)
-		parPos.x += 0.5f * MAP_BUILD_TILE_SIZE;
-	if (buildTile.y & 1)
-		parPos.y += 0.5f * MAP_BUILD_TILE_SIZE;
+	if (!(buildTile.x() & 1))
+		parPos.x -= 0.5f * MAP_BUILD_TILE_SIZE;
+	if (!(buildTile.y() & 1))
+		parPos.y -= 0.5f * MAP_BUILD_TILE_SIZE;
 }
 
 // ============================================================================
@@ -235,21 +234,21 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 
 // ============================================================================
 
-bool World::IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDimensions) const
+bool World::IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& parDimensions) const
 {
-	assert(parBuildTilePos.x >= 0 && parBuildTilePos.x < int(width_));
-	assert(parBuildTilePos.y >= 0 && parBuildTilePos.y < int(height_));
+	assert(parBuildTile.x() >= 0 && parBuildTile.x() < int(width_));
+	assert(parBuildTile.y() >= 0 && parBuildTile.y() < int(height_));
 
-	if (!accessibleTile_[parBuildTilePos.x][parBuildTilePos.y])
+	if (!accessibleTile_[parBuildTile.x()][parBuildTile.y()])
 		return false;
 
-	BuildTile dimensionInBuildTile(World::ToBuildTile(parDimensions));
+	BuildTile dimensionInBuildTile(float2(float(parDimensions.x), float(parDimensions.y))); // force conversion
 	const int2& minTile = int2(
-		parBuildTilePos.x - dimensionInBuildTile.w,
-		parBuildTilePos.y - dimensionInBuildTile.h);
+		parBuildTile.x() - dimensionInBuildTile.w(),
+		parBuildTile.y() - dimensionInBuildTile.h());
 	const int2& maxTile = int2(
-		parBuildTilePos.x + dimensionInBuildTile.w,
-		parBuildTilePos.y + dimensionInBuildTile.h);
+		parBuildTile.x() + dimensionInBuildTile.w(),
+		parBuildTile.y() + dimensionInBuildTile.h());
 
 	for (int x = minTile.x; x <= maxTile.x; ++x)
 		for (int y = minTile.y; y <= maxTile.y; ++y)

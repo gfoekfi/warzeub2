@@ -149,7 +149,7 @@ bool Unit::Move(const float2& parTargetPos)
 {
 	assert(CanMove());
 
-	if (World::ToBuildTile(parTargetPos) == World::ToBuildTile(pos_))
+	if (BuildTile(parTargetPos) == BuildTile(pos_))
 	{
 		return true; // unit already at this position, don't send move order
 	}

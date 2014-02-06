@@ -2,7 +2,7 @@
 #define PATH_H_
 
 
-#include "../utils/vecTypes.h"
+#include "buildTile.h"
 #include <vector>
 #include <map>
 
@@ -18,22 +18,22 @@ public:
 	~Path();
 
 public:
-	const int2& TileFromWaypoint(size_t parWaypoint) const;
-	size_t PathSize() const { return tilePath_.size(); }
+	const BuildTile& BuildTileFromWaypoint(size_t parWaypoint) const;
+	size_t PathSize() const { return buildTilePath_.size(); }
 	bool HasPath() const { return hasPath_; }
 
 private:
 	void ComputeShortestPath_();
 	void DumpPath_();
-	void RetrieveBuildTilePathFromParents_(std::map<int2, int2>& parParentOf, // TODO: should be const
-														const int2& parStartBuildTile,
-														const int2& parGoalBuildTile);
+	void RetrieveBuildTilePathFromParents_(std::map<BuildTile, BuildTile>& parParentOf, // TODO: should be const
+														const BuildTile& parStartBuildTile,
+														const BuildTile& parGoalBuildTile);
 
 private:
 	float2 startPos_;
 	float2 goalPos_;
 	int2 entityDimensions_;
-	std::vector<int2> tilePath_;
+	std::vector<BuildTile> buildTilePath_;
 	bool hasPath_;
 };
 
