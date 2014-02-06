@@ -30,7 +30,7 @@ public:
 	~World();
 
 public:
-	static void BuildTileAlign(float2& parPos); // center pos to current build tile
+	static void BuildTileAlign(float2& parPos, EUnitType parUnitType); // center pos to current build tile
 
 	template <typename T>
 	static BuildTile ToBuildTile(const T& parPos)

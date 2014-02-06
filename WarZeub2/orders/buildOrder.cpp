@@ -16,7 +16,7 @@ BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const fl
 	moveOrder_(0)
 {
 	buildingPos_ = parPos;
-	World::BuildTileAlign(buildingPos_);
+	World::BuildTileAlign(buildingPos_, parUnitTypeToBuild);
 }
 
 // ============================================================================
