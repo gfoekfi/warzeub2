@@ -70,6 +70,7 @@ public:
 #endif
 
 private:
+	void UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibleState);
 	void DumpAccessibleTile_() const;
 
 private:

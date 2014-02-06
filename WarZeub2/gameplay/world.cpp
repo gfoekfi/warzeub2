@@ -84,17 +84,7 @@ void World::AddUnit(Unit* parUnit)
 	if (parUnit->CanMove())
 		return; // no collision with movable unit right now
 
-	// mark inaccessible all tiles where unit bounding box collides
-	SDL_Rect bbox = parUnit->BoundingBox();
-	for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
-	{
-		for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
-		{
-			// FIXME: Bound checking (security warning)
-			assert(accessibleTile_[x][y]);
-			accessibleTile_[x][y] = false;
-		}
-	}
+	UpdateAccessibleTileFromUnit_(*parUnit, false);
 
 #if 1
 	DumpAccessibleTile_();
@@ -121,18 +111,10 @@ void World::RemoveUnit(Unit* parUnit)
 	}
 
 	if (!parUnit->CanMove())
-	{
-		SDL_Rect bbox = parUnit->BoundingBox();
-		for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
-		{
-			for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
-			{
-				// FIXME: Bound checking (security warning)
-				assert(!accessibleTile_[x][y]);
-				accessibleTile_[x][y] = true;
-			}
-		}
-	}
+		UpdateAccessibleTileFromUnit_(*parUnit, true);
+
+	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
+	delete parUnit;
 
 #if 1
 	DumpAccessibleTile_();
@@ -142,9 +124,24 @@ void World::RemoveUnit(Unit* parUnit)
 	GenerateAccessibleTileSurface(EUT_PEON);
 	GenerateAccessibleTileSurface(EUT_GRUNT);
 #endif
+}
 
-	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
-	delete parUnit;
+// ============================================================================
+
+void World::UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibleState)
+{
+	assert(!parUnit.CanMove());
+
+	SDL_Rect bbox = parUnit.BoundingBox();
+	for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
+	{
+		for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
+		{
+			// FIXME: Bound checking (security warning)
+			assert(accessibleTile_[x][y] != parAccessibleState);
+			accessibleTile_[x][y] = parAccessibleState;
+		}
+	}
 }
 
 // ============================================================================
