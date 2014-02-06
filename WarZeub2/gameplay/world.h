@@ -64,6 +64,11 @@ public:
 	// Is tile accessible in each point for an object with dimensions 'parDimensions' ?
 	bool IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDimensions) const;
 
+#ifdef _DEBUG
+	void RenderAccessibleTiles(EUnitType parUnitType) const;
+	void GenerateAccessibleTileSurface(EUnitType parUnitType);
+#endif
+
 private:
 	void DumpAccessibleTile_() const;
 

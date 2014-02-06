@@ -99,6 +99,11 @@ void World::AddUnit(Unit* parUnit)
 #if 1
 	DumpAccessibleTile_();
 #endif
+
+#ifdef _DEBUG
+	GenerateAccessibleTileSurface(EUT_PEON);
+	GenerateAccessibleTileSurface(EUT_GRUNT);
+#endif
 }
 
 // ============================================================================
@@ -131,6 +136,11 @@ void World::RemoveUnit(Unit* parUnit)
 
 #if 1
 	DumpAccessibleTile_();
+#endif
+
+#ifdef _DEBUG
+	GenerateAccessibleTileSurface(EUT_PEON);
+	GenerateAccessibleTileSurface(EUT_GRUNT);
 #endif
 
 	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
@@ -251,6 +261,60 @@ bool World::IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDi
 
 	return true;
 }
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+static std::map<EUnitType, SDL_Surface*> unitTypeToAccessibleSurface;
+
+// ============================================================================
+
+#ifdef _DEBUG
+void World::RenderAccessibleTiles(EUnitType parUnitType) const
+{
+	assert(unitTypeToAccessibleSurface.count(parUnitType) == 1);
+
+	SDL_Rect dst = { 0, 0, 0, 0 };
+	TransformToScreenCoordinate(dst, gCamera->Pos());
+	SDL_BlitSurface(unitTypeToAccessibleSurface[parUnitType], 0, screen, &dst);
+}
+#endif
+
+// ============================================================================
+
+#ifdef _DEBUG
+void World::GenerateAccessibleTileSurface(EUnitType parUnitType)
+{
+	if (unitTypeToAccessibleSurface.count(parUnitType) > 0)
+		SDL_FreeSurface(unitTypeToAccessibleSurface[parUnitType]);
+
+	unitTypeToAccessibleSurface[parUnitType] = SDL_CreateRGBSurface(SDL_HWSURFACE,
+		width_ * MAP_BUILD_TILE_SIZE, height_ * MAP_BUILD_TILE_SIZE,
+		screen->format->BitsPerPixel,
+		screen->format->Rmask, screen->format->Gmask,
+		screen->format->Bmask, screen->format->Amask);
+	assert(unitTypeToAccessibleSurface[parUnitType]);
+
+	SDL_Rect dst = { 0, 0, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE };
+	int2 unitDimension(unitTypeToUnitDesc[parUnitType].width, unitTypeToUnitDesc[parUnitType].height);
+	for (size_t x = 0; x < width_; ++x)
+		for (size_t y = 0; y < height_; ++y)
+		{
+			if (!IsBuildTileAccessible(BuildTile(x, y), unitDimension))
+			{
+				dst.x = x * MAP_BUILD_TILE_SIZE;
+				dst.y = y * MAP_BUILD_TILE_SIZE;
+				SDL_FillRect(unitTypeToAccessibleSurface[parUnitType], &dst, 0x00ff0000);
+			}
+			else
+			{
+				SDL_Rect buildTileRect = { x * MAP_BUILD_TILE_SIZE, y * MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE};
+				SDL_FillRect(unitTypeToAccessibleSurface[parUnitType], &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
+			}
+		}
+}
+#endif
 
 // ============================================================================
 // ----------------------------------------------------------------------------

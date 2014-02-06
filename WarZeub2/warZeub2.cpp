@@ -126,6 +126,11 @@ void Render()
 	{
 		Render(*World::Inst());
 
+#ifdef _DEBUG
+		if (player.selectedUnit && player.selectedUnit->CanMove())
+			World::Inst()->RenderAccessibleTiles(player.selectedUnit->Type());
+#endif
+
 		const std::vector<Unit*>& units = World::Inst()->Units();
 		for (size_t unit = 0; unit < units.size(); ++unit)
 			units[unit]->Render();
