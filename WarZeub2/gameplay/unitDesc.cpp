@@ -10,8 +10,14 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 
 // ============================================================================
 
-UnitDesc peonUnitDesc(35, 45, 2000, 4); // 4
-UnitDesc gruntUnitDesc(45, 50, 5000, 12); // 6
+#ifdef _DEBUG
+UnitDesc peonUnitDesc(35, 45, 2000, 8);
+UnitDesc gruntUnitDesc(45, 50, 5000, 12);
+#else
+UnitDesc peonUnitDesc(35, 45, 2000, 4);
+UnitDesc gruntUnitDesc(45, 50, 5000, 6);
+
+#endif
 UnitDesc mineUnitDesc(3 * MAP_BUILD_TILE_SIZE, 3 * MAP_BUILD_TILE_SIZE, 0, 0);
 UnitDesc townHallUnitDesc(4 * MAP_BUILD_TILE_SIZE, 4 * MAP_BUILD_TILE_SIZE, 10000, 0);
 
