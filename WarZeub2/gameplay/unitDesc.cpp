@@ -1,4 +1,5 @@
 #include "unitDesc.h"
+#include "world.h"
 
 
 // ============================================================================
@@ -11,8 +12,8 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 
 UnitDesc peonUnitDesc(35, 45, 2000, 4); // 4
 UnitDesc gruntUnitDesc(45, 50, 5000, 12); // 6
-UnitDesc mineUnitDesc(110, 110, 0, 0);
-UnitDesc townHallUnitDesc(130, 130, 10000, 0);
+UnitDesc mineUnitDesc(3 * MAP_BUILD_TILE_SIZE, 3 * MAP_BUILD_TILE_SIZE, 0, 0);
+UnitDesc townHallUnitDesc(4 * MAP_BUILD_TILE_SIZE, 4 * MAP_BUILD_TILE_SIZE, 10000, 0);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
