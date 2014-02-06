@@ -132,12 +132,21 @@ void Render(const World& parWorld)
 	assert(summerTilesSurface);
 
 	static SDL_Surface* mapSurface = 0;
+#ifdef _DEBUG
+	static SDL_Surface* buildTileSurface = 0;
+#endif
 	if (!mapSurface)
 	{
 		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_BUILD_TILE_SIZE,
 			parWorld.Height() * MAP_BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
+#ifdef _DEBUG
+		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_BUILD_TILE_SIZE,
+			parWorld.Height() * MAP_BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
+			screen->format->Bmask, screen->format->Amask);
+#endif
 
 		SDL_Rect src = { (MAP_BUILD_TILE_SIZE + 1) * 14, (MAP_BUILD_TILE_SIZE + 1) * 18, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE }; // (14, 18) = grass
 		SDL_Rect dst = { 0, 0, 0, 0 };
@@ -149,6 +158,10 @@ void Render(const World& parWorld)
 				dst.x = x * MAP_BUILD_TILE_SIZE;
 				dst.y = y * MAP_BUILD_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
+#ifdef _DEBUG
+				SDL_Rect buildTileRect = { x * MAP_BUILD_TILE_SIZE, y * MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE};
+				SDL_FillRect(buildTileSurface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
+#endif
 			}
 		}
 	}
@@ -157,7 +170,11 @@ void Render(const World& parWorld)
 	{
 		SDL_Rect dst = { 0, 0, 0, 0 };
 		TransformToScreenCoordinate(dst, gCamera->Pos());
+#ifdef _DEBUG
+		SDL_BlitSurface(buildTileSurface, 0, screen, &dst);
+#else
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
+#endif
 	}
 }
 
