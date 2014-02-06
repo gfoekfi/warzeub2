@@ -263,7 +263,9 @@ bool World::IsBuildTileAccessible(const int2& parBuildTilePos, const int2& parDi
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+#ifdef _DEBUG
 static std::map<EUnitType, SDL_Surface*> unitTypeToAccessibleSurface;
+#endif
 
 // ============================================================================
 
