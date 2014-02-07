@@ -162,7 +162,7 @@ Unit* World::BuilderOf(const Unit* parUnit) const
 // ============================================================================
 
 // TODO: Optimize search with Tree
-Unit* World::NearestUnitOf(const Unit* parUnit, EUnitType parUnitType)
+Unit* World::NearestUnitOf(const Unit* parUnit, EUnitType parUnitType) const
 {
 	assert(parUnit);
 
@@ -178,7 +178,7 @@ Unit* World::NearestUnitOf(const Unit* parUnit, EUnitType parUnitType)
 // ============================================================================
 
 // TODO: Optimize search with Tree
-Unit* World::GetUnitAt(const float2& parPos)
+Unit* World::GetUnitAt(const float2& parPos) const
 {
 	// TODO: assert on 'map dimension' and 'parPos'
 

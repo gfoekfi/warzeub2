@@ -9,6 +9,7 @@
 - New class "WorkerUnit" (inherit from Unit)
 - Basic pathfinding implementation (with Breadth First Search)
 - New BuildTile coordinates (uses in map rendering, and building stuff)
+- Units are responsible of how they handle a RightClick event (when selected)
 ===============================================================================
 
 ===============================================================================

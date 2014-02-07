@@ -31,8 +31,8 @@ public:
 	void RemoveUnit(Unit* parUnit);
 
 public:
-	Unit* GetUnitAt(const float2& parPos);
-	Unit* NearestUnitOf(const Unit* parUnit, EUnitType parUnitType);
+	Unit* GetUnitAt(const float2& parPos) const;
+	Unit* NearestUnitOf(const Unit* parUnit, EUnitType parUnitType) const;
 	Unit* BuilderOf(const Unit* parUnit) const;
 
 public:
@@ -60,8 +60,8 @@ private:
 private:
 	std::vector<Unit*> units_;
 
-	size_t width_; // in # of tiles
-	size_t height_; // in # of tiles
+	size_t width_; // in # of build tiles
+	size_t height_; // in # of build tiles
 	bool accessibleTile_[MAX_NB_TILES][MAX_NB_TILES]; // Use C-style for performance (security warning)
 };
 
