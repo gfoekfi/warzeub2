@@ -16,6 +16,10 @@ World::World()
 	for (size_t x = 0; x < width_; ++x)
 		for (size_t y = 0; y < height_; ++y)
 			accessibleTile_[x][y] = true;
+
+	for (size_t x = 0; x < width_ * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x)
+		for (size_t y = 0; y < height_ * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y)
+			isWalkable_[x][y] = true;
 }
 
 // ============================================================================
@@ -35,8 +39,13 @@ World::~World()
 
 void World::Init()
 {
-	AddUnit(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
-	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
+	float2 peonPos(SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
+	WalkTile::Align(peonPos);
+	AddUnit(new WorkerUnit(peonPos, EUT_PEON));
+
+	float2 gruntPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+	WalkTile::Align(gruntPos);
+	AddUnit(new Unit(gruntPos, EUT_GRUNT));
 
 	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
 	BuildTile::Align(minePos, EUT_MINE);
@@ -73,6 +82,7 @@ void World::AddUnit(Unit* parUnit)
 		return; // no collision with movable unit right now
 
 	UpdateAccessibleTileFromUnit_(*parUnit, false);
+	UpdateWalkableStateFromUnit_(*parUnit, false);
 
 #if 1
 	DumpAccessibleTile_();
@@ -81,6 +91,9 @@ void World::AddUnit(Unit* parUnit)
 #ifdef _DEBUG
 	GenerateAccessibleTileSurface(EUT_PEON);
 	GenerateAccessibleTileSurface(EUT_GRUNT);
+
+	GenerateWalkableTileSurface(EUT_PEON);
+	GenerateWalkableTileSurface(EUT_GRUNT);
 #endif
 }
 
@@ -99,7 +112,10 @@ void World::RemoveUnit(Unit* parUnit)
 	}
 
 	if (!parUnit->CanMove())
+	{
 		UpdateAccessibleTileFromUnit_(*parUnit, true);
+		UpdateWalkableStateFromUnit_(*parUnit, true);
+	}
 
 	units_.erase(std::find(units_.begin(), units_.end(), parUnit));
 	delete parUnit;
@@ -111,6 +127,9 @@ void World::RemoveUnit(Unit* parUnit)
 #ifdef _DEBUG
 	GenerateAccessibleTileSurface(EUT_PEON);
 	GenerateAccessibleTileSurface(EUT_GRUNT);
+
+	GenerateWalkableTileSurface(EUT_PEON);
+	GenerateWalkableTileSurface(EUT_GRUNT);
 #endif
 }
 
@@ -128,6 +147,24 @@ void World::UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibl
 			// FIXME: Bound checking (security warning)
 			assert(accessibleTile_[x][y] != parAccessibleState);
 			accessibleTile_[x][y] = parAccessibleState;
+		}
+	}
+}
+
+// ============================================================================
+
+void World::UpdateWalkableStateFromUnit_(const Unit& parUnit, bool parWalkableState)
+{
+	assert(!parUnit.CanMove()); // no collision with unit ATM
+
+	SDL_Rect bbox = parUnit.BoundingBox();
+	for (size_t x = (bbox.x / WALK_TILE_SIZE); x < ((bbox.x + bbox.w) / WALK_TILE_SIZE); ++x)
+	{
+		for (size_t y = (bbox.y / WALK_TILE_SIZE); y < ((bbox.y + bbox.h) / WALK_TILE_SIZE); ++y)
+		{
+			// FIXME: Bound checking (security warning)
+			assert(isWalkable_[x][y] != parWalkableState);
+			isWalkable_[x][y] = parWalkableState;
 		}
 	}
 }
@@ -232,11 +269,11 @@ bool World::IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& par
 
 	BuildTile dimensionInBuildTile(float2(float(parDimensions.x), float(parDimensions.y))); // force conversion
 	const int2& minTile = int2(
-		parBuildTile.x() - dimensionInBuildTile.w(),
-		parBuildTile.y() - dimensionInBuildTile.h());
+		parBuildTile.x() - 1 - dimensionInBuildTile.w() / 2,
+		parBuildTile.y() - 1 - dimensionInBuildTile.h() / 2);
 	const int2& maxTile = int2(
-		parBuildTile.x() + dimensionInBuildTile.w(),
-		parBuildTile.y() + dimensionInBuildTile.h());
+		parBuildTile.x() + 1 + dimensionInBuildTile.w() / 2,
+		parBuildTile.y() + 1 + dimensionInBuildTile.h() / 2);
 
 	for (int x = minTile.x; x <= maxTile.x; ++x)
 	{
@@ -252,11 +289,39 @@ bool World::IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& par
 }
 
 // ============================================================================
+
+bool World::IsWalkable(const WalkTile& parWalkTile, const int2& parDimensions) const
+{
+	assert(parWalkTile.IsValid());
+
+	WalkTile dimensionInWalkTile(float2(float(parDimensions.x), float(parDimensions.y)));
+	const int2& minTile = int2(
+		parWalkTile.x() - 1 - dimensionInWalkTile.w() / 2,
+		parWalkTile.y() - 1 - dimensionInWalkTile.h() / 2);
+	const int2& maxTile = int2(
+		parWalkTile.x() + 1 + dimensionInWalkTile.w() / 2,
+		parWalkTile.y() + 1 + dimensionInWalkTile.h() / 2);
+
+	for (int x = minTile.x; x <= maxTile.x; ++x)
+	{
+		for (int y = minTile.y; y <= maxTile.y; ++y)
+		{
+			WalkTile tile(x, y);
+			if (!tile.IsValid() || !isWalkable_[x][y])
+				return false;
+		}
+	}
+
+	return true;
+}
+
+// ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
 
 #ifdef _DEBUG
 static std::map<EUnitType, SDL_Surface*> unitTypeToAccessibleSurface;
+static std::map<EUnitType, SDL_Surface*> unitTypeToWalkableSurface;
 #endif
 
 // ============================================================================
@@ -269,6 +334,19 @@ void World::RenderAccessibleTiles(EUnitType parUnitType) const
 	SDL_Rect dst = { 0, 0, 0, 0 };
 	TransformToScreenCoordinate(dst, gCamera->Pos());
 	SDL_BlitSurface(unitTypeToAccessibleSurface[parUnitType], 0, screen, &dst);
+}
+#endif
+
+// ============================================================================
+
+#ifdef _DEBUG
+void World::RenderWalkableTiles(EUnitType parUnitType) const
+{
+	assert(unitTypeToWalkableSurface.count(parUnitType) == 1);
+
+	SDL_Rect dst = { 0, 0, 0, 0 };
+	TransformToScreenCoordinate(dst, gCamera->Pos());
+	SDL_BlitSurface(unitTypeToWalkableSurface[parUnitType], 0, screen, &dst);
 }
 #endif
 
@@ -303,6 +381,35 @@ void World::GenerateAccessibleTileSurface(EUnitType parUnitType)
 				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
 				SDL_FillRect(unitTypeToAccessibleSurface[parUnitType], &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
 			}
+		}
+}
+#endif
+
+// ============================================================================
+
+#ifdef _DEBUG
+void World::GenerateWalkableTileSurface(EUnitType parUnitType)
+{
+	if (unitTypeToWalkableSurface.count(parUnitType) > 0)
+		SDL_FreeSurface(unitTypeToWalkableSurface[parUnitType]);
+
+	unitTypeToWalkableSurface[parUnitType] = SDL_CreateRGBSurface(SDL_HWSURFACE,
+		width_ * BUILD_TILE_SIZE, height_ * BUILD_TILE_SIZE,
+		screen->format->BitsPerPixel,
+		screen->format->Rmask, screen->format->Gmask,
+		screen->format->Bmask, screen->format->Amask);
+	assert(unitTypeToWalkableSurface[parUnitType]);
+
+	SDL_Rect dst = { 0, 0, WALK_TILE_SIZE, WALK_TILE_SIZE };
+	int2 unitDimension(unitTypeToUnitDesc[parUnitType].width, unitTypeToUnitDesc[parUnitType].height);
+	for (size_t x = 0; x < width_ * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x)
+		for (size_t y = 0; y < height_ * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y)
+		{
+			dst.x = x * WALK_TILE_SIZE;
+			dst.y = y * WALK_TILE_SIZE;
+			bool walkable = IsWalkable(WalkTile(x, y), unitDimension);
+			Uint32 color = ((x + y) % 2 == 0) ? 0x00ffffff : (walkable ? 0x0000ffff : 0x00ff0000);
+			SDL_FillRect(unitTypeToWalkableSurface[parUnitType], &dst, color);
 		}
 }
 #endif

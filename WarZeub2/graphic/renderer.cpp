@@ -134,6 +134,7 @@ void Render(const World& parWorld)
 	static SDL_Surface* mapSurface = 0;
 #ifdef _DEBUG
 	static SDL_Surface* buildTileSurface = 0;
+	static SDL_Surface* walkTileSurface = 0;
 #endif
 	if (!mapSurface)
 	{
@@ -143,6 +144,11 @@ void Render(const World& parWorld)
 			screen->format->Bmask, screen->format->Amask);
 #ifdef _DEBUG
 		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
+			screen->format->Bmask, screen->format->Amask);
+
+		walkTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
 			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
@@ -161,6 +167,18 @@ void Render(const World& parWorld)
 #ifdef _DEBUG
 				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
 				SDL_FillRect(buildTileSurface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
+
+				for (size_t x2 = 0; x2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x2)
+					for (size_t y2 = 0; y2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y2)
+					{
+						SDL_Rect walkTileRect = {
+							x * BUILD_TILE_SIZE + x2 * WALK_TILE_SIZE,
+							y * BUILD_TILE_SIZE + y2 * WALK_TILE_SIZE,
+							WALK_TILE_SIZE,
+							WALK_TILE_SIZE
+						};
+						SDL_FillRect(walkTileSurface, &walkTileRect, ((x2 + y2) % 2) ? 0x0000ffff : 0x00ffffff);
+					}
 #endif
 			}
 		}
@@ -171,7 +189,8 @@ void Render(const World& parWorld)
 		SDL_Rect dst = { 0, 0, 0, 0 };
 		TransformToScreenCoordinate(dst, gCamera->Pos());
 #ifdef _DEBUG
-		SDL_BlitSurface(buildTileSurface, 0, screen, &dst);
+		//SDL_BlitSurface(buildTileSurface, 0, screen, &dst);
+		SDL_BlitSurface(walkTileSurface, 0, screen, &dst);
 #else
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
 #endif

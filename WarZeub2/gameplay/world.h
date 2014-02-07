@@ -4,6 +4,7 @@
 
 #include "unit.h"
 #include "buildTile.h"
+#include "walkTile.h"
 #include "../utils/singleton.h"
 #include <vector>
 
@@ -13,6 +14,7 @@
 // ============================================================================
 
 #define MAX_NB_TILES 64
+#define MAX_WALK_TILES (MAX_NB_TILES * (BUILD_TILE_SIZE / WALK_TILE_SIZE))
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -48,13 +50,20 @@ public:
 	// Is tile accessible in each point for an object with dimensions 'parDimensions' ?
 	bool IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& parDimensions) const;
 
+	bool IsWalkable(const WalkTile& parWalkTile) const { return isWalkable_[parWalkTile.x()][parWalkTile.y()]; }
+	bool IsWalkable(const WalkTile& parWalkTile, const int2& parDimensions) const;
+
 #ifdef _DEBUG
 	void RenderAccessibleTiles(EUnitType parUnitType) const;
 	void GenerateAccessibleTileSurface(EUnitType parUnitType);
+
+	void RenderWalkableTiles(EUnitType parUnitType) const;
+	void GenerateWalkableTileSurface(EUnitType parUnitType);
 #endif
 
 private:
 	void UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibleState);
+	void UpdateWalkableStateFromUnit_(const Unit& parUnit, bool parWalkableState);
 	void DumpAccessibleTile_() const;
 
 private:
@@ -63,6 +72,7 @@ private:
 	size_t width_; // in # of build tiles
 	size_t height_; // in # of build tiles
 	bool accessibleTile_[MAX_NB_TILES][MAX_NB_TILES]; // Use C-style for performance (security warning)
+	bool isWalkable_[MAX_WALK_TILES][MAX_WALK_TILES]; // Use C-style for performance (security warning)
 };
 
 // ============================================================================

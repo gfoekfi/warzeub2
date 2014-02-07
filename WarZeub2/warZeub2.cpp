@@ -129,7 +129,22 @@ void Render()
 
 #ifdef _DEBUG
 		if (player.selectedUnit && player.selectedUnit->CanMove())
-			World::Inst()->RenderAccessibleTiles(player.selectedUnit->Type());
+		{
+			static bool walk = true;
+			static Uint32 lastTime = 0;
+			Uint32 curTime = SDL_GetTicks();
+			if (curTime - lastTime > 2000)
+			{
+				lastTime = curTime;
+				walk = !walk;
+
+			}
+
+			if (walk)
+				World::Inst()->RenderWalkableTiles(player.selectedUnit->Type());
+			else
+				World::Inst()->RenderAccessibleTiles(player.selectedUnit->Type());
+		}
 #endif
 
 		const std::vector<Unit*>& units = World::Inst()->Units();
