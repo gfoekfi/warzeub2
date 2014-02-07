@@ -19,8 +19,8 @@ float2 BuildTile::ToWorldPos() const
 {
 	float2 result;
 
-	result.x = (0.5f + float(data_.x)) * float(MAP_BUILD_TILE_SIZE);
-	result.y = (0.5f + float(data_.y)) * float(MAP_BUILD_TILE_SIZE);
+	result.x = (0.5f + float(data_.x)) * float(BUILD_TILE_SIZE);
+	result.y = (0.5f + float(data_.y)) * float(BUILD_TILE_SIZE);
 
 	return result;
 }

@@ -72,9 +72,9 @@ void World::BuildTileAlign(float2& parPos, EUnitType parUnitType)
 	BuildTile buildTile(dimensions);
 
 	if (!(buildTile.x() & 1))
-		parPos.x -= 0.5f * MAP_BUILD_TILE_SIZE;
+		parPos.x -= 0.5f * BUILD_TILE_SIZE;
 	if (!(buildTile.y() & 1))
-		parPos.y -= 0.5f * MAP_BUILD_TILE_SIZE;
+		parPos.y -= 0.5f * BUILD_TILE_SIZE;
 }
 
 // ============================================================================
@@ -137,9 +137,9 @@ void World::UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibl
 	assert(!parUnit.CanMove());
 
 	SDL_Rect bbox = parUnit.BoundingBox();
-	for (size_t x = (bbox.x / MAP_BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / MAP_BUILD_TILE_SIZE); ++x)
+	for (size_t x = (bbox.x / BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / BUILD_TILE_SIZE); ++x)
 	{
-		for (size_t y = (bbox.y / MAP_BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / MAP_BUILD_TILE_SIZE); ++y)
+		for (size_t y = (bbox.y / BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / BUILD_TILE_SIZE); ++y)
 		{
 			// FIXME: Bound checking (security warning)
 			assert(accessibleTile_[x][y] != parAccessibleState);
@@ -293,26 +293,26 @@ void World::GenerateAccessibleTileSurface(EUnitType parUnitType)
 		SDL_FreeSurface(unitTypeToAccessibleSurface[parUnitType]);
 
 	unitTypeToAccessibleSurface[parUnitType] = SDL_CreateRGBSurface(SDL_HWSURFACE,
-		width_ * MAP_BUILD_TILE_SIZE, height_ * MAP_BUILD_TILE_SIZE,
+		width_ * BUILD_TILE_SIZE, height_ * BUILD_TILE_SIZE,
 		screen->format->BitsPerPixel,
 		screen->format->Rmask, screen->format->Gmask,
 		screen->format->Bmask, screen->format->Amask);
 	assert(unitTypeToAccessibleSurface[parUnitType]);
 
-	SDL_Rect dst = { 0, 0, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE };
+	SDL_Rect dst = { 0, 0, BUILD_TILE_SIZE, BUILD_TILE_SIZE };
 	int2 unitDimension(unitTypeToUnitDesc[parUnitType].width, unitTypeToUnitDesc[parUnitType].height);
 	for (size_t x = 0; x < width_; ++x)
 		for (size_t y = 0; y < height_; ++y)
 		{
 			if (!IsBuildTileAccessible(BuildTile(x, y), unitDimension))
 			{
-				dst.x = x * MAP_BUILD_TILE_SIZE;
-				dst.y = y * MAP_BUILD_TILE_SIZE;
+				dst.x = x * BUILD_TILE_SIZE;
+				dst.y = y * BUILD_TILE_SIZE;
 				SDL_FillRect(unitTypeToAccessibleSurface[parUnitType], &dst, 0x00ff0000);
 			}
 			else
 			{
-				SDL_Rect buildTileRect = { x * MAP_BUILD_TILE_SIZE, y * MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE};
+				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
 				SDL_FillRect(unitTypeToAccessibleSurface[parUnitType], &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
 			}
 		}

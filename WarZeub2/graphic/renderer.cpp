@@ -137,29 +137,29 @@ void Render(const World& parWorld)
 #endif
 	if (!mapSurface)
 	{
-		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_BUILD_TILE_SIZE,
-			parWorld.Height() * MAP_BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
 #ifdef _DEBUG
-		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * MAP_BUILD_TILE_SIZE,
-			parWorld.Height() * MAP_BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
 #endif
 
-		SDL_Rect src = { (MAP_BUILD_TILE_SIZE + 1) * 14, (MAP_BUILD_TILE_SIZE + 1) * 18, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE }; // (14, 18) = grass
+		SDL_Rect src = { (BUILD_TILE_SIZE + 1) * 14, (BUILD_TILE_SIZE + 1) * 18, BUILD_TILE_SIZE, BUILD_TILE_SIZE }; // (14, 18) = grass
 		SDL_Rect dst = { 0, 0, 0, 0 };
 
 		for (size_t x = 0; x < parWorld.Width(); ++x)
 		{
 			for (size_t y = 0; y < parWorld.Height(); ++y)
 			{
-				dst.x = x * MAP_BUILD_TILE_SIZE;
-				dst.y = y * MAP_BUILD_TILE_SIZE;
+				dst.x = x * BUILD_TILE_SIZE;
+				dst.y = y * BUILD_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
 #ifdef _DEBUG
-				SDL_Rect buildTileRect = { x * MAP_BUILD_TILE_SIZE, y * MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE, MAP_BUILD_TILE_SIZE};
+				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
 				SDL_FillRect(buildTileSurface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
 #endif
 			}

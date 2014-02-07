@@ -9,7 +9,7 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-const size_t MAP_BUILD_TILE_SIZE = 32; // in pixel
+const size_t BUILD_TILE_SIZE = 32; // in pixel
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ public:
 	BuildTile(int parX, int parY) : data_(parX, parY) { } // should be BuildTile aligned
 	BuildTile(const BuildTile& parRhs) : data_(parRhs.data_) { }
 	BuildTile(const float2& parPos)
-		: data_(int(parPos.x) / MAP_BUILD_TILE_SIZE, int(parPos.y) / MAP_BUILD_TILE_SIZE)
+		: data_(int(parPos.x) / BUILD_TILE_SIZE, int(parPos.y) / BUILD_TILE_SIZE)
 	{
 	}
 
