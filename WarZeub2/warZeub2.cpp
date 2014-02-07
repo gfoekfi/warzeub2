@@ -28,8 +28,9 @@ bool Init()
 	InitSpriteDesc();
 	InitUnitDesc();
 
+	World::Inst()->Init();
+
 	HUD::Inst(); // force initialization
-	World::Inst(); // force initialization
 
 	player.selectedUnit = 0;
 

@@ -16,7 +16,25 @@ World::World()
 	for (size_t x = 0; x < width_; ++x)
 		for (size_t y = 0; y < height_; ++y)
 			accessibleTile_[x][y] = true;
+}
 
+// ============================================================================
+
+World::~World()
+{
+	for (size_t unit = 0; unit < units_.size(); ++unit)
+	{
+		if (units_[unit])
+			delete units_[unit];
+	}
+
+	units_.clear();
+}
+
+// ============================================================================
+
+void World::Init()
+{
 	AddUnit(new WorkerUnit(float2(SCREEN_WIDTH/4, SCREEN_HEIGHT/4), EUT_PEON));
 	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 
@@ -33,19 +51,6 @@ World::World()
 	for (int i = 0; i < 40; ++i)
 		units_.push_back(new Unit(float2(3*SCREEN_WIDTH/4 - i*50, 3*SCREEN_HEIGHT/4), EUT_TOWN_HALL));
 #endif
-}
-
-// ============================================================================
-
-World::~World()
-{
-	for (size_t unit = 0; unit < units_.size(); ++unit)
-	{
-		if (units_[unit])
-			delete units_[unit];
-	}
-
-	units_.clear();
 }
 
 // ============================================================================
