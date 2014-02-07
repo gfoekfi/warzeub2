@@ -264,6 +264,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\gameplay\walkTile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gameplay\walkTile.h"
+					>
+				</File>
+				<File
 					RelativePath=".\gameplay\workerUnit.cpp"
 					>
 				</File>
