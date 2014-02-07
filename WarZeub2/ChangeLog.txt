@@ -8,6 +8,7 @@
 - Rename EOrder to ECommand
 - New class "WorkerUnit" (inherit from Unit)
 - Basic pathfinding implementation (with Breadth First Search)
+- New BuildTile coordinates (uses in map rendering, and building stuff)
 ===============================================================================
 
 ===============================================================================

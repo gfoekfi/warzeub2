@@ -52,4 +52,5 @@
 - Ignore units behind HUD during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
 - Makes clicking on building works again
+- When a peon is in 'CHOOSE_BUILDING' and goes unselected, it doesn't reset its state
 ===============================================================================
