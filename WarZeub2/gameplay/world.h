@@ -25,9 +25,6 @@ public:
 	~World();
 
 public:
-	static void BuildTileAlign(float2& parPos, EUnitType parUnitType); // center pos to current build tile
-
-public:
 	void Init();
 	void Update(Uint32 parCurTime, Uint32 parElapsedTime);
 	void AddUnit(Unit* parUnit); // Take the ownership

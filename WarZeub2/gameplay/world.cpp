@@ -39,11 +39,11 @@ void World::Init()
 	AddUnit(new Unit(float2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), EUT_GRUNT));
 
 	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
-	BuildTileAlign(minePos, EUT_MINE);
+	BuildTile::Align(minePos, EUT_MINE);
 	AddUnit(new Unit(minePos, EUT_MINE));
 
 	float2 townhallPos(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
-	BuildTileAlign(townhallPos, EUT_TOWN_HALL);
+	BuildTile::Align(townhallPos, EUT_TOWN_HALL);
 	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
 #if 0
@@ -59,22 +59,6 @@ void World::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 {
 	for (size_t unit = 0; unit < units_.size(); ++unit)
 		units_[unit]->Update(parCurTime, parElapsedTime);
-}
-
-// ============================================================================
-
-void World::BuildTileAlign(float2& parPos, EUnitType parUnitType)
-{
-	parPos = BuildTile(parPos).ToWorldPos();
-
-	const UnitDesc& unitDesc = unitTypeToUnitDesc[parUnitType];
-	float2 dimensions(float(unitDesc.width), float(unitDesc.height));
-	BuildTile buildTile(dimensions);
-
-	if (!(buildTile.x() & 1))
-		parPos.x -= 0.5f * BUILD_TILE_SIZE;
-	if (!(buildTile.y() & 1))
-		parPos.y -= 0.5f * BUILD_TILE_SIZE;
 }
 
 // ============================================================================

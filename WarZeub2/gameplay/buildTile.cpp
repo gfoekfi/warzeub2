@@ -1,9 +1,26 @@
 #include "buildTile.h"
 #include "world.h"
+#include "unitDesc.h"
 
 
 // ============================================================================
 // ----------------------------------------------------------------------------
+// ============================================================================
+
+void BuildTile::Align(float2& parPos, EUnitType parUnitType)
+{
+	parPos = BuildTile(parPos).ToWorldPos();
+
+	const UnitDesc& unitDesc = unitTypeToUnitDesc[parUnitType];
+	float2 dimensions(float(unitDesc.width), float(unitDesc.height));
+	BuildTile buildTile(dimensions);
+
+	if (!(buildTile.x() & 1))
+		parPos.x -= 0.5f * BUILD_TILE_SIZE;
+	if (!(buildTile.y() & 1))
+		parPos.y -= 0.5f * BUILD_TILE_SIZE;
+}
+
 // ============================================================================
 
 bool BuildTile::IsValid() const

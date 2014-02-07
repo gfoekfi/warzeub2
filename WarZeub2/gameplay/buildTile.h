@@ -3,6 +3,7 @@
 
 
 #include "../utils/vecTypes.h"
+#include "unit.h"
 
 
 // ============================================================================
@@ -28,6 +29,9 @@ public:
 		: data_(int(parPos.x) / BUILD_TILE_SIZE, int(parPos.y) / BUILD_TILE_SIZE)
 	{
 	}
+
+public:
+	static void Align(float2& parPos, EUnitType parUnitType); // to center of build tile IFN
 
 public:
 	bool operator==(const BuildTile& parRhs) const;
