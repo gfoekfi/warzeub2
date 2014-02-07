@@ -225,8 +225,7 @@ bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 
 bool World::IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& parDimensions) const
 {
-	assert(parBuildTile.x() >= 0 && parBuildTile.x() < int(width_));
-	assert(parBuildTile.y() >= 0 && parBuildTile.y() < int(height_));
+	assert(parBuildTile.IsValid());
 
 	if (!accessibleTile_[parBuildTile.x()][parBuildTile.y()])
 		return false;
@@ -240,9 +239,14 @@ bool World::IsBuildTileAccessible(const BuildTile& parBuildTile, const int2& par
 		parBuildTile.y() + dimensionInBuildTile.h());
 
 	for (int x = minTile.x; x <= maxTile.x; ++x)
+	{
 		for (int y = minTile.y; y <= maxTile.y; ++y)
-			if (x < 0 || x >= int(width_) || y < 0 || y >= int(height_) || !accessibleTile_[x][y])
+		{
+			BuildTile tile(x, y);
+			if (!tile.IsValid() || !accessibleTile_[x][y])
 				return false;
+		}
+	}
 
 	return true;
 }

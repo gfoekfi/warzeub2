@@ -58,8 +58,7 @@ void Path::ComputeShortestPath_()
 			BuildTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
 			BuildTile nextBuildTile(curBuildTile + curDir);
 
-			if (nextBuildTile.x() >= 0 && nextBuildTile.x() < int(World::Inst()->Width()) &&
-				 nextBuildTile.y() >= 0 && nextBuildTile.y() < int(World::Inst()->Height()) &&
+			if (nextBuildTile.IsValid() &&
 				 World::Inst()->IsBuildTileAccessible(nextBuildTile, entityDimensions_) &&
 				 parentTile.count(nextBuildTile) == 0)
 			{
