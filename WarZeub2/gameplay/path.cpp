@@ -71,46 +71,14 @@ void Path::ComputeShortestPath_()
 	RetrieveWalkTilePathFromParents_(parentTile, startWalkTile, goalWalkTile);
 }
 
-// =======================================================================
-
-void Path::RetrieveBuildTilePathFromParents_(std::map<BuildTile, BuildTile>& parParentOf,
-															const BuildTile& parStartBuildTile,
-															const BuildTile& parGoalBuildTile)
-{
-	if (parParentOf.count(parGoalBuildTile) == 0)
-	{
-		assert(!hasPath_);
-		fprintf(stdout, "[PATH] No valid path as been found between (%d, %d) and (%d, %d)\n",
-			parStartBuildTile.x(), parStartBuildTile.y(), parGoalBuildTile.x(), parGoalBuildTile.y());
-		return;
-	}
-
-	BuildTile curBuildTile(parGoalBuildTile);
-	std::vector<BuildTile> reversePath;
-	while (curBuildTile != parStartBuildTile)
-	{
-		reversePath.push_back(curBuildTile);
-		assert(parParentOf.count(curBuildTile) > 0);
-		curBuildTile = parParentOf[curBuildTile];
-	}
-
-	for (std::vector<BuildTile>::reverse_iterator tile = reversePath.rbegin();
-		tile != reversePath.rend(); ++tile)
-	{
-		buildTilePath_.push_back(*tile);
-	}
-
-	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
-		parStartBuildTile.x(), parStartBuildTile.y(), parGoalBuildTile.x(), parGoalBuildTile.y());
-	DumpPath_();
-}
-
 // ============================================================================
 
 void Path::RetrieveWalkTilePathFromParents_(std::map<WalkTile, WalkTile>& parParentOf,
 														  const WalkTile& parStartWalkTile,
 														  const WalkTile& parGoalWalkTile)
 {
+	fprintf(stdout, "[PATH] # of parents tile: %d\n", parParentOf.size());
+
 	if (parParentOf.count(parGoalWalkTile) == 0)
 	{
 		assert(!hasPath_);
@@ -136,56 +104,49 @@ void Path::RetrieveWalkTilePathFromParents_(std::map<WalkTile, WalkTile>& parPar
 
 	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
 		parStartWalkTile.x(), parStartWalkTile.y(), parGoalWalkTile.x(), parGoalWalkTile.y());
-	//DumpPath_();
+	DumpPath_(parParentOf);
 }
 
 // ============================================================================
 
-void Path::DumpPath_()
+void Path::DumpPath_(std::map<WalkTile, WalkTile>& parParentOf)
 {
 	assert(hasPath_);
-	assert(buildTilePath_.size() >= 1);
+	assert(walkTilePath_.size() >= 1);
 
-	BuildTile startBuildTile(startPos_);
-	BuildTile goalBuildTile(goalPos_);
+	WalkTile startWalkTile(startPos_);
+	WalkTile goalWalkTile(goalPos_);
 
-	for (size_t y = 0; y < World::Inst()->Height(); ++y)
+	for (size_t y = 0; y < World::Inst()->Height() * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y)
 	{
-		for (size_t x = 0; x < World::Inst()->Width(); ++x)
+		for (size_t x = 0; x < World::Inst()->Width() * (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x)
 		{
 			char c = '.';
-			BuildTile tile(x, y);
+			WalkTile tile(x, y);
 
-			if (tile == startBuildTile)
+			if (tile == startWalkTile)
 				c = 'S';
-			else if (tile == goalBuildTile)
+			else if (tile == goalWalkTile)
 				c = 'E';
-			else if (!World::Inst()->IsBuildTileAccessible(tile))
+			else if (!World::Inst()->IsWalkable(tile))
 				c = '#';
 			else
 			{
-				for (size_t waypoint = 0; waypoint < buildTilePath_.size(); ++waypoint)
-					if (buildTilePath_[waypoint] == BuildTile(x, y))
+				for (size_t waypoint = 0; waypoint < walkTilePath_.size(); ++waypoint)
+					if (walkTilePath_[waypoint] == WalkTile(x, y))
 					{
 						c = '*';
 						break;
 					}
 			}
 
+			if (c == '.' && parParentOf.count(tile) > 0)
+				c = 'o';
+
 			fprintf(stdout, "%c", c);
 		}
 		fprintf(stdout, "\n");
 	}
-}
-
-// ============================================================================
-
-const BuildTile& Path::BuildTileFromWaypoint(size_t parWaypoint) const
-{
-	assert(hasPath_);
-	assert(parWaypoint < buildTilePath_.size());
-
-	return buildTilePath_[parWaypoint];
 }
 
 // ============================================================================
