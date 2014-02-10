@@ -31,19 +31,19 @@ Path::~Path()
 // Breadth first search algorithm
 void Path::ComputeShortestPath_()
 {
-	const BuildTile startBuildTile(startPos_);
-	const BuildTile goalBuildTile(goalPos_);
+	const WalkTile startWalkTile(startPos_);
+	const WalkTile goalWalkTile(goalPos_);
 
-	std::list<BuildTile> unvisitedBuildTiles;
-	std::map<BuildTile, BuildTile> parentTile;
-	unvisitedBuildTiles.push_back(startBuildTile);
-	parentTile[startBuildTile] = startBuildTile;
-	while (!unvisitedBuildTiles.empty())
+	std::list<WalkTile> unvisitedWalkTiles;
+	std::map<WalkTile, WalkTile> parentTile;
+	unvisitedWalkTiles.push_back(startWalkTile);
+	parentTile[startWalkTile] = startWalkTile;
+	while (!unvisitedWalkTiles.empty())
 	{
-		BuildTile curBuildTile = unvisitedBuildTiles.front();
-		unvisitedBuildTiles.pop_front();
+		WalkTile curWalkTile = unvisitedWalkTiles.front();
+		unvisitedWalkTiles.pop_front();
 
-		if (curBuildTile == goalBuildTile)
+		if (curWalkTile == goalWalkTile)
 		{
 			hasPath_ = true;
 			break; // Shortest path found
@@ -55,20 +55,20 @@ void Path::ComputeShortestPath_()
 			if (dir & 1)
 				continue;
 
-			BuildTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			BuildTile nextBuildTile(curBuildTile + curDir);
+			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
+			WalkTile nextWalkTile(curWalkTile + curDir);
 
-			if (nextBuildTile.IsValid() &&
-				 World::Inst()->IsBuildTileAccessible(nextBuildTile, entityDimensions_) &&
-				 parentTile.count(nextBuildTile) == 0)
+			if (nextWalkTile.IsValid() &&
+				 parentTile.count(nextWalkTile) == 0 &&
+				 World::Inst()->IsWalkable(nextWalkTile, entityDimensions_))
 			{
-				parentTile[nextBuildTile] = curBuildTile;
-				unvisitedBuildTiles.push_back(nextBuildTile);
+				parentTile[nextWalkTile] = curWalkTile;
+				unvisitedWalkTiles.push_back(nextWalkTile);
 			}
 		}
 	}
 
-	RetrieveBuildTilePathFromParents_(parentTile, startBuildTile, goalBuildTile);
+	RetrieveWalkTilePathFromParents_(parentTile, startWalkTile, goalWalkTile);
 }
 
 // =======================================================================
@@ -103,6 +103,40 @@ void Path::RetrieveBuildTilePathFromParents_(std::map<BuildTile, BuildTile>& par
 	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
 		parStartBuildTile.x(), parStartBuildTile.y(), parGoalBuildTile.x(), parGoalBuildTile.y());
 	DumpPath_();
+}
+
+// ============================================================================
+
+void Path::RetrieveWalkTilePathFromParents_(std::map<WalkTile, WalkTile>& parParentOf,
+														  const WalkTile& parStartWalkTile,
+														  const WalkTile& parGoalWalkTile)
+{
+	if (parParentOf.count(parGoalWalkTile) == 0)
+	{
+		assert(!hasPath_);
+		fprintf(stdout, "[PATH] No valid path as been found between (%d, %d) and (%d, %d)\n",
+			parStartWalkTile.x(), parStartWalkTile.y(), parGoalWalkTile.x(), parGoalWalkTile.y());
+		return;
+	}
+
+	WalkTile curWalkTile(parGoalWalkTile);
+	std::vector<WalkTile> reversePath;
+	while (curWalkTile != parStartWalkTile)
+	{
+		reversePath.push_back(curWalkTile);
+		assert(parParentOf.count(curWalkTile) > 0);
+		curWalkTile = parParentOf[curWalkTile];
+	}
+
+	for (std::vector<WalkTile>::reverse_iterator tile = reversePath.rbegin();
+		tile != reversePath.rend(); ++tile)
+	{
+		walkTilePath_.push_back(*tile);
+	}
+
+	fprintf(stdout, "[PATH] Shortest path between (%d, %d) and (%d, %d):\n",
+		parStartWalkTile.x(), parStartWalkTile.y(), parGoalWalkTile.x(), parGoalWalkTile.y());
+	//DumpPath_();
 }
 
 // ============================================================================
@@ -152,6 +186,16 @@ const BuildTile& Path::BuildTileFromWaypoint(size_t parWaypoint) const
 	assert(parWaypoint < buildTilePath_.size());
 
 	return buildTilePath_[parWaypoint];
+}
+
+// ============================================================================
+
+const WalkTile& Path::WalkTileFromWaypoint(size_t parWaypoint) const
+{
+	assert(hasPath_);
+	assert(parWaypoint < walkTilePath_.size());
+
+	return walkTilePath_[parWaypoint];
 }
 
 // ============================================================================

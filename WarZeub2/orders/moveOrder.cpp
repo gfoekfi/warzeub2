@@ -48,7 +48,7 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		if (curWaypoint_ < (path_->PathSize() - 1))
 		{ // next Target position
 			curWaypoint_++;
-			targetPos_ = path_->BuildTileFromWaypoint(curWaypoint_).ToWorldPos();
+			targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
 			return false;
 		}
 		else
@@ -101,7 +101,7 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 	if (path_->HasPath())
 	{
 		curWaypoint_ = 0;
-		targetPos_ = path_->BuildTileFromWaypoint(curWaypoint_).ToWorldPos();
+		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
 	}
 	else
 	{

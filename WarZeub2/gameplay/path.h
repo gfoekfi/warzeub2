@@ -3,6 +3,7 @@
 
 
 #include "buildTile.h"
+#include "walkTile.h"
 #include <vector>
 #include <map>
 
@@ -19,7 +20,9 @@ public:
 
 public:
 	const BuildTile& BuildTileFromWaypoint(size_t parWaypoint) const;
-	size_t PathSize() const { return buildTilePath_.size(); }
+	const WalkTile& WalkTileFromWaypoint(size_t parWaypoint) const;
+	//size_t PathSize() const { return buildTilePath_.size(); }
+	size_t PathSize() const { return walkTilePath_.size(); }
 	bool HasPath() const { return hasPath_; }
 
 private:
@@ -28,12 +31,16 @@ private:
 	void RetrieveBuildTilePathFromParents_(std::map<BuildTile, BuildTile>& parParentOf, // TODO: should be const
 														const BuildTile& parStartBuildTile,
 														const BuildTile& parGoalBuildTile);
+	void RetrieveWalkTilePathFromParents_(std::map<WalkTile, WalkTile>& parParentOf, // TODO: should be const
+														const WalkTile& parStartWalkTile,
+														const WalkTile& parGoalWalkTile);
 
 private:
 	float2 startPos_;
 	float2 goalPos_;
 	int2 entityDimensions_;
 	std::vector<BuildTile> buildTilePath_;
+	std::vector<WalkTile> walkTilePath_;
 	bool hasPath_;
 };
 
