@@ -22,6 +22,7 @@ public:
 private:
 	Unit* receiverUnit_; // townhall only ATM
 	Unit* dstUnit_; // mine only ATM
+	Unit* curTargetUnit_; // for convenience only
 	MoveOrder* moveOrder_;
 };
 

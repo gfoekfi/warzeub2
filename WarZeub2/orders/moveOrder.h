@@ -23,6 +23,9 @@ public:
 	void SetTargetPos(const float2& parTargetPos); // Warning: force pathfinding computation
 
 private:
+	void RecomputePath_();
+
+private:
 	float2 targetPos_;
 	Path* path_;
 	size_t curWaypoint_;

@@ -16,7 +16,7 @@ MoveOrder::MoveOrder(Unit* parHostUnit, const float2& parTargetPos)
 {
 	assert(parHostUnit);
 
-	SetTargetPos(parTargetPos);
+	RecomputePath_();
 }
 
 // ============================================================================
@@ -88,13 +88,24 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 void MoveOrder::SetTargetPos(const float2& parTargetPos)
 {
-	// TODO: assert parTargetPos is different from old path
+	assert(fabs(parTargetPos.x - targetPos_.x) > FLOAT_PRECISION ||
+			 fabs(parTargetPos.y - targetPos_.y) > FLOAT_PRECISION);
+
+	targetPos_ = parTargetPos;
+
+	RecomputePath_();
+}
+
+// ============================================================================
+
+void MoveOrder::RecomputePath_()
+{
 	if (path_)
 		delete path_;
 
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
 	int2 unitDimensions(unitDesc.width, unitDesc.height);
-	path_ = new Path(hostUnit_->Pos(), parTargetPos, unitDimensions);
+	path_ = new Path(hostUnit_->Pos(), targetPos_, unitDimensions);
 	curWaypoint_ = 0;
 	assert(path_);
 
@@ -103,11 +114,7 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 		curWaypoint_ = 0;
 		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
 	}
-	else
-	{
-		// TODO: alert("Can't move here");
-		targetPos_ = hostUnit_->Pos();
-	}
+	// else // TODO: alert("Can't move here");
 }
 
 // ============================================================================
