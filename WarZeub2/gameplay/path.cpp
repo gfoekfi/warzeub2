@@ -211,26 +211,30 @@ WalkTile Path::NearestWalkableTileOf(const float2& parDstPos,
 {
 	const WalkTile startWalkTile(parDstPos);
 
-	std::list<WalkTile> unvisitedWalkTiles;
+	std::priority_queue<CostWalkTile, std::vector<CostWalkTile>, std::greater<CostWalkTile> > unvisitedTiles;
 	std::set<WalkTile> visitedTiles;
-	unvisitedWalkTiles.push_back(startWalkTile);
-	while (!unvisitedWalkTiles.empty())
+	unvisitedTiles.push(CostWalkTile(startWalkTile, 0.f));
+	while (!unvisitedTiles.empty())
 	{
-		WalkTile curWalkTile = unvisitedWalkTiles.front();
-		unvisitedWalkTiles.pop_front();
+		CostWalkTile curTile = unvisitedTiles.top();
+		unvisitedTiles.pop();
 
-		if (World::Inst()->IsWalkable(curWalkTile, parDimensions))
-			return curWalkTile;
+		if (World::Inst()->IsWalkable(curTile.walkTile, parDimensions))
+			return curTile.walkTile;
 
 		for (int dir = 0; dir < MAX_DIRS; ++dir)
 		{
 			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			WalkTile nextWalkTile(curWalkTile + curDir);
+			WalkTile nextWalkTile(curTile.walkTile + curDir);
 
 			if (nextWalkTile.IsValid() && (visitedTiles.count(nextWalkTile) == 0))
 			{
-				unvisitedWalkTiles.push_back(nextWalkTile);
 				visitedTiles.insert(nextWalkTile);
+
+				float cost = curTile.cost + 1.f;
+				if (dir & 1)
+					cost += 0.2f;
+				unvisitedTiles.push(CostWalkTile(nextWalkTile, cost));
 			}
 		}
 	}
