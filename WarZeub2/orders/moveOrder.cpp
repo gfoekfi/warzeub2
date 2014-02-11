@@ -16,15 +16,13 @@ MoveOrder::MoveOrder(Unit* parHostUnit, const float2& parTargetPos)
 {
 	assert(parHostUnit);
 
-	RecomputePath_();
+	RecomputePathIFN_();
 }
 
 // ============================================================================
 
 MoveOrder::~MoveOrder()
 {
-	if (path_)
-		delete path_;
 }
 
 // ============================================================================
@@ -93,29 +91,26 @@ void MoveOrder::SetTargetPos(const float2& parTargetPos)
 
 	targetPos_ = parTargetPos;
 
-	RecomputePath_();
+	RecomputePathIFN_();
 }
 
 // ============================================================================
 
-void MoveOrder::RecomputePath_()
+void MoveOrder::RecomputePathIFN_()
 {
-	if (path_)
-		delete path_;
-
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
 	int2 unitDimensions(unitDesc.width, unitDesc.height);
+	WalkTile srcWalkTile(hostUnit_->Pos());
 	WalkTile dstWalkTile = World::Inst()->NearestWalkableTileOf(targetPos_,
 		targetPos_, unitDimensions);
-	path_ = new Path(hostUnit_->Pos(), dstWalkTile.ToWorldPos(), unitDimensions);
-	curWaypoint_ = 0;
+
+	path_ = PathCache::Inst()->GetOrCreatePath(srcWalkTile, dstWalkTile, unitDimensions);
 	assert(path_);
 
+	curWaypoint_ = 0;
+
 	if (path_->HasPath())
-	{
-		curWaypoint_ = 0;
 		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
-	}
 	// else // TODO: alert("Can't move here");
 }
 

@@ -20,10 +20,10 @@ public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 public:
-	void SetTargetPos(const float2& parTargetPos); // Warning: force pathfinding computation
+	void SetTargetPos(const float2& parTargetPos); // Warning: might call pathfinding computation
 
 private:
-	void RecomputePath_();
+	void RecomputePathIFN_();
 
 private:
 	float2 targetPos_;
