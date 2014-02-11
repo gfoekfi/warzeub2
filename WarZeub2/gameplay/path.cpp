@@ -34,6 +34,9 @@ void Path::ComputeShortestPath_()
 	const WalkTile startWalkTile(startPos_);
 	const WalkTile goalWalkTile(goalPos_);
 
+	if (!World::Inst()->IsWalkable(goalWalkTile, entityDimensions_))
+		return;
+
 	std::list<WalkTile> unvisitedWalkTiles;
 	std::map<WalkTile, WalkTile> parentTile;
 	unvisitedWalkTiles.push_back(startWalkTile);
