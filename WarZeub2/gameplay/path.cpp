@@ -4,7 +4,41 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <math.h>
+#include <queue>
 
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+struct CostWalkTile
+{
+	CostWalkTile() : walkTile(), cost(0.f) {}
+	CostWalkTile(const WalkTile& parWalkTile, float parCost)
+		: walkTile(parWalkTile),
+		cost(parCost)
+	{
+	}
+
+	bool operator==(const CostWalkTile& parRhs) const
+	{
+		return (walkTile.operator ==(parRhs.walkTile));
+	}
+
+	bool operator<(const CostWalkTile& parRhs) const
+	{
+		return (cost < parRhs.cost);
+	}
+
+	bool operator>(const CostWalkTile& parRhs) const
+	{
+		return (cost > parRhs.cost);
+	}
+
+	WalkTile walkTile;
+	float cost;
+};
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -36,28 +70,27 @@ Path::~Path()
 
 // ============================================================================
 
-// Breadth first search algorithm
+// Breadth first search algorithm with priority queue
 void Path::ComputeShortestPath_()
 {
 	const WalkTile startWalkTile(startPos_);
 	const WalkTile goalWalkTile(goalPos_);
+	assert(World::Inst()->IsWalkable(goalWalkTile, entityDimensions_));
 
-	if (!World::Inst()->IsWalkable(goalWalkTile, entityDimensions_))
-		return;
+	std::priority_queue<CostWalkTile, std::vector<CostWalkTile>, std::greater<CostWalkTile> > unvisitedTiles;
+	std::map<WalkTile, WalkTile> parentsTile;
 
-	std::list<WalkTile> unvisitedWalkTiles;
-	std::map<WalkTile, WalkTile> parentTile;
-	unvisitedWalkTiles.push_back(startWalkTile);
-	parentTile[startWalkTile] = startWalkTile;
-	while (!unvisitedWalkTiles.empty())
+	unvisitedTiles.push(CostWalkTile(startWalkTile, 0.f));
+	parentsTile[startWalkTile] = startWalkTile;
+	while (!unvisitedTiles.empty())
 	{
-		WalkTile curWalkTile = unvisitedWalkTiles.front();
-		unvisitedWalkTiles.pop_front();
+		CostWalkTile curTile = unvisitedTiles.top();
+		unvisitedTiles.pop();
 
-		if (curWalkTile == goalWalkTile)
+		if (curTile.walkTile == goalWalkTile)
 		{
 			hasPath_ = true;
-			break; // Shortest path found
+			break;
 		}
 
 		for (int dir = 0; dir < MAX_DIRS; ++dir)
@@ -67,19 +100,21 @@ void Path::ComputeShortestPath_()
 				continue;
 
 			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			WalkTile nextWalkTile(curWalkTile + curDir);
+			WalkTile nextWalkTile(curTile.walkTile + curDir);
 
 			if (nextWalkTile.IsValid() &&
-				 parentTile.count(nextWalkTile) == 0 &&
+				 parentsTile.count(nextWalkTile) == 0 &&
 				 World::Inst()->IsWalkable(nextWalkTile, entityDimensions_))
 			{
-				parentTile[nextWalkTile] = curWalkTile;
-				unvisitedWalkTiles.push_back(nextWalkTile);
+				parentsTile[nextWalkTile] = curTile.walkTile;
+
+				float cost = curTile.cost + 1.f;
+				unvisitedTiles.push(CostWalkTile(nextWalkTile, cost));
 			}
 		}
 	}
 
-	RetrieveWalkTilePathFromParents_(parentTile, startWalkTile, goalWalkTile);
+	RetrieveWalkTilePathFromParents_(parentsTile, startWalkTile, goalWalkTile);
 }
 
 // ============================================================================
