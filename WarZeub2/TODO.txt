@@ -34,10 +34,8 @@
 - Clean not necessary header inclusions
 - All the 'Sint16()' type conversion looks crappy (might change if we don't uses
   SDL anymore and its SDL_Rect)
-- Uses bounding sphere instead of bounding box
+- Try bounding sphere instead of bounding box
 - Makes every *time related* stuff synchronised on frame (network preparation)
-- Allow units to stick buildings (some tiles are only partially inaccessible)
-- Permits diagonal move in pathfinding
 - Path finding should uses A-star
 ===============================================================================
 
@@ -46,11 +44,9 @@
 * BUG
 ===============================================================================
 - Force mouse to stay inside application screen in windowed mode
-- Diagonal scrolling (in windowed mode)
 - Check collision before placing building
 - When unit pop-up after training or building, find a suitable location (with no collision)
 - Ignore units behind HUD during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
-- Makes clicking on building works again
 - When a peon is in 'CHOOSE_BUILDING' and goes unselected, it doesn't reset its state
 ===============================================================================

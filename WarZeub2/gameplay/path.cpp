@@ -95,10 +95,6 @@ void Path::ComputeShortestPath_()
 
 		for (int dir = 0; dir < MAX_DIRS; ++dir)
 		{
-			// Hack: Ignore diagonal move (WARNING: EDir order must not change)
-			if (dir & 1)
-				continue;
-
 			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
 			WalkTile nextWalkTile(curTile.walkTile + curDir);
 
@@ -109,6 +105,8 @@ void Path::ComputeShortestPath_()
 				parentsTile[nextWalkTile] = curTile.walkTile;
 
 				float cost = curTile.cost + 1.f;
+				if (dir & 1) // WARNING: Every diagonal direction value should be *odd*
+					cost += 0.2f;
 				unvisitedTiles.push(CostWalkTile(nextWalkTile, cost));
 			}
 		}
