@@ -205,6 +205,7 @@ const WalkTile& Path::WalkTileFromWaypoint(size_t parWaypoint) const
 // FIXME: Should consider 'parSrcPos' in distance computation and should be in
 // the same connected component
 // TODO: Should use the PathFinding algorithms (code duplication)
+// FIXME: Using greedy algorithm doesn't guarentee the Nearest one at all !
 WalkTile Path::NearestWalkableTileOf(const float2& parDstPos,
 												  const float2& parSrcPos,
 												  const int2& parDimensions)
@@ -231,9 +232,11 @@ WalkTile Path::NearestWalkableTileOf(const float2& parDstPos,
 			{
 				visitedTiles.insert(nextWalkTile);
 
-				float cost = curTile.cost + 1.f;
-				if (dir & 1)
-					cost += 0.2f;
+				const float2& nextPos = nextWalkTile.ToWorldPos();
+				float dx = fabs(nextPos.x - parSrcPos.x);
+				float dy = fabs(nextPos.y - parSrcPos.y);
+				float cost = (dx * dx + dy * dy);
+
 				unvisitedTiles.push(CostWalkTile(nextWalkTile, cost));
 			}
 		}
