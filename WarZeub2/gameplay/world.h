@@ -36,6 +36,9 @@ public:
 	Unit* GetUnitAt(const float2& parPos) const;
 	Unit* NearestUnitOf(const Unit* parUnit, EUnitType parUnitType) const;
 	Unit* BuilderOf(const Unit* parUnit) const;
+	WalkTile NearestWalkableTileOf(const float2& parDstPos,
+											 const float2& parSrcPos,
+											 const int2& parDimensions) const;
 
 public:
 	bool Collides(const Unit* parUnit, SDL_Rect& parDst) const; // unit parameter to ignore self collision

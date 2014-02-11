@@ -1,7 +1,6 @@
 ===============================================================================
 * FEATURE
 ===============================================================================
-- path finding
 - multiple unit selection
 - smart unit selection (unit > building)
 - new buildings: farm, barrack
@@ -39,6 +38,7 @@
 - Makes every *time related* stuff synchronised on frame (network preparation)
 - Allow units to stick buildings (some tiles are only partially inaccessible)
 - Permits diagonal move in pathfinding
+- Path finding should uses A-star
 ===============================================================================
 
 

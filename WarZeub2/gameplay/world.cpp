@@ -3,6 +3,8 @@
 #include "../graphic/renderer.h" //only for SCREEN_WIDTH & SCREEN_HEIGHT
 #include <algorithm> // std::find
 #include <assert.h>
+#include <list>
+#include <set>
 
 
 // ============================================================================
@@ -232,6 +234,42 @@ Unit* World::GetUnitAt(const float2& parPos) const
 	}
 
 	return dstUnit;
+}
+
+// ============================================================================
+
+// FIXME: Should consider 'parSrcPos' in distance computation
+WalkTile World::NearestWalkableTileOf(const float2& parDstPos,
+												  const float2& parSrcPos,
+												  const int2& parDimensions) const
+{
+	const WalkTile startWalkTile(parDstPos);
+
+	std::list<WalkTile> unvisitedWalkTiles;
+	std::set<WalkTile> visitedTiles;
+	unvisitedWalkTiles.push_back(startWalkTile);
+	while (!unvisitedWalkTiles.empty())
+	{
+		WalkTile curWalkTile = unvisitedWalkTiles.front();
+		unvisitedWalkTiles.pop_front();
+
+		if (IsWalkable(curWalkTile, parDimensions))
+			return curWalkTile;
+
+		for (int dir = 0; dir < MAX_DIRS; ++dir)
+		{
+			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
+			WalkTile nextWalkTile(curWalkTile + curDir);
+
+			if (nextWalkTile.IsValid() && (visitedTiles.count(nextWalkTile) == 0))
+			{
+				unvisitedWalkTiles.push_back(nextWalkTile);
+				visitedTiles.insert(nextWalkTile);
+			}
+		}
+	}
+
+	return WalkTile(parSrcPos);
 }
 
 // ============================================================================
