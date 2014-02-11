@@ -238,7 +238,8 @@ Unit* World::GetUnitAt(const float2& parPos) const
 
 // ============================================================================
 
-// FIXME: Should consider 'parSrcPos' in distance computation
+// FIXME: Should consider 'parSrcPos' in distance computation and should be in
+// the same connected component
 WalkTile World::NearestWalkableTileOf(const float2& parDstPos,
 												  const float2& parSrcPos,
 												  const int2& parDimensions) const
