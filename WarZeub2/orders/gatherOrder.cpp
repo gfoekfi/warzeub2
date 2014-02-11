@@ -42,11 +42,14 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 	// unit. Currently, no unit can actually be in collision with another (except
 	// unit popping at the wrong place).
 	// TODO: refactor
-	Sint16 COLLISION_THRESHOLD = 3;
+	Sint16 COLLISION_THRESHOLD = 8;
 	hostBoundingBox.x -= COLLISION_THRESHOLD;
 	hostBoundingBox.y -= COLLISION_THRESHOLD;
 	hostBoundingBox.w += 2 * COLLISION_THRESHOLD;
 	hostBoundingBox.h += 2 * COLLISION_THRESHOLD;
+
+	if (DoesBBoxesCollide(&hostBoundingBox, &curTargetUnit_->BoundingBox()))
+		hostUnit_->SetHoldingGold(!hostUnit_->IsHoldingGold());
 
 	Unit* nextTargetUnit = hostUnit_->IsHoldingGold() ? receiverUnit_ : dstUnit_;
 	if (nextTargetUnit != curTargetUnit_)
@@ -54,9 +57,6 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 		curTargetUnit_ = nextTargetUnit;
 		moveOrder_->SetTargetPos(curTargetUnit_->Pos());
 	}
-
-	if (DoesBBoxesCollide(&hostBoundingBox, &curTargetUnit_->BoundingBox()))
-		hostUnit_->SetHoldingGold(!hostUnit_->IsHoldingGold());
 
 	return false; // never ends (until destination is consumed)
 }
