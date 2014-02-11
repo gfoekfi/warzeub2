@@ -202,3 +202,42 @@ const WalkTile& Path::WalkTileFromWaypoint(size_t parWaypoint) const
 // ============================================================================
 // ----------------------------------------------------------------------------
 // ============================================================================
+
+PathCache::~PathCache()
+{
+	for (std::map<WalkTile, std::map<WalkTile, std::map<int2, Path*> > >::iterator srcIt = cache_.begin();
+		srcIt != cache_.end(); ++srcIt)
+	{
+		for (std::map<WalkTile, std::map<int2, Path*> >::iterator dstIt = cache_[srcIt->first].begin();
+			dstIt != cache_[srcIt->first].end(); ++dstIt)
+		{
+			for (std::map<int2, Path*>::iterator dimIt = cache_[srcIt->first][dstIt->first].begin();
+				dimIt != cache_[srcIt->first][dstIt->first].end(); ++dimIt)
+			{
+				Path* path = dimIt->second;
+				delete path;
+			}
+		}
+	}
+}
+
+// ============================================================================
+
+Path* PathCache::GetOrCreatePath(const WalkTile& parSrc,
+											const WalkTile& parDst,
+											const int2& parDimensions)
+{
+	if (cache_[parSrc][parDst].count(parDimensions) > 0)
+		return cache_[parSrc][parDst][parDimensions];
+
+	Path* newPath = new Path(parSrc.ToWorldPos(), parDst.ToWorldPos(), parDimensions);
+	assert(newPath);
+
+	cache_[parSrc][parDst][parDimensions] = newPath;
+
+	return newPath;
+}
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================

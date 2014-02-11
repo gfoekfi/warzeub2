@@ -5,6 +5,7 @@
 #include "gameplay/unit.h"
 #include "gameplay/player.h"
 #include "gameplay/world.h"
+#include "gameplay/path.h"
 
 
 // ============================================================================
@@ -46,6 +47,7 @@ void Quit()
 
 	HUD::Kill();
 	World::Kill();
+	PathCache::Kill();
 
 	SDL_Quit();
 }

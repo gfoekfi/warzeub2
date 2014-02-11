@@ -4,6 +4,7 @@
 
 #include "buildTile.h"
 #include "walkTile.h"
+#include "../utils/singleton.h"
 #include <vector>
 #include <map>
 
@@ -36,6 +37,25 @@ private:
 	int2 entityDimensions_;
 	std::vector<WalkTile> walkTilePath_;
 	bool hasPath_;
+};
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+class PathCache : public Singleton<PathCache>
+{
+public:
+	PathCache() {}
+	virtual ~PathCache();
+
+public:
+	Path* GetOrCreatePath(const WalkTile& parSrc,
+								 const WalkTile& parDst,
+								 const int2& parDimensions);
+
+private:
+	std::map<WalkTile, std::map<WalkTile, std::map<int2, Path*> > > cache_;
 };
 
 // ============================================================================
