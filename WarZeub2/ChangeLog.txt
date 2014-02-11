@@ -10,6 +10,7 @@
 - Basic pathfinding implementation (with Breadth First Search)
 - New BuildTile coordinates (uses in map rendering, and building stuff)
 - Units are responsible of how they handle a RightClick event (when selected)
+- Unit pops at a suitable location once trained or when construction is ended
 ===============================================================================
 
 ===============================================================================

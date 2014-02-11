@@ -78,10 +78,11 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			buildingUnit_->SetActionState(EUS_IDLE);
 			hostUnit_->SetActionState(EUS_IDLE);
 
-			// Make the building unit pop at the bottom of the created building
-			float2 newUnitPos(hostUnit_->Pos());
-			newUnitPos.y += unitTypeToUnitDesc[unitTypeToBuild_].height / 2 +
-				unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 1; // +1 => to not stay stuck
+			// Make the unit pop at a suitable location
+			const UnitDesc& hostUnitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
+			int2 hostUnitDimensions(hostUnitDesc.width, hostUnitDesc.height);
+			float2 newUnitPos = World::Inst()->NearestWalkableTileOf(buildingUnit_->Pos(),
+				hostUnit_->Pos(), hostUnitDimensions).ToWorldPos();
 			hostUnit_->SetPos(newUnitPos);
 
 			return true;

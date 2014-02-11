@@ -39,9 +39,11 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 
 	if (!trainedUnit_)
 	{
-		float2 newUnitPos(hostUnit_->Pos());
-		newUnitPos.y += unitTypeToUnitDesc[hostUnit_->Type()].height / 2 + 
-			unitTypeToUnitDesc[unitTypeToTrain_].height / 2 + 1; // +1 => to not stay stuck
+		// Makes the unit pop at a suitable location
+		const UnitDesc& trainedUnitDesc = unitTypeToUnitDesc[unitTypeToTrain_];
+		int2 trainedUnitDimensions(trainedUnitDesc.width, trainedUnitDesc.height);
+		float2 newUnitPos = World::Inst()->NearestWalkableTileOf(hostUnit_->Pos(),
+			hostUnit_->Pos(), trainedUnitDimensions).ToWorldPos();
 
 		// TODO: Use factory
 		switch (unitTypeToTrain_)
