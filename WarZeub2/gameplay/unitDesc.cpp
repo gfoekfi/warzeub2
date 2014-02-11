@@ -11,11 +11,11 @@ std::map<EUnitType, UnitDesc> unitTypeToUnitDesc;
 // ============================================================================
 
 #ifdef _DEBUG
-UnitDesc peonUnitDesc(35, 45, 2000, 8);
-UnitDesc gruntUnitDesc(70, 70, 5000, 12); // 45, 50
+UnitDesc peonUnitDesc(4 * WALK_TILE_SIZE - 1, 4 * WALK_TILE_SIZE - 1, 2000, 8);
+UnitDesc gruntUnitDesc(5 * WALK_TILE_SIZE - 1, 5 * WALK_TILE_SIZE - 1, 5000, 12); // 45, 50
 #else
-UnitDesc peonUnitDesc(35, 45, 2000, 4);
-UnitDesc gruntUnitDesc(45, 50, 5000, 6);
+UnitDesc peonUnitDesc(4 * WALK_TILE_SIZE - 1, 4 * WALK_TILE_SIZE - 1, 2000, 4);
+UnitDesc gruntUnitDesc(5 * WALK_TILE_SIZE - 1, 5 * WALK_TILE_SIZE - 1, 5000, 6);
 
 #endif
 UnitDesc mineUnitDesc(3 * BUILD_TILE_SIZE, 3 * BUILD_TILE_SIZE, 0, 0);
