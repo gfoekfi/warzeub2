@@ -53,7 +53,7 @@ void World::Init()
 	BuildTile::Align(minePos, EUT_MINE);
 	AddUnit(new Unit(minePos, EUT_MINE));
 
-	float2 townhallPos(3*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
+	float2 townhallPos(4*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
 	BuildTile::Align(townhallPos, EUT_TOWN_HALL);
 	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
