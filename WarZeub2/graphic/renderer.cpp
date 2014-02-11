@@ -29,7 +29,8 @@ void InitRenderer()
 #ifdef _DEBUG
 		32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 #else
-		32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+		//32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+		32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 #endif
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
