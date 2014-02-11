@@ -102,7 +102,7 @@ void MoveOrder::RecomputePathIFN_()
 	int2 unitDimensions(unitDesc.width, unitDesc.height);
 	WalkTile srcWalkTile(hostUnit_->Pos());
 	WalkTile dstWalkTile = Path::NearestWalkableTileOf(targetPos_,
-		targetPos_, unitDimensions);
+		hostUnit_->Pos(), unitDimensions);
 
 	path_ = PathCache::Inst()->GetOrCreatePath(srcWalkTile, dstWalkTile, unitDimensions);
 	assert(path_);
