@@ -2,6 +2,7 @@
 #include "moveOrder.h"
 #include "../gameplay/player.h"
 #include "../gameplay/world.h"
+#include "../gameplay/path.h"
 
 
 // ============================================================================
@@ -81,7 +82,7 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 			// Make the unit pop at a suitable location
 			const UnitDesc& hostUnitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
 			int2 hostUnitDimensions(hostUnitDesc.width, hostUnitDesc.height);
-			float2 newUnitPos = World::Inst()->NearestWalkableTileOf(buildingUnit_->Pos(),
+			float2 newUnitPos = Path::NearestWalkableTileOf(buildingUnit_->Pos(),
 				hostUnit_->Pos(), hostUnitDimensions).ToWorldPos();
 			hostUnit_->SetPos(newUnitPos);
 

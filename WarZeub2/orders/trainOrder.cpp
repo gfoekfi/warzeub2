@@ -1,5 +1,6 @@
 #include "trainOrder.h"
 #include "../gameplay/world.h"
+#include "../gameplay/path.h"
 #include "../gameplay/workerUnit.h"
 
 
@@ -42,7 +43,7 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		// Makes the unit pop at a suitable location
 		const UnitDesc& trainedUnitDesc = unitTypeToUnitDesc[unitTypeToTrain_];
 		int2 trainedUnitDimensions(trainedUnitDesc.width, trainedUnitDesc.height);
-		float2 newUnitPos = World::Inst()->NearestWalkableTileOf(hostUnit_->Pos(),
+		float2 newUnitPos = Path::NearestWalkableTileOf(hostUnit_->Pos(),
 			hostUnit_->Pos(), trainedUnitDimensions).ToWorldPos();
 
 		// TODO: Use factory

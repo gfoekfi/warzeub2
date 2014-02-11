@@ -101,7 +101,7 @@ void MoveOrder::RecomputePathIFN_()
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
 	int2 unitDimensions(unitDesc.width, unitDesc.height);
 	WalkTile srcWalkTile(hostUnit_->Pos());
-	WalkTile dstWalkTile = World::Inst()->NearestWalkableTileOf(targetPos_,
+	WalkTile dstWalkTile = Path::NearestWalkableTileOf(targetPos_,
 		targetPos_, unitDimensions);
 
 	path_ = PathCache::Inst()->GetOrCreatePath(srcWalkTile, dstWalkTile, unitDimensions);

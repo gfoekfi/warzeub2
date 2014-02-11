@@ -6,6 +6,7 @@
 #include <list>
 #include <math.h>
 #include <queue>
+#include <set>
 
 
 // ============================================================================
@@ -197,6 +198,44 @@ const WalkTile& Path::WalkTileFromWaypoint(size_t parWaypoint) const
 	assert(parWaypoint < walkTilePath_.size());
 
 	return walkTilePath_[parWaypoint];
+}
+
+// ============================================================================
+
+// FIXME: Should consider 'parSrcPos' in distance computation and should be in
+// the same connected component
+// TODO: Should use the PathFinding algorithms (code duplication)
+WalkTile Path::NearestWalkableTileOf(const float2& parDstPos,
+												  const float2& parSrcPos,
+												  const int2& parDimensions)
+{
+	const WalkTile startWalkTile(parDstPos);
+
+	std::list<WalkTile> unvisitedWalkTiles;
+	std::set<WalkTile> visitedTiles;
+	unvisitedWalkTiles.push_back(startWalkTile);
+	while (!unvisitedWalkTiles.empty())
+	{
+		WalkTile curWalkTile = unvisitedWalkTiles.front();
+		unvisitedWalkTiles.pop_front();
+
+		if (World::Inst()->IsWalkable(curWalkTile, parDimensions))
+			return curWalkTile;
+
+		for (int dir = 0; dir < MAX_DIRS; ++dir)
+		{
+			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
+			WalkTile nextWalkTile(curWalkTile + curDir);
+
+			if (nextWalkTile.IsValid() && (visitedTiles.count(nextWalkTile) == 0))
+			{
+				unvisitedWalkTiles.push_back(nextWalkTile);
+				visitedTiles.insert(nextWalkTile);
+			}
+		}
+	}
+
+	return WalkTile(parSrcPos);
 }
 
 // ============================================================================

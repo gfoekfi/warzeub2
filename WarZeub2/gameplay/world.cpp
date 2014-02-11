@@ -238,44 +238,6 @@ Unit* World::GetUnitAt(const float2& parPos) const
 
 // ============================================================================
 
-// FIXME: Should consider 'parSrcPos' in distance computation and should be in
-// the same connected component
-// TODO: Should use the PathFinding algorithms (code duplication)
-WalkTile World::NearestWalkableTileOf(const float2& parDstPos,
-												  const float2& parSrcPos,
-												  const int2& parDimensions) const
-{
-	const WalkTile startWalkTile(parDstPos);
-
-	std::list<WalkTile> unvisitedWalkTiles;
-	std::set<WalkTile> visitedTiles;
-	unvisitedWalkTiles.push_back(startWalkTile);
-	while (!unvisitedWalkTiles.empty())
-	{
-		WalkTile curWalkTile = unvisitedWalkTiles.front();
-		unvisitedWalkTiles.pop_front();
-
-		if (IsWalkable(curWalkTile, parDimensions))
-			return curWalkTile;
-
-		for (int dir = 0; dir < MAX_DIRS; ++dir)
-		{
-			WalkTile curDir(int(dirs[dir].x), int(dirs[dir].y)); // FIXME: Shouldn't need to cast
-			WalkTile nextWalkTile(curWalkTile + curDir);
-
-			if (nextWalkTile.IsValid() && (visitedTiles.count(nextWalkTile) == 0))
-			{
-				unvisitedWalkTiles.push_back(nextWalkTile);
-				visitedTiles.insert(nextWalkTile);
-			}
-		}
-	}
-
-	return WalkTile(parSrcPos);
-}
-
-// ============================================================================
-
 // TODO: Optimize search with Tree
 bool World::Collides(const Unit* parUnit, SDL_Rect& parDst) const
 {

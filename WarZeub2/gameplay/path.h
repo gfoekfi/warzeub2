@@ -20,6 +20,11 @@ public:
 	~Path();
 
 public:
+	static WalkTile NearestWalkableTileOf(const float2& parDstPos,
+													  const float2& parSrcPos,
+													  const int2& parDimensions);
+
+public:
 	const WalkTile& WalkTileFromWaypoint(size_t parWaypoint) const;
 	size_t PathSize() const { return walkTilePath_.size(); }
 	bool HasPath() const { return hasPath_; }
