@@ -50,15 +50,11 @@ Path::Path(const float2& parStartPos, const float2& parGoalPos, const int2& parE
 	entityDimensions_(parEntityDimensions),
 	hasPath_(false)
 {
-	// If the destination isn't walkable, find a suitable *alternative* goal
-	if (!World::Inst()->IsWalkable(WalkTile(goalPos_), parEntityDimensions))
-	{
-		WalkTile nearestWalkableTile =
-			World::Inst()->NearestWalkableTileOf(goalPos_, startPos_, entityDimensions_);
-		goalPos_ = nearestWalkableTile.ToWorldPos();
-	}
+	assert(WalkTile(parStartPos) != WalkTile(parGoalPos));
 
-	assert(parStartPos != parGoalPos); // FIXME: Warning with floating comparison!
+	assert(World::Inst()->IsWalkable(WalkTile(startPos_), parEntityDimensions));
+	assert(World::Inst()->IsWalkable(WalkTile(goalPos_), parEntityDimensions));
+
 	ComputeShortestPath_();
 }
 

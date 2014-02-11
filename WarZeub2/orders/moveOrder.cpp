@@ -105,7 +105,9 @@ void MoveOrder::RecomputePath_()
 
 	const UnitDesc& unitDesc = unitTypeToUnitDesc[hostUnit_->Type()];
 	int2 unitDimensions(unitDesc.width, unitDesc.height);
-	path_ = new Path(hostUnit_->Pos(), targetPos_, unitDimensions);
+	WalkTile dstWalkTile = World::Inst()->NearestWalkableTileOf(targetPos_,
+		targetPos_, unitDimensions);
+	path_ = new Path(hostUnit_->Pos(), dstWalkTile.ToWorldPos(), unitDimensions);
 	curWaypoint_ = 0;
 	assert(path_);
 
