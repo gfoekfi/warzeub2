@@ -40,6 +40,7 @@ void InitUnitDesc()
 	peonUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_BUILD);
 	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_CANCEL);
 	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_TOWN_HALL);
+	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_FARM);
 
 	// ---
 
@@ -55,6 +56,9 @@ void InitUnitDesc()
 	townHallUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
 	townHallUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_TRAIN_PEON);
 	townHallUnitDesc.unitStateToCommandSet[EUS_TRAINING].insert(EC_CANCEL);
+
+	farmUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
+	farmUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
 
 	// ---
 

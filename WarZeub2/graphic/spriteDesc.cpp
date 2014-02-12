@@ -31,7 +31,7 @@ const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
 const SpriteDesc townHallBuildingStep2Anim(12, 540, 130, 130, 1);
 
 const SpriteDesc farmBuildingStep2Anim(270, 600, 64, 64, 1);
-const SpriteDesc farmIdleAnim(334, 600, 64, 64, 1);
+const SpriteDesc farmIdleAnim(337, 600, 64, 64, 1);
 
 const SpriteDesc buildingStep0Anim(585, 145, 60, 45, 1);
 const SpriteDesc buildingStep1Anim(585, 200, 65, 60, 1);
@@ -104,6 +104,7 @@ void InitSpriteDesc()
 	commandToIconSpriteDesc[EC_TRAIN_PEON] = peonIcon;
 	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
 	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
+	commandToIconSpriteDesc[EC_BUILD_FARM] = farmIcon;
 }
 
 // ============================================================================

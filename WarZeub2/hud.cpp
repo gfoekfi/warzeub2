@@ -102,7 +102,7 @@ void HUD::RenderBuildingPlacementIFN_() const
 {
 	if (!player.selectedUnit ||
 		(player.selectedUnit->ActionState() != EUS_CHOOSE_DESTINATION) ||
-		(lastCommand_ != EC_BUILD_TOWN_HALL))
+		((lastCommand_ != EC_BUILD_TOWN_HALL) && (lastCommand_ != EC_BUILD_FARM)))
 	{
 		return;
 	}
@@ -111,6 +111,7 @@ void HUD::RenderBuildingPlacementIFN_() const
 	switch (lastCommand_)
 	{
 	case EC_BUILD_TOWN_HALL: unitType = EUT_TOWN_HALL; break;
+	case EC_BUILD_FARM: unitType = EUT_FARM; break;
 	};
 
 	float2 pos(mouse.pos);
@@ -180,6 +181,7 @@ void HUD::InitCommandGridPosMapping_()
 	commandToGridPos_[EC_TRAIN_PEON] = 0;
 	commandToGridPos_[EC_BUILD] = 6;
 	commandToGridPos_[EC_BUILD_TOWN_HALL] = 0;
+	commandToGridPos_[EC_BUILD_FARM] = 1;
 
 	for (std::map<ECommand, int>::iterator it = commandToGridPos_.begin();
 			it != commandToGridPos_.end(); ++it)
@@ -251,6 +253,7 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 		case EC_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break; // TODO: It shouldn't modified unit action state
 		// orders with destination
 		case EC_MOVE:
+		case EC_BUILD_FARM:
 		case EC_BUILD_TOWN_HALL:
 			lastCommand_ = order;
 			parUnit.SetActionState(EUS_CHOOSE_DESTINATION); // TODO: It shouldn't modified unit action state
@@ -266,6 +269,7 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition)
 	switch (lastCommand_)
 	{
 	case EC_MOVE: parUnit.Move(parPosition); break;
+	case EC_BUILD_FARM: parUnit.Build(EUT_FARM, parPosition); break;
 	case EC_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
 	};
 
