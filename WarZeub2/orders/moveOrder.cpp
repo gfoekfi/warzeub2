@@ -110,7 +110,7 @@ void MoveOrder::RecomputePathIFN_()
 	curWaypoint_ = 0;
 
 	if (path_->HasPath())
-		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
+		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos(); // FIXME: Sometimes there is a crash in RELEASE here
 	// else // TODO: alert("Can't move here");
 }
 

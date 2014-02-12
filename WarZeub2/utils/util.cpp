@@ -20,6 +20,7 @@ float2 dirs[MAX_DIRS] =
 
 // ============================================================================
 
+// TODO: Refactor, use the trigonometric circle
 EDir DirectionToTarget(const float2& parSrc, const float2& parDst)
 {
 	float2 delta(parDst.x - parSrc.x, parDst.y - parSrc.y);
