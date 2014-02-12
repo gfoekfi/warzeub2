@@ -79,15 +79,17 @@ void InitSpriteDesc()
 	unitTypeStateToSpriteDesc[EUT_PEON][EUS_GATHER_WOOD] = peonGatherWood;
 
 	unitTypeStateToSpriteDesc[EUT_MINE][EUS_IDLE] = mineIdleAnim;
-	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_IDLE] = townHallIdleAnim;
-	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE0] = buildingStep0Anim;
-	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE1] = buildingStep1Anim;
-	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE2] = townHallBuildingStep2Anim;
 
-	unitTypeStateToSpriteDesc[EUT_FARM][EUS_IDLE] = farmIdleAnim;
-	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE0] = buildingStep0Anim;
-	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE1] = buildingStep1Anim;
-	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE2] = farmBuildingStep2Anim;
+#define BUILD_STATES_TO_SPRITE_DESC(unitType, idleAnim, step2Anim) \
+	unitTypeStateToSpriteDesc[unitType][EUS_IDLE] = idleAnim; \
+	unitTypeStateToSpriteDesc[unitType][EUS_BEING_BUILD_STATE0] = buildingStep0Anim; \
+	unitTypeStateToSpriteDesc[unitType][EUS_BEING_BUILD_STATE1] = buildingStep1Anim; \
+	unitTypeStateToSpriteDesc[unitType][EUS_BEING_BUILD_STATE2] = step2Anim;
+
+	BUILD_STATES_TO_SPRITE_DESC(EUT_TOWN_HALL, townHallIdleAnim, townHallBuildingStep2Anim);
+	BUILD_STATES_TO_SPRITE_DESC(EUT_FARM, farmIdleAnim, farmBuildingStep2Anim);
+#undef BUILD_STATES_DECL
+
 	// ---
 
 	unitTypeToIconSpriteDesc[EUT_PEON] = peonIcon;
