@@ -20,6 +20,7 @@ UnitDesc gruntUnitDesc(5 * WALK_TILE_SIZE - 1, 5 * WALK_TILE_SIZE - 1, 5000, 6);
 #endif
 UnitDesc mineUnitDesc(3 * BUILD_TILE_SIZE, 3 * BUILD_TILE_SIZE, 0, 0);
 UnitDesc townHallUnitDesc(4 * BUILD_TILE_SIZE, 4 * BUILD_TILE_SIZE, 10000, 0);
+UnitDesc farmUnitDesc(2 * BUILD_TILE_SIZE, 2 * BUILD_TILE_SIZE, 4000, 0);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -61,6 +62,7 @@ void InitUnitDesc()
 	unitTypeToUnitDesc[EUT_GRUNT] = gruntUnitDesc;
 	unitTypeToUnitDesc[EUT_MINE] = mineUnitDesc;
 	unitTypeToUnitDesc[EUT_TOWN_HALL] = townHallUnitDesc;
+	unitTypeToUnitDesc[EUT_FARM] = farmUnitDesc;
 }
 
 // ============================================================================

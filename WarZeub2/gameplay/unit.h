@@ -17,6 +17,7 @@ enum EUnitType
 	EUT_GRUNT,
 	EUT_MINE,
 	EUT_TOWN_HALL,
+	EUT_FARM,
 };
 
 // ============================================================================
