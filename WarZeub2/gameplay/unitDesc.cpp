@@ -42,7 +42,7 @@ void InitUnitDesc()
 	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_CANCEL);
 	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_TOWN_HALL);
 	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_FARM);
-
+	peonUnitDesc.unitStateToCommandSet[EUS_SELECT_BUILDING].insert(EC_BUILD_BARRACK);
 	// ---
 
 	mineUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
@@ -60,6 +60,9 @@ void InitUnitDesc()
 
 	farmUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
 	farmUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
+
+	barrackUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
+	barrackUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
 
 	// ---
 

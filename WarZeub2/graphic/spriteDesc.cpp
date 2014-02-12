@@ -103,7 +103,7 @@ void InitSpriteDesc()
 	unitTypeToIconSpriteDesc[EUT_MINE] = mineIcon;
 	unitTypeToIconSpriteDesc[EUT_TOWN_HALL] = townHallIcon;
 	unitTypeToIconSpriteDesc[EUT_FARM] = farmIcon;
-	unitTypeToIconSpriteDesc[EUT_FARM] = barrackIcon;
+	unitTypeToIconSpriteDesc[EUT_BARRACK] = barrackIcon;
 	
 	// ---
 
@@ -114,6 +114,7 @@ void InitSpriteDesc()
 	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
 	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
 	commandToIconSpriteDesc[EC_BUILD_FARM] = farmIcon;
+	commandToIconSpriteDesc[EC_BUILD_BARRACK] = barrackIcon;
 }
 
 // ============================================================================
