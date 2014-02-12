@@ -3,7 +3,7 @@
 ===============================================================================
 - multiple unit selection
 - smart unit selection (unit > building)
-- new buildings: farm, barrack
+- new buildings: barrack
 - make gold gathering effective (resource earned)
 - music / sound
 - alert system (not enough resource, under-attack...)

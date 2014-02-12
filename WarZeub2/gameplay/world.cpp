@@ -57,6 +57,11 @@ void World::Init()
 	BuildTile::Align(townhallPos, EUT_TOWN_HALL);
 	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
+	float2 farmPos(200.f, 300.f);
+	BuildTile::Align(farmPos, EUT_FARM);
+	AddUnit(new Unit(farmPos, EUT_FARM));
+
+
 #if 0
 	// used to kill performance
 	for (int i = 0; i < 40; ++i)

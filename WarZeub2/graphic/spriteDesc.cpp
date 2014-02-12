@@ -30,6 +30,9 @@ const SpriteDesc mineIdleAnim(10, 5, 100, 100, 1);
 const SpriteDesc townHallIdleAnim(140, 540, 130, 130, 1);
 const SpriteDesc townHallBuildingStep2Anim(12, 540, 130, 130, 1);
 
+const SpriteDesc farmBuildingStep2Anim(270, 600, 64, 64, 1);
+const SpriteDesc farmIdleAnim(337, 600, 64, 64, 1);
+
 const SpriteDesc buildingStep0Anim(585, 145, 60, 45, 1);
 const SpriteDesc buildingStep1Anim(585, 200, 65, 60, 1);
 
@@ -45,8 +48,9 @@ const SpriteDesc mineIcon		(SPRITE_DESC_PARAM_FROM_ICON(4, 7));
 const SpriteDesc townHallIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 4));
 const SpriteDesc moveIcon		(SPRITE_DESC_PARAM_FROM_ICON(4, 8));
 const SpriteDesc stopIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 16));
-const SpriteDesc cancelIcon	(SPRITE_DESC_PARAM_FROM_ICON(1, 9));
+const SpriteDesc cancelIcon		(SPRITE_DESC_PARAM_FROM_ICON(1, 9));
 const SpriteDesc buildIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 8));
+const SpriteDesc farmIcon		(SPRITE_DESC_PARAM_FROM_ICON(9, 3));
 
 #undef SPRITE_DESC_PARAM_FROM_ICON
 
@@ -60,6 +64,7 @@ void InitSpriteDesc()
 	unitTypeToImage[EUT_PEON] = IMG_Load("../Data/peon.png");
 	unitTypeToImage[EUT_MINE] = IMG_Load("../Data/misc.png");
 	unitTypeToImage[EUT_TOWN_HALL] = IMG_Load("../Data/orc_building.png");
+	unitTypeToImage[EUT_FARM] = IMG_Load("../Data/orc_building.png"); // TODO: implement cache for images
 
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_IDLE] = gruntIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_MOVING] = gruntMoveAnim;
@@ -79,12 +84,17 @@ void InitSpriteDesc()
 	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE1] = buildingStep1Anim;
 	unitTypeStateToSpriteDesc[EUT_TOWN_HALL][EUS_BEING_BUILD_STATE2] = townHallBuildingStep2Anim;
 
+	unitTypeStateToSpriteDesc[EUT_FARM][EUS_IDLE] = farmIdleAnim;
+	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE0] = buildingStep0Anim;
+	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE1] = buildingStep1Anim;
+	unitTypeStateToSpriteDesc[EUT_FARM][EUS_BEING_BUILD_STATE2] = farmBuildingStep2Anim;
 	// ---
 
 	unitTypeToIconSpriteDesc[EUT_PEON] = peonIcon;
 	unitTypeToIconSpriteDesc[EUT_GRUNT] = gruntIcon;
 	unitTypeToIconSpriteDesc[EUT_MINE] = mineIcon;
 	unitTypeToIconSpriteDesc[EUT_TOWN_HALL] = townHallIcon;
+	unitTypeToIconSpriteDesc[EUT_FARM] = farmIcon;
 	
 	// ---
 
@@ -94,6 +104,7 @@ void InitSpriteDesc()
 	commandToIconSpriteDesc[EC_TRAIN_PEON] = peonIcon;
 	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
 	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
+	commandToIconSpriteDesc[EC_BUILD_FARM] = farmIcon;
 }
 
 // ============================================================================
@@ -104,6 +115,7 @@ void ReleaseSpriteDesc()
 	SDL_FreeSurface(unitTypeToImage[EUT_PEON]);
 	SDL_FreeSurface(unitTypeToImage[EUT_MINE]);
 	SDL_FreeSurface(unitTypeToImage[EUT_TOWN_HALL]);
+	SDL_FreeSurface(unitTypeToImage[EUT_FARM]);
 }
 
 // ============================================================================
