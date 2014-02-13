@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
-const size_t POLICE_SIZE = 15;
+const size_t FONT_SIZE = 15;
 TTF_Font* gArialFont = 0;
 
 // ============================================================================
@@ -23,7 +23,7 @@ bool FontInit()
 		return false;
 	}
 
-	gArialFont = TTF_OpenFont("../Data/arial.ttf", POLICE_SIZE);
+	gArialFont = TTF_OpenFont("../Data/arial.ttf", FONT_SIZE);
 	if (!gArialFont)
 	{
 		fprintf(stderr, "TTF_OpenFont: %s\n", TTF_GetError());

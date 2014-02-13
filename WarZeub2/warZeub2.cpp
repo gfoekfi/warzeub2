@@ -140,10 +140,6 @@ void Render()
 
 		DrawSelections();
 		HUD::Inst()->Render();
-
-		SDL_Rect textPos = { 200, 100, 0, 0 };
-		static int count = 0;
-		RenderText(&textPos, "count: %d", ++count, 'z');
 	}
 	EndScene();
 }

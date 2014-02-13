@@ -280,10 +280,11 @@ void RenderProgressBar(SDL_Rect& parDimensions, float parStatus)
 // ============================================================================
 
 // TODO: support special chars like '\n' or '\t'
-void RenderText(SDL_Rect* parPos, const char* parFormat, ...)
+void RenderText(const int2& parScreenPos, const char* parFormat, ...)
 {
 	assert(parFormat);
-	assert(parPos);
+	assert(parScreenPos.x >= 0 && parScreenPos.x < SCREEN_WIDTH);
+	assert(parScreenPos.y >= 0 && parScreenPos.y < SCREEN_HEIGHT);
 	assert(gArialFont);
 
 	static const size_t BUFF_SIZE = 128;
@@ -300,7 +301,8 @@ void RenderText(SDL_Rect* parPos, const char* parFormat, ...)
 	SDL_Surface* textSurface = TTF_RenderText_Solid(gArialFont, buff, yellowColor);
 	assert(textSurface);
 
-	SDL_BlitSurface(textSurface, 0, screen, parPos);
+	SDL_Rect screenPos = { parScreenPos.x, parScreenPos.y, 0, 0 };
+	SDL_BlitSurface(textSurface, 0, screen, &screenPos);
 
 	SDL_FreeSurface(textSurface);
 }
