@@ -8,7 +8,6 @@
 - music / sound
 - alert system (not enough resource, under-attack...)
 - sprite mirroring
-- right click cancel a 'choose destination' order
 - keyboard shortcut (grid / first letter)
 - tree handling
 - group selection save/restore handling
@@ -37,6 +36,7 @@
 - Try bounding sphere instead of bounding box
 - Makes every *time related* stuff synchronised on frame (network preparation)
 - Path finding should uses A-star
+- Change map representation (2d grid are too expensive)
 ===============================================================================
 
 

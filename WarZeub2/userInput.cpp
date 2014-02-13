@@ -31,14 +31,19 @@ void OnMouseRightButtonPressed(const SDL_Event& parEvent)
 
 	if (player.selectedUnit && !HUD::Inst()->IsInHUDRegion(mouse.lastRightClickPos))
 	{
-		float2 pos = mouse.lastRightClickPos;
-		TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
-
-		Unit* pointedUnit = World::Inst()->GetUnitAt(pos);
-		if (pointedUnit)
-			player.selectedUnit->RightClick(pointedUnit);
+		if (player.selectedUnit->ActionState() == EUS_CHOOSE_DESTINATION)
+			player.selectedUnit->SetActionState(EUS_IDLE);
 		else
-			player.selectedUnit->RightClick(pos);
+		{
+			float2 pos = mouse.lastRightClickPos;
+			TransformToWorldCoordinate(pos, gCamera->LastPosOnRightClick());
+
+			Unit* pointedUnit = World::Inst()->GetUnitAt(pos);
+			if (pointedUnit)
+				player.selectedUnit->RightClick(pointedUnit);
+			else
+				player.selectedUnit->RightClick(pos);
+		}
 	}
 }
 
