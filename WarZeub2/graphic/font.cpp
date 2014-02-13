@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+const size_t POLICE_SIZE = 15;
 TTF_Font* gBritanicFont = 0;
 
 // ============================================================================
@@ -22,7 +23,7 @@ bool FontInit()
 		return false;
 	}
 
-	gBritanicFont = TTF_OpenFont("../Data/britanic.ttf", 16);
+	gBritanicFont = TTF_OpenFont("../Data/britanic.ttf", POLICE_SIZE);
 	if (!gBritanicFont)
 	{
 		fprintf(stderr, "TTF_OpenFont: %s\n", TTF_GetError());
