@@ -14,6 +14,17 @@
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+#ifdef _DEBUG
+
+//#define RENDER_BUILDTILE // Warning: walk or build tile, not both
+//#define RENDER_WALKTILE
+
+#endif
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
 const SDL_Rect viewport = {SCREEN_WIDTH / 5, 0, 4 * SCREEN_WIDTH / 5, SCREEN_HEIGHT };
 Camera* gCamera;
 SDL_Surface* screen = 0;
@@ -128,13 +139,16 @@ void Render(EUnitType parUnitType, const float2& parScreenPos)
 
 // ============================================================================
 
+// TODO: Split me
 void Render(const World& parWorld)
 {
 	assert(summerTilesSurface);
 
 	static SDL_Surface* mapSurface = 0;
-#ifdef _DEBUG
+#ifdef RENDER_BUILDTILE
 	static SDL_Surface* buildTileSurface = 0;
+#endif
+#ifdef RENDER_WALKTILE
 	static SDL_Surface* walkTileSurface = 0;
 #endif
 	if (!mapSurface)
@@ -143,12 +157,14 @@ void Render(const World& parWorld)
 			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
-#ifdef _DEBUG
+#ifdef RENDER_BUILDTILE
 		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
 			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
 			screen->format->Bmask, screen->format->Amask);
+#endif
 
+#ifdef RENDER_WALKTILE
 		walkTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
 			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
 			screen->format->Rmask, screen->format->Gmask,
@@ -165,10 +181,12 @@ void Render(const World& parWorld)
 				dst.x = x * BUILD_TILE_SIZE;
 				dst.y = y * BUILD_TILE_SIZE;
 				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
-#ifdef _DEBUG
+#ifdef RENDER_BUILDTILE
 				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
 				SDL_FillRect(buildTileSurface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
+#endif
 
+#ifdef RENDER_WALKTILE
 				for (size_t x2 = 0; x2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x2)
 					for (size_t y2 = 0; y2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y2)
 					{
@@ -189,11 +207,15 @@ void Render(const World& parWorld)
 	{
 		SDL_Rect dst = { 0, 0, 0, 0 };
 		TransformToScreenCoordinate(dst, gCamera->Pos());
-#ifdef _DEBUG
-		//SDL_BlitSurface(buildTileSurface, 0, screen, &dst);
+
+#ifdef RENDER_BUILDTILE
+		SDL_BlitSurface(buildTileSurface, 0, screen, &dst);
+#else
+#ifdef RENDER_WALKTILE
 		SDL_BlitSurface(walkTileSurface, 0, screen, &dst);
 #else
 		SDL_BlitSurface(mapSurface, 0, screen, &dst);
+#endif
 #endif
 	}
 }

@@ -50,4 +50,6 @@
 - When a peon is in 'CHOOSE_BUILDING' and goes unselected, it doesn't reset its state
 - Rendering bug when resolution change
 - Rendering unit *flip* direction too often on certain condition [FIND ME]
+- Unit get stuck on building corners
+- Some path in path cache might need to be recompute if path becomes invalid
 ===============================================================================

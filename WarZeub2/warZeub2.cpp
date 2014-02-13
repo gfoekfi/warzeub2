@@ -129,7 +129,7 @@ void Render()
 	{
 		Render(*World::Inst());
 
-#ifdef _DEBUG
+#if 0
 		if (player.selectedUnit && player.selectedUnit->CanMove())
 			World::Inst()->RenderWalkableTiles(player.selectedUnit->Type());
 #endif
