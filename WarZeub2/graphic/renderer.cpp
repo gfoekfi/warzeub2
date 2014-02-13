@@ -284,7 +284,7 @@ void RenderText(SDL_Rect* parPos, const char* parFormat, ...)
 {
 	assert(parFormat);
 	assert(parPos);
-	assert(gBritanicFont);
+	assert(gArialFont);
 
 	static const size_t BUFF_SIZE = 128;
 	static char buff[BUFF_SIZE];
@@ -297,7 +297,7 @@ void RenderText(SDL_Rect* parPos, const char* parFormat, ...)
 	va_end(args);
 
 	SDL_Color yellowColor = { 255, 255, 0, 0 };
-	SDL_Surface* textSurface = TTF_RenderText_Solid(gBritanicFont, buff, yellowColor);
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gArialFont, buff, yellowColor);
 	assert(textSurface);
 
 	SDL_BlitSurface(textSurface, 0, screen, parPos);

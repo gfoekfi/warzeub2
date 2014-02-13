@@ -7,7 +7,7 @@
 // ============================================================================
 
 const size_t POLICE_SIZE = 15;
-TTF_Font* gBritanicFont = 0;
+TTF_Font* gArialFont = 0;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -23,8 +23,8 @@ bool FontInit()
 		return false;
 	}
 
-	gBritanicFont = TTF_OpenFont("../Data/britanic.ttf", POLICE_SIZE);
-	if (!gBritanicFont)
+	gArialFont = TTF_OpenFont("../Data/arial.ttf", POLICE_SIZE);
+	if (!gArialFont)
 	{
 		fprintf(stderr, "TTF_OpenFont: %s\n", TTF_GetError());
 		return false;
@@ -39,12 +39,12 @@ void FontQuit()
 {
 	if (!TTF_WasInit())
 	{
-		assert(gBritanicFont == 0);
+		assert(gArialFont == 0);
 		return;
 	}
 
-	if (gBritanicFont)
-		TTF_CloseFont(gBritanicFont);
+	if (gArialFont)
+		TTF_CloseFont(gArialFont);
 
 	TTF_Quit();
 }
