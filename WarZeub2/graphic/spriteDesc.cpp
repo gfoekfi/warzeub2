@@ -33,6 +33,9 @@ const SpriteDesc townHallBuildingStep2Anim(12, 540, 130, 130, 1);
 const SpriteDesc farmBuildingStep2Anim(270, 600, 64, 64, 1);
 const SpriteDesc farmIdleAnim(337, 600, 64, 64, 1);
 
+const SpriteDesc barrackBuildingStep2Anim(10, 242, 96, 96, 1);
+const SpriteDesc barrackIdleAnim(108, 242, 96, 96, 1);
+
 const SpriteDesc buildingStep0Anim(585, 145, 60, 45, 1);
 const SpriteDesc buildingStep1Anim(585, 200, 65, 60, 1);
 
@@ -51,6 +54,7 @@ const SpriteDesc stopIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 16));
 const SpriteDesc cancelIcon		(SPRITE_DESC_PARAM_FROM_ICON(1, 9));
 const SpriteDesc buildIcon		(SPRITE_DESC_PARAM_FROM_ICON(7, 8));
 const SpriteDesc farmIcon		(SPRITE_DESC_PARAM_FROM_ICON(9, 3));
+const SpriteDesc barrackIcon	(SPRITE_DESC_PARAM_FROM_ICON(3, 4));
 
 #undef SPRITE_DESC_PARAM_FROM_ICON
 
@@ -65,6 +69,7 @@ void InitSpriteDesc()
 	unitTypeToImage[EUT_MINE] = IMG_Load("../Data/misc.png");
 	unitTypeToImage[EUT_TOWN_HALL] = IMG_Load("../Data/orc_building.png");
 	unitTypeToImage[EUT_FARM] = IMG_Load("../Data/orc_building.png"); // TODO: implement cache for images
+	unitTypeToImage[EUT_BARRACK] = IMG_Load("../Data/orc_building.png"); // TODO: implement cache for images
 
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_IDLE] = gruntIdleAnim;
 	unitTypeStateToSpriteDesc[EUT_GRUNT][EUS_MOVING] = gruntMoveAnim;
@@ -88,6 +93,7 @@ void InitSpriteDesc()
 
 	BUILD_STATES_TO_SPRITE_DESC(EUT_TOWN_HALL, townHallIdleAnim, townHallBuildingStep2Anim);
 	BUILD_STATES_TO_SPRITE_DESC(EUT_FARM, farmIdleAnim, farmBuildingStep2Anim);
+	BUILD_STATES_TO_SPRITE_DESC(EUT_BARRACK, barrackIdleAnim, barrackBuildingStep2Anim);
 #undef BUILD_STATES_DECL
 
 	// ---
@@ -97,6 +103,7 @@ void InitSpriteDesc()
 	unitTypeToIconSpriteDesc[EUT_MINE] = mineIcon;
 	unitTypeToIconSpriteDesc[EUT_TOWN_HALL] = townHallIcon;
 	unitTypeToIconSpriteDesc[EUT_FARM] = farmIcon;
+	unitTypeToIconSpriteDesc[EUT_BARRACK] = barrackIcon;
 	
 	// ---
 
@@ -104,9 +111,12 @@ void InitSpriteDesc()
 	commandToIconSpriteDesc[EC_STOP] = stopIcon;
 	commandToIconSpriteDesc[EC_CANCEL] = cancelIcon;
 	commandToIconSpriteDesc[EC_TRAIN_PEON] = peonIcon;
+	commandToIconSpriteDesc[EC_TRAIN_GRUNT] = gruntIcon;
 	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
 	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
 	commandToIconSpriteDesc[EC_BUILD_FARM] = farmIcon;
+	commandToIconSpriteDesc[EC_BUILD_BARRACK] = barrackIcon;
+
 }
 
 // ============================================================================
@@ -118,6 +128,7 @@ void ReleaseSpriteDesc()
 	SDL_FreeSurface(unitTypeToImage[EUT_MINE]);
 	SDL_FreeSurface(unitTypeToImage[EUT_TOWN_HALL]);
 	SDL_FreeSurface(unitTypeToImage[EUT_FARM]);
+	SDL_FreeSurface(unitTypeToImage[EUT_BARRACK]);
 }
 
 // ============================================================================

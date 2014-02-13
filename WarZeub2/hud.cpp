@@ -102,7 +102,9 @@ void HUD::RenderBuildingPlacementIFN_() const
 {
 	if (!player.selectedUnit ||
 		(player.selectedUnit->ActionState() != EUS_CHOOSE_DESTINATION) ||
-		((lastCommand_ != EC_BUILD_TOWN_HALL) && (lastCommand_ != EC_BUILD_FARM)))
+		((lastCommand_ != EC_BUILD_TOWN_HALL) &&
+		(lastCommand_ != EC_BUILD_FARM) &&
+		(lastCommand_ != EC_BUILD_BARRACK)))
 	{
 		return;
 	}
@@ -112,6 +114,7 @@ void HUD::RenderBuildingPlacementIFN_() const
 	{
 	case EC_BUILD_TOWN_HALL: unitType = EUT_TOWN_HALL; break;
 	case EC_BUILD_FARM: unitType = EUT_FARM; break;
+	case EC_BUILD_BARRACK: unitType = EUT_BARRACK; break;
 	};
 
 	float2 pos(mouse.pos);
@@ -161,10 +164,12 @@ void HUD::RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffs
 	if (parCommand == EC_NONE)
 		return;
 
+	assert(commandToIconSpriteDesc.count(parCommand) > 0);
 	const SpriteDesc& commandIconSpriteDesc = commandToIconSpriteDesc[parCommand];
 	SDL_Rect commandIconSrc = { commandIconSpriteDesc.offsetX, commandIconSpriteDesc.offsetY,
 		commandIconSpriteDesc.width, commandIconSpriteDesc.height };
 
+	assert(commandToGridPos_.count(parCommand) > 0);
 	int gridPos = commandToGridPos_[parCommand];
 	SDL_Rect commandIconDst = { Sint16(parGridRegionOffset.x) + (gridPos % 3) * (commandIconSpriteDesc.width + 5),
 		Sint16(parGridRegionOffset.y) + (gridPos / 3) * (commandIconSpriteDesc.height + 5), 0, 0};
@@ -179,9 +184,11 @@ void HUD::InitCommandGridPosMapping_()
 	commandToGridPos_[EC_STOP] = 1;
 	commandToGridPos_[EC_CANCEL] = 8;
 	commandToGridPos_[EC_TRAIN_PEON] = 0;
+	commandToGridPos_[EC_TRAIN_GRUNT] = 0;
 	commandToGridPos_[EC_BUILD] = 6;
 	commandToGridPos_[EC_BUILD_TOWN_HALL] = 0;
 	commandToGridPos_[EC_BUILD_FARM] = 1;
+	commandToGridPos_[EC_BUILD_BARRACK] = 2;
 
 	for (std::map<ECommand, int>::iterator it = commandToGridPos_.begin();
 			it != commandToGridPos_.end(); ++it)
@@ -250,10 +257,12 @@ void HUD::ApplyGridClick_(Unit& parUnit, int parGridClickPos)
 			break;
 		case EC_STOP: parUnit.CancelOrder(); break;
 		case EC_TRAIN_PEON: parUnit.Train(EUT_PEON); break;
+		case EC_TRAIN_GRUNT: parUnit.Train(EUT_GRUNT); break;
 		case EC_BUILD: parUnit.SetActionState(EUS_SELECT_BUILDING); break; // TODO: It shouldn't modified unit action state
 		// orders with destination
 		case EC_MOVE:
 		case EC_BUILD_FARM:
+		case EC_BUILD_BARRACK:
 		case EC_BUILD_TOWN_HALL:
 			lastCommand_ = order;
 			parUnit.SetActionState(EUS_CHOOSE_DESTINATION); // TODO: It shouldn't modified unit action state
@@ -271,6 +280,7 @@ void HUD::ApplyLastOrderAtPosition(Unit& parUnit, const float2& parPosition)
 	case EC_MOVE: parUnit.Move(parPosition); break;
 	case EC_BUILD_FARM: parUnit.Build(EUT_FARM, parPosition); break;
 	case EC_BUILD_TOWN_HALL: parUnit.Build(EUT_TOWN_HALL, parPosition); break;
+	case EC_BUILD_BARRACK: parUnit.Build(EUT_BARRACK, parPosition); break;
 	};
 
 	lastCommand_ = EC_NONE;

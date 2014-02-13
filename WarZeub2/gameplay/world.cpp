@@ -61,6 +61,9 @@ void World::Init()
 	BuildTile::Align(farmPos, EUT_FARM);
 	AddUnit(new Unit(farmPos, EUT_FARM));
 
+	float2 barrackPos(200.f, 500.f);
+	BuildTile::Align(barrackPos, EUT_BARRACK);
+	AddUnit(new Unit(barrackPos, EUT_BARRACK));
 
 #if 0
 	// used to kill performance
