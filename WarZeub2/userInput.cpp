@@ -130,7 +130,7 @@ void MouseEventHandler(const SDL_Event& parEvent)
 // ============================================================================
 
 // FIXME: Remove me
-void KeyboardScrollingHandler()
+void UpdateSelectionOnKeyboardScrollingIFN()
 {
 	// TODO: Move it to another place
 	if (player.selectionMode &&

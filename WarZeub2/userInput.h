@@ -35,7 +35,7 @@ extern Keyboard keyboard;
 void MouseEventHandler(const SDL_Event& parEvent);
 void KeyboardEventHandler(const SDL_Event& parEvent);
 
-void KeyboardScrollingHandler();
+void UpdateSelectionOnKeyboardScrollingIFN();
 
 SDL_Rect BoundingBoxFromMouse(const Mouse& parMouse, bool parTransformToWorldCoordinate);
 

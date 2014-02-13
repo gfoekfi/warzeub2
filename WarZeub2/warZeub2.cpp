@@ -77,7 +77,7 @@ void EventHandler(const SDL_Event& parEvent)
 	if (keyboard.keysPressed[SDLK_ESCAPE])
 		isDone = true;
 
-	KeyboardScrollingHandler();
+	UpdateSelectionOnKeyboardScrollingIFN();
 }
 
 // ============================================================================
