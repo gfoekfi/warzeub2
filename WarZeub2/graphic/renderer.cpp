@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include "spriteDesc.h"
+#include "font.h"
 #include "../gameplay/unitDesc.h"
 #include "../gameplay/player.h"
 #include "../orders/order.h"
@@ -47,6 +48,9 @@ void InitRenderer()
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 	gCamera = new Camera();
 	gCamera->SetPos(float2(100.f, 100.f));
+
+	bool initResult = FontInit();
+	assert(initResult);
 }
 
 // ============================================================================
@@ -56,6 +60,8 @@ void ReleaseRenderer()
 	if (gCamera)
 		delete gCamera;
 	SDL_FreeSurface(screen);
+
+	FontQuit();
 }
 
 // ============================================================================

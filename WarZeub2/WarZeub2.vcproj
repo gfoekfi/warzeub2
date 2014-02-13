@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib"
+				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_ttf.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -135,7 +135,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib"
+				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_ttf.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -201,6 +201,14 @@
 				</File>
 				<File
 					RelativePath=".\graphic\camera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\font.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\graphic\font.h"
 					>
 				</File>
 				<File
