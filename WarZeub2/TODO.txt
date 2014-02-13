@@ -12,7 +12,6 @@
 - group selection save/restore handling
 - fog of war
 - render building that will be constructed
-- font handling
 - render minimap
 - move with minimap
 - write a README

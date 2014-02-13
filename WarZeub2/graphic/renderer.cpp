@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include "spriteDesc.h"
+#include "font.h"
 #include "../gameplay/unitDesc.h"
 #include "../gameplay/player.h"
 #include "../orders/order.h"
@@ -8,6 +9,7 @@
 #include <SDL_Image.h>
 #include <assert.h>
 #include <map>
+#include <stdarg.h>
 
 
 // ============================================================================
@@ -47,6 +49,9 @@ void InitRenderer()
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 	gCamera = new Camera();
 	gCamera->SetPos(float2(100.f, 100.f));
+
+	bool fontInitResult = FontInit();
+	assert(fontInitResult);
 }
 
 // ============================================================================
@@ -56,6 +61,8 @@ void ReleaseRenderer()
 	if (gCamera)
 		delete gCamera;
 	SDL_FreeSurface(screen);
+
+	FontQuit();
 }
 
 // ============================================================================
@@ -268,6 +275,36 @@ void RenderProgressBar(SDL_Rect& parDimensions, float parStatus)
 	parDimensions.w -= 3;
 	parDimensions.w = Uint16(parDimensions.w * parStatus);
 	SDL_FillRect(screen, &parDimensions, greyColor);
+}
+
+// ============================================================================
+
+// TODO: support special chars like '\n' or '\t'
+void RenderText(const int2& parScreenPos, const char* parFormat, ...)
+{
+	assert(parFormat);
+	assert(parScreenPos.x >= 0 && parScreenPos.x < SCREEN_WIDTH);
+	assert(parScreenPos.y >= 0 && parScreenPos.y < SCREEN_HEIGHT);
+	assert(gArialFont);
+
+	static const size_t BUFF_SIZE = 128;
+	static char buff[BUFF_SIZE];
+	memset(buff, 0, sizeof(buff));
+
+	va_list args;
+	va_start(args, parFormat);
+	vsnprintf_s(buff, sizeof(buff), BUFF_SIZE - 1, parFormat, args); // Warning: security double-check me
+	assert(strlen(buff) < BUFF_SIZE);
+	va_end(args);
+
+	SDL_Color yellowColor = { 255, 255, 0, 0 };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gArialFont, buff, yellowColor);
+	assert(textSurface);
+
+	SDL_Rect screenPos = { parScreenPos.x, parScreenPos.y, 0, 0 };
+	SDL_BlitSurface(textSurface, 0, screen, &screenPos);
+
+	SDL_FreeSurface(textSurface);
 }
 
 // ============================================================================

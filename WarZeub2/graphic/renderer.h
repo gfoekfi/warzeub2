@@ -7,6 +7,7 @@
 #include "../gameplay/world.h"
 #include "camera.h"
 #include "spriteDesc.h"
+#include "font.h"
 
 
 // ============================================================================
@@ -49,6 +50,8 @@ void Render(EUnitType parUnitType, const float2& parScreenPos); // used by build
 void Render(const World& parWorld);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
 void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);
+
+void RenderText(const int2& parScreenPos, const char* parFormat, ...);
 
 // ============================================================================
 // ----------------------------------------------------------------------------
