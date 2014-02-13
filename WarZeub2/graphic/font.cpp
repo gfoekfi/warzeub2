@@ -1,7 +1,12 @@
 #include "font.h"
-#include "SDL_ttf.h"
 #include <assert.h>
 
+
+// ============================================================================
+// ----------------------------------------------------------------------------
+// ============================================================================
+
+TTF_Font* gBritanicFont = 0;
 
 // ============================================================================
 // ----------------------------------------------------------------------------
@@ -17,6 +22,13 @@ bool FontInit()
 		return false;
 	}
 
+	gBritanicFont = TTF_OpenFont("../Data/britanic.ttf", 16);
+	if (!gBritanicFont)
+	{
+		fprintf(stderr, "TTF_OpenFont: %s\n", TTF_GetError());
+		return false;
+	}
+
 	return true;
 }
 
@@ -24,8 +36,16 @@ bool FontInit()
 
 void FontQuit()
 {
-	if (TTF_WasInit())
-		TTF_Quit();
+	if (!TTF_WasInit())
+	{
+		assert(gBritanicFont == 0);
+		return;
+	}
+
+	if (gBritanicFont)
+		TTF_CloseFont(gBritanicFont);
+
+	TTF_Quit();
 }
 
 // ============================================================================

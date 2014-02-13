@@ -140,6 +140,9 @@ void Render()
 
 		DrawSelections();
 		HUD::Inst()->Render();
+
+		SDL_Rect textPos = { 200, 100, 0, 0 };
+		RenderText("Hello World!", &textPos);
 	}
 	EndScene();
 }

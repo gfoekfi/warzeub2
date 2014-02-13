@@ -49,8 +49,8 @@ void InitRenderer()
 	gCamera = new Camera();
 	gCamera->SetPos(float2(100.f, 100.f));
 
-	bool initResult = FontInit();
-	assert(initResult);
+	bool fontInitResult = FontInit();
+	assert(fontInitResult);
 }
 
 // ============================================================================
@@ -274,6 +274,23 @@ void RenderProgressBar(SDL_Rect& parDimensions, float parStatus)
 	parDimensions.w -= 3;
 	parDimensions.w = Uint16(parDimensions.w * parStatus);
 	SDL_FillRect(screen, &parDimensions, greyColor);
+}
+
+// ============================================================================
+
+void RenderText(const char* parText, SDL_Rect* parPos)
+{
+	assert(parText);
+	assert(parPos);
+	assert(gBritanicFont);
+
+	SDL_Color redColor = { 255, 255, 0, 0 };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gBritanicFont, parText, redColor);
+	assert(textSurface);
+
+	SDL_BlitSurface(textSurface, 0, screen, parPos);
+
+	SDL_FreeSurface(textSurface);
 }
 
 // ============================================================================
