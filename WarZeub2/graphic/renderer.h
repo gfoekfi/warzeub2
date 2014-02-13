@@ -51,7 +51,8 @@ void Render(const World& parWorld);
 void RenderSquare(SDL_Rect& parSrc, SDL_Rect& parDst, Uint32 parColor);
 void RenderProgressBar(SDL_Rect& parDimensions, float parStatus);
 
-void RenderText(const char* parText, SDL_Rect* parPos);
+// Warning: special chars like '\n' or '\t' are not supported yet
+void RenderText(SDL_Rect* parPos, const char* parFormat, ...);
 
 // ============================================================================
 // ----------------------------------------------------------------------------

@@ -142,7 +142,8 @@ void Render()
 		HUD::Inst()->Render();
 
 		SDL_Rect textPos = { 200, 100, 0, 0 };
-		RenderText("Hello World!", &textPos);
+		static int count = 0;
+		RenderText(&textPos, "count: %d", ++count, 'z');
 	}
 	EndScene();
 }

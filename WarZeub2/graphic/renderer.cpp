@@ -9,6 +9,7 @@
 #include <SDL_Image.h>
 #include <assert.h>
 #include <map>
+#include <stdarg.h>
 
 
 // ============================================================================
@@ -278,14 +279,25 @@ void RenderProgressBar(SDL_Rect& parDimensions, float parStatus)
 
 // ============================================================================
 
-void RenderText(const char* parText, SDL_Rect* parPos)
+// TODO: support special chars like '\n' or '\t'
+void RenderText(SDL_Rect* parPos, const char* parFormat, ...)
 {
-	assert(parText);
+	assert(parFormat);
 	assert(parPos);
 	assert(gBritanicFont);
 
-	SDL_Color redColor = { 255, 255, 0, 0 };
-	SDL_Surface* textSurface = TTF_RenderText_Solid(gBritanicFont, parText, redColor);
+	static const size_t BUFF_SIZE = 128;
+	static char buff[BUFF_SIZE];
+	memset(buff, 0, sizeof(buff));
+
+	va_list args;
+	va_start(args, parFormat);
+	vsnprintf_s(buff, sizeof(buff), BUFF_SIZE - 1, parFormat, args); // Warning: security double-check me
+	assert(strlen(buff) < BUFF_SIZE);
+	va_end(args);
+
+	SDL_Color yellowColor = { 255, 255, 0, 0 };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(gBritanicFont, buff, yellowColor);
 	assert(textSurface);
 
 	SDL_BlitSurface(textSurface, 0, screen, parPos);
