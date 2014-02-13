@@ -111,10 +111,12 @@ void InitSpriteDesc()
 	commandToIconSpriteDesc[EC_STOP] = stopIcon;
 	commandToIconSpriteDesc[EC_CANCEL] = cancelIcon;
 	commandToIconSpriteDesc[EC_TRAIN_PEON] = peonIcon;
+	commandToIconSpriteDesc[EC_TRAIN_GRUNT] = gruntIcon;
 	commandToIconSpriteDesc[EC_BUILD] = buildIcon;
 	commandToIconSpriteDesc[EC_BUILD_TOWN_HALL] = townHallIcon;
 	commandToIconSpriteDesc[EC_BUILD_FARM] = farmIcon;
 	commandToIconSpriteDesc[EC_BUILD_BARRACK] = barrackIcon;
+
 }
 
 // ============================================================================

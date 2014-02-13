@@ -62,7 +62,8 @@ void InitUnitDesc()
 	farmUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
 
 	barrackUnitDesc.unitStateToCommandSet = buildingStateToCommandSet;
-	barrackUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_NONE);
+	barrackUnitDesc.unitStateToCommandSet[EUS_IDLE].insert(EC_TRAIN_GRUNT);
+	barrackUnitDesc.unitStateToCommandSet[EUS_TRAINING].insert(EC_CANCEL);
 
 	// ---
 

@@ -24,6 +24,7 @@ enum ECommand
 	EC_BUILD_TOWN_HALL = 1 << 5,
 	EC_BUILD_FARM = 1 << 6,
 	EC_BUILD_BARRACK = 1 << 7,
+	EC_TRAIN_GRUNT = 1 << 8,
 };
 
 // ============================================================================
