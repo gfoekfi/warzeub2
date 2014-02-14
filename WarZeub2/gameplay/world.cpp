@@ -41,19 +41,19 @@ World::~World()
 
 void World::Init()
 {
-	float2 peonPos(SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
+	float2 peonPos(200.f, 200.f);
 	WalkTile::Align(peonPos);
 	AddUnit(new WorkerUnit(peonPos, EUT_PEON));
 
-	float2 gruntPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+	float2 gruntPos(400.f, 300.f);
 	WalkTile::Align(gruntPos);
 	AddUnit(new Unit(gruntPos, EUT_GRUNT));
 
-	float2 minePos(3*SCREEN_WIDTH/4, SCREEN_HEIGHT/4);
+	float2 minePos(600.f, 150.f);
 	BuildTile::Align(minePos, EUT_MINE);
 	AddUnit(new Unit(minePos, EUT_MINE));
 
-	float2 townhallPos(4*SCREEN_WIDTH/4, 3*SCREEN_HEIGHT/4);
+	float2 townhallPos(800.f, 450.f);
 	BuildTile::Align(townhallPos, EUT_TOWN_HALL);
 	AddUnit(new Unit(townhallPos, EUT_TOWN_HALL));
 
