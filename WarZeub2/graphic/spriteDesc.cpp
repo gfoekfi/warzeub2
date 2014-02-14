@@ -94,7 +94,7 @@ void InitSpriteDesc()
 	BUILD_STATES_TO_SPRITE_DESC(EUT_TOWN_HALL, townHallIdleAnim, townHallBuildingStep2Anim);
 	BUILD_STATES_TO_SPRITE_DESC(EUT_FARM, farmIdleAnim, farmBuildingStep2Anim);
 	BUILD_STATES_TO_SPRITE_DESC(EUT_BARRACK, barrackIdleAnim, barrackBuildingStep2Anim);
-#undef BUILD_STATES_DECL
+#undef BUILD_STATES_TO_SPRITE_DESC
 
 	// ---
 
