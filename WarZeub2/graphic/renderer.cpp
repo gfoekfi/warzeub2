@@ -48,7 +48,6 @@ void InitRenderer()
 
 	summerTilesSurface = IMG_Load("../Data/summer_tiles.png");
 	gCamera = new Camera();
-	gCamera->SetPos(float2(100.f, 100.f));
 
 	bool fontInitResult = FontInit();
 	assert(fontInitResult);
