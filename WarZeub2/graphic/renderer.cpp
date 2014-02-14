@@ -146,69 +146,90 @@ void Render(EUnitType parUnitType, const float2& parScreenPos)
 
 // ============================================================================
 
-// TODO: Split me
+static SDL_Surface* GenerateMapSurface(const World& parWorld)
+{
+	SDL_Surface* surface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
+			screen->format->Bmask, screen->format->Amask);
+
+	SDL_Rect src = { (BUILD_TILE_SIZE + 1) * 14, (BUILD_TILE_SIZE + 1) * 18, BUILD_TILE_SIZE, BUILD_TILE_SIZE }; // (14, 18) = grass
+	SDL_Rect dst = { 0, 0, 0, 0 };
+
+	for (size_t x = 0; x < parWorld.Width(); ++x)
+		for (size_t y = 0; y < parWorld.Height(); ++y)
+		{
+			dst.x = x * BUILD_TILE_SIZE;
+			dst.y = y * BUILD_TILE_SIZE;
+			SDL_BlitSurface(summerTilesSurface, &src, surface, &dst);
+		}
+
+	return surface;
+}
+
+// ============================================================================
+
+#ifdef RENDER_BUILDTILE
+static SDL_Surface* GenerateBuildTileSurface(const World& parWorld)
+{
+	SDL_Surface* surface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
+			screen->format->Bmask, screen->format->Amask);
+
+	for (size_t x = 0; x < parWorld.Width(); ++x)
+		for (size_t y = 0; y < parWorld.Height(); ++y)
+		{
+			SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE,
+				BUILD_TILE_SIZE, BUILD_TILE_SIZE};
+			SDL_FillRect(surface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
+		}
+
+	return surface;
+}
+#endif
+
+// ============================================================================
+
+#ifdef RENDER_WALKTILE
+static SDL_Surface* GenerateWalkTileSurface(const World& parWorld)
+{
+	SDL_Surface* surface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
+			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
+			screen->format->Rmask, screen->format->Gmask,
+			screen->format->Bmask, screen->format->Amask);
+
+	for (size_t x = 0; x < parWorld.Width(); ++x)
+		for (size_t y = 0; y < parWorld.Height(); ++y)
+			for (size_t x2 = 0; x2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x2)
+				for (size_t y2 = 0; y2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y2)
+				{
+					SDL_Rect walkTileRect = {
+						x * BUILD_TILE_SIZE + x2 * WALK_TILE_SIZE,
+						y * BUILD_TILE_SIZE + y2 * WALK_TILE_SIZE,
+						WALK_TILE_SIZE,
+						WALK_TILE_SIZE
+					};
+					SDL_FillRect(surface, &walkTileRect, ((x2 + y2) % 2) ? 0x0000ffff : 0x00ffffff);
+				}
+
+	return surface;
+}
+#endif
+
+// ============================================================================
+
 void Render(const World& parWorld)
 {
 	assert(summerTilesSurface);
 
-	static SDL_Surface* mapSurface = 0;
+	static SDL_Surface* mapSurface = GenerateMapSurface(parWorld);
 #ifdef RENDER_BUILDTILE
-	static SDL_Surface* buildTileSurface = 0;
+	static SDL_Surface* buildTileSurface = GenerateBuildTileSurface(parWorld);
 #endif
 #ifdef RENDER_WALKTILE
-	static SDL_Surface* walkTileSurface = 0;
+	static SDL_Surface* walkTileSurface = GenerateWalkTileSurface(parWorld);
 #endif
-	if (!mapSurface)
-	{
-		mapSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
-			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
-			screen->format->Rmask, screen->format->Gmask,
-			screen->format->Bmask, screen->format->Amask);
-#ifdef RENDER_BUILDTILE
-		buildTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
-			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
-			screen->format->Rmask, screen->format->Gmask,
-			screen->format->Bmask, screen->format->Amask);
-#endif
-
-#ifdef RENDER_WALKTILE
-		walkTileSurface = SDL_CreateRGBSurface(SDL_HWSURFACE, parWorld.Width() * BUILD_TILE_SIZE,
-			parWorld.Height() * BUILD_TILE_SIZE, screen->format->BitsPerPixel,
-			screen->format->Rmask, screen->format->Gmask,
-			screen->format->Bmask, screen->format->Amask);
-#endif
-
-		SDL_Rect src = { (BUILD_TILE_SIZE + 1) * 14, (BUILD_TILE_SIZE + 1) * 18, BUILD_TILE_SIZE, BUILD_TILE_SIZE }; // (14, 18) = grass
-		SDL_Rect dst = { 0, 0, 0, 0 };
-
-		for (size_t x = 0; x < parWorld.Width(); ++x)
-		{
-			for (size_t y = 0; y < parWorld.Height(); ++y)
-			{
-				dst.x = x * BUILD_TILE_SIZE;
-				dst.y = y * BUILD_TILE_SIZE;
-				SDL_BlitSurface(summerTilesSurface, &src, mapSurface, &dst);
-#ifdef RENDER_BUILDTILE
-				SDL_Rect buildTileRect = { x * BUILD_TILE_SIZE, y * BUILD_TILE_SIZE, BUILD_TILE_SIZE, BUILD_TILE_SIZE};
-				SDL_FillRect(buildTileSurface, &buildTileRect, ((x + y) % 2) ? 0x000000ff : 0x00ffffff);
-#endif
-
-#ifdef RENDER_WALKTILE
-				for (size_t x2 = 0; x2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++x2)
-					for (size_t y2 = 0; y2 < (BUILD_TILE_SIZE / WALK_TILE_SIZE); ++y2)
-					{
-						SDL_Rect walkTileRect = {
-							x * BUILD_TILE_SIZE + x2 * WALK_TILE_SIZE,
-							y * BUILD_TILE_SIZE + y2 * WALK_TILE_SIZE,
-							WALK_TILE_SIZE,
-							WALK_TILE_SIZE
-						};
-						SDL_FillRect(walkTileSurface, &walkTileRect, ((x2 + y2) % 2) ? 0x0000ffff : 0x00ffffff);
-					}
-#endif
-			}
-		}
-	}
 
 	if (mapSurface)
 	{
