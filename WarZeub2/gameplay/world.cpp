@@ -88,6 +88,10 @@ void World::AddUnit(Unit* parUnit)
 {
 	fprintf(stdout, "[WORLD] Adding unit\n");
 
+	assert(WalkTile(parUnit->Pos()).IsValid() && BuildTile(parUnit->Pos()).IsValid());
+	if (!WalkTile(parUnit->Pos()).IsValid() || !BuildTile(parUnit->Pos()).IsValid())
+		fprintf(stderr, "[WORLD] WARNING: Adding an unit at an inaccessible location\n");
+
 	units_.push_back(parUnit);
 
 	if (parUnit->CanMove())
@@ -150,15 +154,18 @@ void World::RemoveUnit(Unit* parUnit)
 void World::UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibleState)
 {
 	assert(!parUnit.CanMove());
+	assert(BuildTile(parUnit.Pos()).IsValid());
 
 	SDL_Rect bbox = parUnit.BoundingBox();
 	for (size_t x = (bbox.x / BUILD_TILE_SIZE); x < ((bbox.x + bbox.w) / BUILD_TILE_SIZE); ++x)
 	{
 		for (size_t y = (bbox.y / BUILD_TILE_SIZE); y < ((bbox.y + bbox.h) / BUILD_TILE_SIZE); ++y)
 		{
-			// FIXME: Bound checking (security warning)
-			assert(accessibleTile_[x][y] != parAccessibleState);
-			accessibleTile_[x][y] = parAccessibleState;
+			if (BuildTile(x, y).IsValid())
+			{
+				assert(accessibleTile_[x][y] != parAccessibleState);
+				accessibleTile_[x][y] = parAccessibleState;
+			}
 		}
 	}
 }
@@ -168,15 +175,18 @@ void World::UpdateAccessibleTileFromUnit_(const Unit& parUnit, bool parAccessibl
 void World::UpdateWalkableStateFromUnit_(const Unit& parUnit, bool parWalkableState)
 {
 	assert(!parUnit.CanMove()); // no collision with unit ATM
+	assert(WalkTile(parUnit.Pos()).IsValid());
 
 	SDL_Rect bbox = parUnit.BoundingBox();
 	for (size_t x = (bbox.x / WALK_TILE_SIZE); x < ((bbox.x + bbox.w) / WALK_TILE_SIZE); ++x)
 	{
 		for (size_t y = (bbox.y / WALK_TILE_SIZE); y < ((bbox.y + bbox.h) / WALK_TILE_SIZE); ++y)
 		{
-			// FIXME: Bound checking (security warning)
-			assert(isWalkable_[x][y] != parWalkableState);
-			isWalkable_[x][y] = parWalkableState;
+			if (WalkTile(x, y).IsValid())
+			{
+				assert(isWalkable_[x][y] != parWalkableState);
+				isWalkable_[x][y] = parWalkableState;
+			}
 		}
 	}
 }
