@@ -27,10 +27,12 @@ public:
 	const float2& LastPosOnRightClick() const { return lastPosOnRightClick_; }
 	const float2& LastPosOnLeftClick() const { return lastPosOnLeftClick_; }
 
-	void SetPos(const float2& parPos) { pos_ = parPos; }
+	void SetPos(const float2& parPos);
 
 private:
 	float2 ScrollDirFromUserInput_() const;
+	float2 MaxPosition_() const;
+	bool IsValidPosition_(const float2& parPos) const;
 
 private:
 	float2 pos_;

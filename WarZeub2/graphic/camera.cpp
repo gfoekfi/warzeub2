@@ -35,11 +35,44 @@ void Camera::Update(int parLastTime, int parCurTime)
 	float velocity = SCROLL_SPEED * float(parCurTime - parLastTime);
 	float2 nextPos(pos_.x + velocity * scrollDir.x, pos_.y + velocity * scrollDir.y);
 
-	float2 maxPos(
-		std::max<float>(0.f, float(World::Inst()->Width() * BUILD_TILE_SIZE) - float(viewport.w)),
-		std::max<float>(0.f, float(World::Inst()->Height() * BUILD_TILE_SIZE) - float(viewport.h)));
+	float2& maxPos = MaxPosition_();
 	pos_.x = Clamp<float>(nextPos.x, 0.f, maxPos.x);
 	pos_.y = Clamp<float>(nextPos.y, 0.f, maxPos.y);
+
+	assert(IsValidPosition_(pos_));
+}
+
+// ============================================================================
+
+void Camera::SetPos(const float2& parPos)
+{
+	assert(IsValidPosition_(parPos));
+	if (!IsValidPosition_(parPos))
+		fprintf(stderr, "[CAMERA] Warning: setting camera position in an invalid position\n");
+
+	float2& maxPos = MaxPosition_();
+	pos_.x = Clamp<float>(parPos.x, 0.f, maxPos.x);
+	pos_.y = Clamp<float>(parPos.y, 0.f, maxPos.y);
+	assert(IsValidPosition_(pos_));
+}
+
+// ============================================================================
+
+float2 Camera::MaxPosition_() const
+{
+	return float2(
+		std::max<float>(0.f, float(World::Inst()->Width() * BUILD_TILE_SIZE) - float(viewport.w)),
+		std::max<float>(0.f, float(World::Inst()->Height() * BUILD_TILE_SIZE) - float(viewport.h)));
+}
+
+// ============================================================================
+
+bool Camera::IsValidPosition_(const float2& parPos) const
+{
+	const float2& maxPos = MaxPosition_();
+	return
+		parPos.x >= 0.f && parPos.x <= maxPos.x &&
+		parPos.y >= 0.f && parPos.y <= maxPos.y;
 }
 
 // ============================================================================
