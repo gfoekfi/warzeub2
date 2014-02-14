@@ -46,7 +46,7 @@
 - Ignore units behind HUD during 'selection mode'
 - When starting pos of selection square is out of screen, some bar should be truncated
 - When a peon is in 'CHOOSE_BUILDING' and goes unselected, it doesn't reset its state
-- Rendering bug when resolution change
+- Rendering bug when resolution change => Might be a camera bug
 - Rendering unit *flip* direction too often on certain condition [FIND ME]
 - Unit get stuck on building corners
 - Some path in path cache might need to be recompute if path becomes invalid

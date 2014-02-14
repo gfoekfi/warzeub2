@@ -69,7 +69,7 @@ void ReleaseRenderer()
 
 void BeginScene()
 {
-	SDL_FillRect(screen, 0, 0);
+	SDL_FillRect(screen, 0, 0x00ff0000);
 }
 
 // ============================================================================
