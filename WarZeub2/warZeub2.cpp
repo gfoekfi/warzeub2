@@ -152,6 +152,10 @@ void Run()
 	int nbFrames = 0;
 	Uint32 lastFrameCountTime = 0;
 
+	// Discard all previous events
+	while (SDL_PollEvent(&event))
+		;
+
 	while (!isDone)
 	{
 		SDL_PollEvent(&event);

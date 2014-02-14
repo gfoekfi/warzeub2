@@ -65,6 +65,8 @@ void World::Init()
 	BuildTile::Align(barrackPos, EUT_BARRACK);
 	AddUnit(new Unit(barrackPos, EUT_BARRACK));
 
+	gCamera->SetPos(float2(200.f, 0.f));
+
 #if 0
 	// used to kill performance
 	for (int i = 0; i < 40; ++i)
