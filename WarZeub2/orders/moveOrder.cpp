@@ -37,12 +37,18 @@ bool MoveOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 		hostUnit_->SetMoving(false);
 		return false;
 	}
+	else if (path_->PathSize() == 0)
+	{
+		hostUnit_->SetMoving(false);
+		return true;
+	}
 
 	float2 deltaPos(
 		targetPos_.x - hostUnit_->Pos().x,
 		targetPos_.y - hostUnit_->Pos().y);
 	if (fabs(deltaPos.x) <= 1.f && fabs(deltaPos.y) <= 1.f)
 	{
+		assert(path_->PathSize() > 0);
 		if (curWaypoint_ < (path_->PathSize() - 1))
 		{ // next Target position
 			curWaypoint_++;
@@ -109,8 +115,8 @@ void MoveOrder::RecomputePathIFN_()
 
 	curWaypoint_ = 0;
 
-	if (path_->HasPath())
-		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos(); // FIXME: Sometimes there is a crash in RELEASE here
+	if (path_->HasPath() && (path_->PathSize() > 0))
+		targetPos_ = path_->WalkTileFromWaypoint(curWaypoint_).ToWorldPos();
 	// else // TODO: alert("Can't move here");
 }
 

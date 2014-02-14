@@ -51,12 +51,13 @@ Path::Path(const float2& parStartPos, const float2& parGoalPos, const int2& parE
 	entityDimensions_(parEntityDimensions),
 	hasPath_(false)
 {
-	assert(WalkTile(parStartPos) != WalkTile(parGoalPos));
-
 	assert(World::Inst()->IsWalkable(WalkTile(startPos_), parEntityDimensions));
 	assert(World::Inst()->IsWalkable(WalkTile(goalPos_), parEntityDimensions));
 
-	ComputeShortestPath_();
+	if (WalkTile(parStartPos) != WalkTile(parGoalPos))
+		ComputeShortestPath_();
+	else
+		hasPath_ = true;
 }
 
 // ============================================================================
