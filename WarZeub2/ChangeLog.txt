@@ -4,6 +4,10 @@
 - Farm and barrack can be built by peon
 - Grunt can be train from barrack
 - Font rendering with a formatted string
+- Player owns a gold amount
+- Peon bringing gold to townhall makes the player gain gold
+- Building or training unit cost gold (which is restored in case of cancellation)
+- Build/train command which can't be afforded are surrounded with red square in HUD
 ===============================================================================
 
 ===============================================================================

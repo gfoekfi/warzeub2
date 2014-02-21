@@ -26,6 +26,9 @@ public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) = 0; // Return true if the order is complete
 
 public:
+	virtual void OnCancel() {}
+
+public:
 	float CompletionStatus() const { return completionStatus_; }
 
 protected:

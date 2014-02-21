@@ -20,6 +20,9 @@ public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
 public:
+	virtual void OnCancel() override;
+
+public:
 	const Unit* BuildingUnit() const { return buildingUnit_; }
 
 private:

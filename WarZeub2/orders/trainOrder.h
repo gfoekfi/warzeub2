@@ -18,6 +18,9 @@ public:
 public:
 	virtual bool Update(Uint32 parCurTime, Uint32 parElapsedTime) override;
 
+public:
+	virtual void OnCancel() override;
+
 private:
 	EUnitType unitTypeToTrain_;
 	Unit* trainedUnit_; // only 1 unit is train per train order

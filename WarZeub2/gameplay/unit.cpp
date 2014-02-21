@@ -1,11 +1,12 @@
 #include "unit.h"
+#include "unitDesc.h"
+#include "world.h"
+#include "player.h"
 #include "../orders/order.h"
 #include "../orders/gatherOrder.h"
 #include "../orders/moveOrder.h"
 #include "../orders/trainOrder.h"
 #include "../orders/buildOrder.h"
-#include "unitDesc.h"
-#include "world.h"
 #include "../graphic/renderer.h"
 #include <stdlib.h>
 #include <assert.h>
@@ -138,6 +139,12 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 	if (curOrder_)
 		return false;
 
+	if (unitTypeToUnitDesc[parUnitTypeToTrain].goldPrice > player.GoldAmount())
+	{
+		// TODO: alert("You need more gold!")
+		return false;
+	}
+
 	curOrder_ = new TrainOrder(this, parUnitTypeToTrain);
 
 	return true;
@@ -173,6 +180,12 @@ bool Unit::Build(EUnitType parUnitTypeToBuild, const float2& parPos)
 	if (curOrder_)
 		delete curOrder_;
 
+	if (unitTypeToUnitDesc[parUnitTypeToBuild].goldPrice > player.GoldAmount())
+	{
+		// TODO: alert("You need more gold!")
+		return false;
+	}
+
 	curOrder_ = new BuildOrder(this, parUnitTypeToBuild, parPos);
 
 	return true;
@@ -184,6 +197,7 @@ bool Unit::CancelOrder()
 {
 	if (curOrder_)
 	{
+		curOrder_->OnCancel();
 		delete curOrder_;
 		curOrder_ = 0;
 	}

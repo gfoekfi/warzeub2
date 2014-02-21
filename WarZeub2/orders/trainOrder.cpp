@@ -2,6 +2,7 @@
 #include "../gameplay/world.h"
 #include "../gameplay/path.h"
 #include "../gameplay/workerUnit.h"
+#include "../gameplay/player.h"
 
 
 // ============================================================================
@@ -14,6 +15,8 @@ TrainOrder::TrainOrder(Unit* parHostUnit, EUnitType parUnitTypeToTrain)
 	trainedUnit_(0),
 	startTime_(-1)
 {
+	assert(player.GoldAmount() >= unitTypeToUnitDesc[unitTypeToTrain_].goldPrice);
+	player.IncreaseGoldAmount(-int(unitTypeToUnitDesc[unitTypeToTrain_].goldPrice));
 }
 
 // ============================================================================
@@ -59,6 +62,16 @@ bool TrainOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	hostUnit_->SetActionState(EUS_IDLE);
 
 	return true;
+}
+
+// ============================================================================
+
+void TrainOrder::OnCancel()
+{
+	assert(hostUnit_->ActionState() == EUS_TRAINING);
+	assert(!trainedUnit_);
+
+	player.IncreaseGoldAmount(unitTypeToUnitDesc[unitTypeToTrain_].goldPrice);
 }
 
 // ============================================================================

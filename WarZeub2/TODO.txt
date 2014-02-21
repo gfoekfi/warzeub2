@@ -3,7 +3,6 @@
 ===============================================================================
 - multiple unit selection
 - smart unit selection (unit > building)
-- make gold gathering effective (resource earned)
 - music / sound
 - alert system (not enough resource, under-attack...)
 - sprite mirroring
@@ -15,6 +14,7 @@
 - render minimap
 - move with minimap
 - write a README
+- Render unit description tooltips
 ===============================================================================
 
 
@@ -35,6 +35,7 @@
 - Makes every *time related* stuff synchronised on frame (network preparation)
 - Path finding should uses A-star
 - Change map representation (2d grid are too expensive)
+- Add assert() on grid command position mapping
 ===============================================================================
 
 

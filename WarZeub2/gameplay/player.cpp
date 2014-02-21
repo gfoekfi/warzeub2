@@ -15,6 +15,45 @@ Player player;
 // ----------------------------------------------------------------------------
 // ============================================================================
 
+Player::Player()
+	: goldAmount_(0)
+{
+}
+
+// ============================================================================
+
+Player::~Player()
+{
+}
+
+// ============================================================================
+
+void Player::IncreaseGoldAmount(int parGoldAmount)
+{
+	if (parGoldAmount > 0)
+	{
+		size_t nextGoldAmount = goldAmount_ + size_t(parGoldAmount);
+		if (nextGoldAmount < goldAmount_)
+			fprintf(stderr, "[PLAYER] IncreaseGoldAmount() overflow detected\n");
+		else
+			goldAmount_ = nextGoldAmount;
+	}
+	else
+	{
+		assert(size_t(-1 * parGoldAmount) <= goldAmount_);
+		size_t nextGoldAmount = goldAmount_ - size_t(-parGoldAmount);
+		if (nextGoldAmount > goldAmount_)
+		{
+			fprintf(stderr, "[PLAYER] IncreaseGoldAmount() overflow detected\n");
+			nextGoldAmount = 0;
+		}
+
+		goldAmount_ = nextGoldAmount;
+	}
+}
+
+// ============================================================================
+
 void Player::UpdateSelection()
 {
 	// FIXME: Cut selection box to not consider units behind HUD

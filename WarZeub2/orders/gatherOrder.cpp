@@ -1,5 +1,7 @@
 #include "gatherOrder.h"
 #include "moveOrder.h"
+#include "../gameplay/player.h"
+#include "../gameplay/unit.h"
 
 
 // ============================================================================
@@ -49,7 +51,16 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 	hostBoundingBox.h += 2 * COLLISION_THRESHOLD;
 
 	if (DoesBBoxesCollide(&hostBoundingBox, &curTargetUnit_->BoundingBox()))
-		hostUnit_->SetHoldingGold(!hostUnit_->IsHoldingGold());
+	{
+		if (hostUnit_->IsHoldingGold())
+#ifdef _DEBUG
+			player.IncreaseGoldAmount(25);
+#else
+			player.IncreaseGoldAmount(10);
+#endif
+
+		hostUnit_->ToggleHoldingGold();
+	}
 
 	Unit* nextTargetUnit = hostUnit_->IsHoldingGold() ? receiverUnit_ : dstUnit_;
 	if (nextTargetUnit != curTargetUnit_)

@@ -2,7 +2,6 @@
 #define UNIT_DESC_H_
 
 
-#include "unit.h"
 #include <map>
 #include <set>
 
@@ -29,13 +28,52 @@ enum ECommand
 
 // ============================================================================
 
+enum EUnitType
+{
+	EUT_PEON = 0,
+	EUT_GRUNT,
+	EUT_MINE,
+	EUT_TOWN_HALL,
+	EUT_FARM,
+	EUT_BARRACK,
+};
+
+// ============================================================================
+
+enum EUnitState
+{
+	EUS_IDLE = 0,
+	EUS_IDLE_WITH_GOLD,
+	EUS_MOVING,
+	EUS_MOVING_WITH_GOLD,
+
+	EUS_ATTACK,
+	EUS_HARVEST,
+
+	EUS_GATHER_WOOD,
+	EUS_DEAD,
+	EUS_TRAINING,
+	EUS_BUILDING,
+
+	EUS_BEING_BUILD_STATE0,
+	EUS_BEING_BUILD_STATE1,
+	EUS_BEING_BUILD_STATE2,
+
+	EUS_SELECT_BUILDING, // TODO: Should be a 'hud state'
+	EUS_CHOOSE_DESTINATION, // TODO: Should be a 'hud state'
+};
+
+// ============================================================================
+
 struct UnitDesc
 {
-	UnitDesc(int parWidth, int parHeight, int parBuildTime, int parMoveSpeed) :
+	UnitDesc(int parWidth, int parHeight, int parBuildTime, int parMoveSpeed,
+		size_t parGoldPrice) :
 		width(parWidth),
 		height(parHeight),
 		buildTime(parBuildTime),
-		moveSpeed(parMoveSpeed)
+		moveSpeed(parMoveSpeed),
+		goldPrice(parGoldPrice)
 	{
 	}
 
@@ -43,7 +81,8 @@ struct UnitDesc
 		width(0),
 		height(0),
 		buildTime(0),
-		moveSpeed(0)
+		moveSpeed(0),
+		goldPrice(0)
 	{
 	}
 
@@ -51,6 +90,7 @@ struct UnitDesc
 	int height;
 	int buildTime; // in ms
 	int moveSpeed;
+	size_t goldPrice;
 
 	std::map<EUnitState, std::set<ECommand> > unitStateToCommandSet;
 };
