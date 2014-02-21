@@ -16,6 +16,7 @@ public:
 
 public:
 	void UpdateSelection();
+	void IncreaseGoldAmount(int parGoldAmount);
 
 public: // FIXME: viva abstraction!
 	bool selectionMode;
