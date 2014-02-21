@@ -90,7 +90,7 @@ void HUD::RenderSelectionInfos_(const float2& parInfoRegionOffset)
 void HUD::RenderMinimap_(const float2& parMinimapRegionOffset)
 {
 	static SDL_Rect miniMapRect = {Sint16(parMinimapRegionOffset.x),
-		Sint16(parMinimapRegionOffset.y),
+		Sint16(2.f * parMinimapRegionOffset.y),
 		backgroundSurface_->w - Sint16(2.f * parMinimapRegionOffset.x),
 		(backgroundSurface_->h / 3) - Sint16(2.f * parMinimapRegionOffset.y)};
 	SDL_FillRect(screen, &miniMapRect, 0);
@@ -134,8 +134,10 @@ void HUD::Render()
 	SDL_BlitSurface(backgroundSurface_, 0, screen, 0);
 
 	float2 minimapRegionOffset(float(backgroundSurface_->w) / 20.f,
-		(float(backgroundSurface_->h) / 3.f ) / 20.f);
+		(float(backgroundSurface_->h) / 3.f ) / 10.f);
 	RenderMinimap_(minimapRegionOffset);
+
+	RenderText(int2(backgroundSurface_->w / 20, 10), "Gold: %d", player.GoldAmount());
 
 	if (player.selectedUnit)
 	{

@@ -11,11 +11,21 @@ class Unit;
 class Player
 {
 public:
+	Player();
+	~Player();
+
+public:
 	void UpdateSelection();
 
 public: // FIXME: viva abstraction!
 	bool selectionMode;
 	Unit* selectedUnit;
+
+public:
+	size_t GoldAmount() const { return goldAmount_; }
+
+private:
+	size_t goldAmount_;
 };
 
 // ============================================================================
