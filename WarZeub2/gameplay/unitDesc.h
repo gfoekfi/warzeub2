@@ -67,11 +67,13 @@ enum EUnitState
 
 struct UnitDesc
 {
-	UnitDesc(int parWidth, int parHeight, int parBuildTime, int parMoveSpeed) :
+	UnitDesc(int parWidth, int parHeight, int parBuildTime, int parMoveSpeed,
+		size_t parGoldPrice) :
 		width(parWidth),
 		height(parHeight),
 		buildTime(parBuildTime),
-		moveSpeed(parMoveSpeed)
+		moveSpeed(parMoveSpeed),
+		goldPrice(parGoldPrice)
 	{
 	}
 
@@ -79,7 +81,8 @@ struct UnitDesc
 		width(0),
 		height(0),
 		buildTime(0),
-		moveSpeed(0)
+		moveSpeed(0),
+		goldPrice(0)
 	{
 	}
 
@@ -87,6 +90,7 @@ struct UnitDesc
 	int height;
 	int buildTime; // in ms
 	int moveSpeed;
+	size_t goldPrice;
 
 	std::map<EUnitState, std::set<ECommand> > unitStateToCommandSet;
 };
