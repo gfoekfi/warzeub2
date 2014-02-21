@@ -154,14 +154,29 @@ void HUD::Render()
 		for (std::set<ECommand>::const_iterator command = unitCommands.begin();
 			command != unitCommands.end(); ++command)
 		{
-			RenderHUDCommand_(*command, commandHudOffset);
+			bool available = true;
+
+			// TODO: Factorize me
+			// TODO: Move it to player (like CanDoThis() method)
+			switch (*command)
+			{
+			case EC_BUILD_BARRACK: available = player.GoldAmount() >= unitTypeToUnitDesc[EUT_BARRACK].goldPrice; break;
+			case EC_BUILD_FARM: available = player.GoldAmount() >= unitTypeToUnitDesc[EUT_FARM].goldPrice; break;
+			case EC_BUILD_TOWN_HALL: available = player.GoldAmount() >= unitTypeToUnitDesc[EUT_TOWN_HALL].goldPrice; break;
+			case EC_TRAIN_PEON: available = player.GoldAmount() >= unitTypeToUnitDesc[EUT_PEON].goldPrice; break;
+			case EC_TRAIN_GRUNT: available = player.GoldAmount() >= unitTypeToUnitDesc[EUT_GRUNT].goldPrice; break;
+			};
+
+			RenderHUDCommand_(*command, commandHudOffset, available);
 		}
 	}
 }
 
 // ============================================================================
 
-void HUD::RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset)
+void HUD::RenderHUDCommand_(ECommand parCommand,
+									 const float2& parGridRegionOffset,
+									 bool parAvailable)
 {
 	if (parCommand == EC_NONE)
 		return;
@@ -175,6 +190,20 @@ void HUD::RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffs
 	int gridPos = commandToGridPos_[parCommand];
 	SDL_Rect commandIconDst = { Sint16(parGridRegionOffset.x) + (gridPos % 3) * (commandIconSpriteDesc.width + 5),
 		Sint16(parGridRegionOffset.y) + (gridPos / 3) * (commandIconSpriteDesc.height + 5), 0, 0};
+
+	if (!parAvailable)
+	{
+		SDL_Rect availableRect =
+		{
+			commandIconDst.x - 2,
+			commandIconDst.y - 2,
+			commandIconSrc.w + 4,
+			commandIconSrc.h + 4,
+		};
+
+		SDL_FillRect(screen, &availableRect, 0x00ff0000);
+	}
+
 	SDL_BlitSurface(iconsSurface_, &commandIconSrc, screen, &commandIconDst);
 }
 

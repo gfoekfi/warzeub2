@@ -34,7 +34,7 @@ private:
 	void ApplyGridClick_(Unit& parUnit, int parGridClickPos);
 
 	void GenerateBackgroundSurface_();
-	void RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset);
+	void RenderHUDCommand_(ECommand parCommand, const float2& parGridRegionOffset, bool parAvailable);
 	void RenderSelectionInfos_(const float2& parInfoRegionOffset);
 	void RenderMinimap_(const float2& parMinimapRegionOffset);
 	void RenderBuildingPlacementIFN_() const;
