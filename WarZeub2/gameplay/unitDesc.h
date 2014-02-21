@@ -2,7 +2,6 @@
 #define UNIT_DESC_H_
 
 
-#include "unit.h"
 #include <map>
 #include <set>
 
@@ -25,6 +24,43 @@ enum ECommand
 	EC_BUILD_FARM = 1 << 6,
 	EC_BUILD_BARRACK = 1 << 7,
 	EC_TRAIN_GRUNT = 1 << 8,
+};
+
+// ============================================================================
+
+enum EUnitType
+{
+	EUT_PEON = 0,
+	EUT_GRUNT,
+	EUT_MINE,
+	EUT_TOWN_HALL,
+	EUT_FARM,
+	EUT_BARRACK,
+};
+
+// ============================================================================
+
+enum EUnitState
+{
+	EUS_IDLE = 0,
+	EUS_IDLE_WITH_GOLD,
+	EUS_MOVING,
+	EUS_MOVING_WITH_GOLD,
+
+	EUS_ATTACK,
+	EUS_HARVEST,
+
+	EUS_GATHER_WOOD,
+	EUS_DEAD,
+	EUS_TRAINING,
+	EUS_BUILDING,
+
+	EUS_BEING_BUILD_STATE0,
+	EUS_BEING_BUILD_STATE1,
+	EUS_BEING_BUILD_STATE2,
+
+	EUS_SELECT_BUILDING, // TODO: Should be a 'hud state'
+	EUS_CHOOSE_DESTINATION, // TODO: Should be a 'hud state'
 };
 
 // ============================================================================
