@@ -139,8 +139,7 @@ bool Unit::Train(EUnitType parUnitTypeToTrain)
 	if (curOrder_)
 		return false;
 
-	size_t goldPrice = unitTypeToUnitDesc[parUnitTypeToTrain].goldPrice;
-	if (goldPrice > player.GoldAmount())
+	if (unitTypeToUnitDesc[parUnitTypeToTrain].goldPrice > player.GoldAmount())
 	{
 		// TODO: alert("You need more gold!")
 		return false;
@@ -180,6 +179,12 @@ bool Unit::Build(EUnitType parUnitTypeToBuild, const float2& parPos)
 {
 	if (curOrder_)
 		delete curOrder_;
+
+	if (unitTypeToUnitDesc[parUnitTypeToBuild].goldPrice > player.GoldAmount())
+	{
+		// TODO: alert("You need more gold!")
+		return false;
+	}
 
 	curOrder_ = new BuildOrder(this, parUnitTypeToBuild, parPos);
 

@@ -16,6 +16,9 @@ BuildOrder::BuildOrder(Unit *parHostUnit, EUnitType parUnitTypeToBuild, const fl
 	buildingStartTime_(-1),
 	moveOrder_(0)
 {
+	assert(player.GoldAmount() >= unitTypeToUnitDesc[parUnitTypeToBuild].goldPrice);
+	player.IncreaseGoldAmount(-int(unitTypeToUnitDesc[parUnitTypeToBuild].goldPrice));
+
 	buildingPos_ = parPos;
 	BuildTile::Align(buildingPos_, parUnitTypeToBuild);
 }
@@ -91,6 +94,13 @@ bool BuildOrder::Update(Uint32 parCurTime, Uint32 parElapsedTime)
 	}
 
 	return false;
+}
+
+// ============================================================================
+
+void BuildOrder::OnCancel()
+{
+	player.IncreaseGoldAmount(unitTypeToUnitDesc[unitTypeToBuild_].goldPrice);
 }
 
 // ============================================================================
