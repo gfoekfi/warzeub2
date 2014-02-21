@@ -41,7 +41,7 @@ World::~World()
 
 void World::Init()
 {
-	float2 peonPos(200.f, 200.f);
+	float2 peonPos(800.f, 200.f);
 	WalkTile::Align(peonPos);
 	AddUnit(new WorkerUnit(peonPos, EUT_PEON));
 

@@ -41,7 +41,7 @@ void Player::IncreaseGoldAmount(int parGoldAmount)
 	else
 	{
 		assert(size_t(-1 * parGoldAmount) <= goldAmount_);
-		size_t nextGoldAmount = goldAmount_ - size_t(parGoldAmount);
+		size_t nextGoldAmount = goldAmount_ - size_t(-parGoldAmount);
 		if (nextGoldAmount > goldAmount_)
 		{
 			fprintf(stderr, "[PLAYER] IncreaseGoldAmount() overflow detected\n");
