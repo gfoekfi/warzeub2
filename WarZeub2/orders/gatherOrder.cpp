@@ -58,7 +58,7 @@ bool GatherOrder::Update(Uint32 parCurTime, Uint32 parElapsed)
 			player.IncreaseGoldAmount(10);
 #endif
 
-		hostUnit_->SetHoldingGold(!hostUnit_->IsHoldingGold());
+		hostUnit_->ToggleHoldingGold();
 	}
 
 	Unit* nextTargetUnit = hostUnit_->IsHoldingGold() ? receiverUnit_ : dstUnit_;

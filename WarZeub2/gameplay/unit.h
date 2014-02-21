@@ -88,7 +88,7 @@ public:
 
 	// TODO: Might need to be deleted and make Orders class friend
 	void SetMoving(bool parMoving) { moving_ = parMoving; }
-	void SetHoldingGold(bool parHoldingGold) { holdingGold_ = parHoldingGold; }
+	void ToggleHoldingGold() { holdingGold_ = !holdingGold_; }
 	//
 
 	void SetActionState(EUnitState parState) { actionState_ = parState; }
